@@ -41,7 +41,12 @@ public class Solver
 
   public native long getIntegerSort(long solverPointer);
 
-  public native Term mkConst(Sort sort, String symbol);
+  public Term mkConst(Sort sort, String symbol)
+  {
+    long termPointer = mkConst(solverPointer, sort.getPointer(), symbol);
+    return new Term(termPointer);
+  }
+  private native long mkConst(long solverPointer, long sortPointer, String symbol);
 
   public native Term mkInteger(int val);
 

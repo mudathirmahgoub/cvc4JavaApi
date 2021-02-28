@@ -50,10 +50,10 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_getIntegerSort
 /*
  * Class:     cvc4_Solver
  * Method:    mkConst
- * Signature: (Lcvc4/Sort;Ljava/lang/String;)Lcvc4/Term;
+ * Signature: (JJLjava/lang/String;)J
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_mkConst
-  (JNIEnv *, jobject, jobject, jstring);
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkConst
+  (JNIEnv *, jobject, jlong, jlong, jstring);
 
 /*
  * Class:     cvc4_Solver

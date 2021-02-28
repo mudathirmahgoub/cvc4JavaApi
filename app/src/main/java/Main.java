@@ -19,7 +19,9 @@ public class Main
     System.out.println(integer);
     // Variables
     Term x = slv.mkConst(integer, "x");
+    System.out.println(x);
     Term y = slv.mkConst(real, "y");
+    System.out.println(y);
 
     //slv.checkSat();
   }

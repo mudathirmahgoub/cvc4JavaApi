@@ -90,13 +90,20 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_getIntegerSort(JNIEnv*,
 /*
  * Class:     cvc4_Solver
  * Method:    mkConst
- * Signature: (Lcvc4/Sort;Ljava/lang/String;)Lcvc4/Term;
+ * Signature: (JJLjava/lang/String;)J
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_mkConst(JNIEnv*,
-                                                   jobject,
-                                                   jobject,
-                                                   jstring)
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkConst(JNIEnv* env,
+                                                 jobject,
+                                                 jlong solverPointer,
+                                                 jlong sortPointer,
+                                                 jstring jSymbol)
 {
+  Solver* solver = (Solver*)solverPointer;
+  Sort* sort = (Sort*)sortPointer;
+  const char* cSymbol = env->GetStringUTFChars(jSymbol, nullptr);
+  Term term = solver->mkConst((*sort), std::string(cSymbol));
+  Term* termPointer = new Term(term);
+  return ((jlong)termPointer);
 }
 
 /*
