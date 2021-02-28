@@ -25,4 +25,9 @@ public class Main
         Term neg2 = slv.mkInteger(-2);
         Term two_thirds = slv.mkReal(2, 3);
     }
+
+    static
+    {
+        System.loadLibrary("cvc4JavaApi");
+    }
 }
