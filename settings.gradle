@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'cvc4JavaApi'
-include('app', 'list', 'utilities')
+include('app')
