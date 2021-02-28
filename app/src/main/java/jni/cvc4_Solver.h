@@ -34,18 +34,18 @@ JNIEXPORT void JNICALL Java_cvc4_Solver_setLogic
 /*
  * Class:     cvc4_Solver
  * Method:    getRealSort
- * Signature: (J)Lcvc4/Sort;
+ * Signature: (J)J
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_getRealSort
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_getRealSort
   (JNIEnv *, jobject, jlong);
 
 /*
  * Class:     cvc4_Solver
  * Method:    getIntegerSort
- * Signature: ()Lcvc4/Sort;
+ * Signature: (J)J
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_getIntegerSort
-  (JNIEnv *, jobject);
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_getIntegerSort
+  (JNIEnv *, jobject, jlong);
 
 /*
  * Class:     cvc4_Solver

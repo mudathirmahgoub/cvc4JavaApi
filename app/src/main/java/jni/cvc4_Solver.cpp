@@ -64,16 +64,28 @@ JNIEXPORT void JNICALL Java_cvc4_Solver_setLogic(JNIEnv* env,
  * Method:    getRealSort
  * Signature: ()Lcvc4/Sort;
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_getRealSort(JNIEnv*, jobject, jlong)
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_getRealSort(JNIEnv*,
+                                                     jobject,
+                                                     jlong solverPointer)
 {
+  Solver* solver = (Solver*)solverPointer;
+  Sort* sortPointer = new Sort(solver->getRealSort());
+  return ((jlong)sortPointer);
 }
 
 /*
  * Class:     cvc4_Solver
  * Method:    getIntegerSort
- * Signature: ()Lcvc4/Sort;
+ * Signature: (J)J
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_getIntegerSort(JNIEnv*, jobject) {}
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_getIntegerSort(JNIEnv*,
+                                                        jobject,
+                                                        jlong solverPointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Sort* sortPointer = new Sort(solver->getIntegerSort());
+  return ((jlong)sortPointer);
+}
 
 /*
  * Class:     cvc4_Solver

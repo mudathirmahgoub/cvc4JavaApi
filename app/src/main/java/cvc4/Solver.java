@@ -2,41 +2,48 @@ package cvc4;
 
 public class Solver
 {
-    private long solverPointer;
+  private long solverPointer;
 
-    public Solver()
-    {
-        solverPointer = newSolver();
-    }
+  public Solver()
+  {
+    solverPointer = newSolver();
+  }
 
-    private native long newSolver();
+  private native long newSolver();
 
-    public void deleteSolver()
-    {
-        deleteSolver(solverPointer);
-    }
+  public void deleteSolver()
+  {
+    deleteSolver(solverPointer);
+  }
 
-    private native void deleteSolver(long solverPointer);
+  private native void deleteSolver(long solverPointer);
 
-    public void setLogic(String logic)
-    {
-        setLogic(solverPointer, logic);
-    }
+  public void setLogic(String logic)
+  {
+    setLogic(solverPointer, logic);
+  }
 
-    private native void setLogic(long solverPointer, String logic);
+  private native void setLogic(long solverPointer, String logic);
 
-    public Sort getRealSort()
-    {
-        return getRealSort(solverPointer);
-    }
+  public Sort getRealSort()
+  {
+    long sortPointer = getRealSort(solverPointer);
+    return new Sort(sortPointer);
+  }
 
-    private native Sort getRealSort(long solverPointer);
+  private native long getRealSort(long solverPointer);
 
-    public native Sort getIntegerSort();
+  public Sort getIntegerSort()
+  {
+    long sortPointer = getIntegerSort(solverPointer);
+    return new Sort(sortPointer);
+  }
 
-    public native Term mkConst(Sort sort, String symbol);
+  public native long getIntegerSort(long solverPointer);
 
-    public native Term mkInteger(int val);
+  public native Term mkConst(Sort sort, String symbol);
 
-    public native Term mkReal(int num, int den);
+  public native Term mkInteger(int val);
+
+  public native Term mkReal(int num, int den);
 }

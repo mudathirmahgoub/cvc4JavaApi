@@ -4,30 +4,28 @@ import cvc4.Term;
 
 public class Main
 {
-    public static void main(String args[])
-    {
-        System.out.println("Hello world");
-        Solver slv = new Solver();
-        slv.setLogic("QF_LIRA"); // set the logic
+  public static void main(String args[])
+  {
+    System.out.println("Hello world");
+    Solver slv = new Solver();
+    slv.setLogic("QF_LIRA"); // set the logic
 
-        // Prove that if given x (Integer) and y (Real) then
-        // the maximum value of y - x is 2/3
+    // Prove that if given x (Integer) and y (Real) then
+    // the maximum value of y - x is 2/3
 
-        Sort real = slv.getRealSort();
-        Sort integer = slv.getIntegerSort();
+    Sort real = slv.getRealSort();
+    System.out.println(real);
+    Sort integer = slv.getIntegerSort();
+    System.out.println(integer);
+    // Variables
+    Term x = slv.mkConst(integer, "x");
+    Term y = slv.mkConst(real, "y");
 
-        // Variables
-        Term x = slv.mkConst(integer, "x");
-        Term y = slv.mkConst(real, "y");
+    //slv.checkSat();
+  }
 
-        // Constants
-        Term three = slv.mkInteger(3);
-        Term neg2 = slv.mkInteger(-2);
-        Term two_thirds = slv.mkReal(2, 3);
-    }
-
-    static
-    {
-        System.loadLibrary("cvc4JavaApi");
-    }
+  static
+  {
+    System.loadLibrary("cvc4JavaApi");
+  }
 }
