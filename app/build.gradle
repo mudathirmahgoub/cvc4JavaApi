@@ -12,5 +12,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'cvc4.app.App'
+    mainClass = 'Main'
 }
