@@ -9,19 +9,35 @@ extern "C" {
 #endif
 /*
  * Class:     cvc4_Solver
+ * Method:    newSolver
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_newSolver
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    deleteSolver
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Solver_deleteSolver
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc4_Solver
  * Method:    setLogic
- * Signature: (Ljava/lang/String;)V
+ * Signature: (JLjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_cvc4_Solver_setLogic
-  (JNIEnv *, jobject, jstring);
+  (JNIEnv *, jobject, jlong, jstring);
 
 /*
  * Class:     cvc4_Solver
  * Method:    getRealSort
- * Signature: ()Lcvc4/Sort;
+ * Signature: (J)Lcvc4/Sort;
  */
 JNIEXPORT jobject JNICALL Java_cvc4_Solver_getRealSort
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jlong);
 
 /*
  * Class:     cvc4_Solver

@@ -8,21 +8,55 @@ using namespace CVC4::api;
 
 /*
  * Class:     cvc4_Solver
+ * Method:    newSolver
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_newSolver(JNIEnv*, jobject)
+{
+  Solver* solver = new Solver();
+  return ((jlong)solver);
+}
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    deleteSolver
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Solver_deleteSolver(JNIEnv*,
+                                                     jobject,
+                                                     jlong solverPointer)
+{
+  delete ((Solver*)solverPointer);
+}
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    setLogic
+ * Signature: (JLjava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Solver_setLogic(JNIEnv*,
+                                                 jobject,
+                                                 jlong,
+                                                 jstring);
+
+/*
+ * Class:     cvc4_Solver
  * Method:    setLogic
  * Signature: (Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_cvc4_Solver_setLogic(JNIEnv* env,
-                                                 jobject obj,
+                                                 jobject,
+                                                 jlong solverPointer,
                                                  jstring jLogic)
 {
+  Solver* solver = (Solver*)solverPointer;
   const char* cLogic = env->GetStringUTFChars(jLogic, nullptr);
   if (cLogic == nullptr)
   {
     return; /* out of memory error already thrown */
   }
-  Solver solver;
-  solver.setLogic(std::string(cLogic));
-  std::cout<<"I am here without problems \n" << std::endl;
+  solver->setLogic(std::string(cLogic));
+  std::cout << "I am here without problems in c++ \n" << std::endl;
 }
 
 /*
@@ -30,7 +64,9 @@ JNIEXPORT void JNICALL Java_cvc4_Solver_setLogic(JNIEnv* env,
  * Method:    getRealSort
  * Signature: ()Lcvc4/Sort;
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_getRealSort(JNIEnv*, jobject) {}
+JNIEXPORT jobject JNICALL Java_cvc4_Solver_getRealSort(JNIEnv*, jobject, jlong)
+{
+}
 
 /*
  * Class:     cvc4_Solver

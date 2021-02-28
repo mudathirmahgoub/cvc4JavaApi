@@ -2,9 +2,35 @@ package cvc4;
 
 public class Solver
 {
-    public native void setLogic(String logic);
+    private long solverPointer;
 
-    public native Sort getRealSort();
+    public Solver()
+    {
+        solverPointer = newSolver();
+    }
+
+    private native long newSolver();
+
+    public void deleteSolver()
+    {
+        deleteSolver(solverPointer);
+    }
+
+    private native void deleteSolver(long solverPointer);
+
+    public void setLogic(String logic)
+    {
+        setLogic(solverPointer, logic);
+    }
+
+    private native void setLogic(long solverPointer, String logic);
+
+    public Sort getRealSort()
+    {
+        return getRealSort(solverPointer);
+    }
+
+    private native Sort getRealSort(long solverPointer);
 
     public native Sort getIntegerSort();
 
