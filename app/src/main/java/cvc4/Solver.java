@@ -1,5 +1,10 @@
 package cvc4;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +35,19 @@ public class Solver
 
   static
   {
-    String path = Solver.class.getClassLoader().getResource("libcvc4.so").toExternalForm();
-    System.out.println(path);
-    System.setProperty("java.library.path", "../../src/main/resources");
-    System.loadLibrary("cvc4JavaApi");
+    try
+    {
+      String cvc4LibFile = System.getProperty("java.io.tmpdir") + "/libcvc4JavaApi.so";
+      InputStream input = Solver.class.getResourceAsStream("/libcvc4JavaApi.so");
+      System.out.println(input);
+      Files.copy(input, Paths.get(cvc4LibFile), StandardCopyOption.REPLACE_EXISTING);
+      System.out.println(cvc4LibFile);
+      System.load(cvc4LibFile);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
   }
 
   public Solver()
@@ -57,7 +71,7 @@ public class Solver
 
     for (Sort sort : sorts)
     {
-      //TODO: fix errors with this line
+      // TODO: fix errors with this line
       // sort.deleteSort();
     }
 

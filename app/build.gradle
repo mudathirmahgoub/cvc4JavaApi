@@ -14,10 +14,6 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass = 'Main'
-    run
-    {
-        systemProperty 'java.library.path','/home/mudathir/Desktop/CVC4/java/build/install/cvc4JavaApi/app/src/main/java/jni/cmake-build-debug'
-    }
 }
 
 jar {
