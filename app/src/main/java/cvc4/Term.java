@@ -18,7 +18,8 @@ public class Term
 
   @Override public String toString()
   {
-    return "Term{"
-        + "termPointer=" + termPointer + '}';
+    return toString(termPointer);
   }
+
+  private native String toString(long termPointer);
 }

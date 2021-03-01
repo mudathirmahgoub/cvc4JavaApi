@@ -1,5 +1,4 @@
-import static cvc4.Kind.MINUS;
-import static cvc4.Kind.MULT;
+import static cvc4.Kind.*;
 
 import cvc4.*;
 
@@ -30,10 +29,17 @@ public class Main
     Term three_y = slv.mkTerm(MULT, three, y);
     Term diff = slv.mkTerm(MINUS, y, x);
 
-    //    // Formulas
-    //    Term x_geq_3y = slv.mkTerm(GEQ, x, three_y);
-    //    Term x_leq_y = slv.mkTerm(LEQ, x, y);
-    //    Term neg2_lt_x = slv.mkTerm(LT, neg2, x);
+    // Formulas
+    Term x_geq_3y = slv.mkTerm(GEQ, x, three_y);
+    Term x_leq_y = slv.mkTerm(LEQ, x, y);
+    Term neg2_lt_x = slv.mkTerm(LT, neg2, x);
+
+    Term assertions = slv.mkTerm(AND, x_geq_3y, x_leq_y, neg2_lt_x);
+
+    System.out.println("Given the assertions " + assertions);
+    slv.assertFormula(assertions);
+
+    slv.push();
 
     Result result = slv.checkSat();
     System.out.println(result.toString());

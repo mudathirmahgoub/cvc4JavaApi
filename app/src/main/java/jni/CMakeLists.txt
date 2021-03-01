@@ -15,6 +15,10 @@ add_executable(cvc4Api main.cpp
         cvc4_Solver.h
         cvc4_Result.cpp)
 
-add_library(cvc4JavaApi SHARED cvc4_Solver.cpp cvc4_Result.cpp)
+add_library(cvc4JavaApi SHARED
+        cvc4_Result.cpp
+        cvc4_Solver.cpp
+        cvc4_Term.cpp
+        )
 target_link_libraries(cvc4JavaApi cvc4)
 target_link_libraries(cvc4Api cvc4)

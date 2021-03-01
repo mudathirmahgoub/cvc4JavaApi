@@ -76,8 +76,16 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkReal
  * Method:    mkTerm
  * Signature: (JIJJ)J
  */
-JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm__JIJJ
   (JNIEnv *, jobject, jlong, jint, jlong, jlong);
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    mkTerm
+ * Signature: (JIJJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm__JIJJJ
+  (JNIEnv *, jobject, jlong, jint, jlong, jlong, jlong);
 
 /*
  * Class:     cvc4_Solver
@@ -86,6 +94,22 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm
  */
 JNIEXPORT jlong JNICALL Java_cvc4_Solver_checkSat
   (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    assertFormula
+ * Signature: (JJ)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Solver_assertFormula
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    push
+ * Signature: (JI)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Solver_push
+  (JNIEnv *, jobject, jlong, jint);
 
 #ifdef __cplusplus
 }

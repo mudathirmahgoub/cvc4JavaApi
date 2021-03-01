@@ -15,6 +15,5 @@ JNIEXPORT jstring JNICALL Java_cvc4_Result_toString(JNIEnv* env,
                                                     jlong resultPointer)
 {
   Result* result = (Result*)resultPointer;
-  // TODO: support unicode
   return env->NewStringUTF(result->toString().c_str());
 }

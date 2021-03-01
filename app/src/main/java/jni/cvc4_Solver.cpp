@@ -138,18 +138,39 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkReal(
  * Method:    mkTerm
  * Signature: (JIJJ)J
  */
-JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm(JNIEnv*,
-                                                jobject,
-                                                jlong solverPointer,
-                                                jint kind,
-                                                jlong child1Pointer,
-                                                jlong child2Pointer)
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm__JIJJ(JNIEnv*,
+                                                      jobject,
+                                                      jlong solverPointer,
+                                                      jint kind,
+                                                      jlong child1Pointer,
+                                                      jlong child2Pointer)
 {
   Solver* solver = (Solver*)solverPointer;
   Term* child1 = (Term*)child1Pointer;
   Term* child2 = (Term*)child2Pointer;
-  std::cout << (Kind)kind << std::endl;
   Term term = solver->mkTerm((Kind)kind, *child1, *child2);
+  Term* termPointer = new Term(term);
+  return ((jlong)termPointer);
+}
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    mkTerm
+ * Signature: (JIJJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm__JIJJJ(JNIEnv*,
+                                                       jobject,
+                                                       jlong solverPointer,
+                                                       jint kind,
+                                                       jlong child1Pointer,
+                                                       jlong child2Pointer,
+                                                       jlong child3Pointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Term* child1 = (Term*)child1Pointer;
+  Term* child2 = (Term*)child2Pointer;
+  Term* child3 = (Term*)child3Pointer;
+  Term term = solver->mkTerm((Kind)kind, *child1, *child2, *child3);
   Term* termPointer = new Term(term);
   return ((jlong)termPointer);
 }
@@ -167,4 +188,33 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_checkSat(JNIEnv*,
   Result result = solver->checkSat();
   Result* resultPointer = new Result(result);
   return ((jlong)resultPointer);
+}
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    assertFormula
+ * Signature: (JJ)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Solver_assertFormula(JNIEnv*,
+                                                      jobject,
+                                                      jlong solverPointer,
+                                                      jlong termPointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Term* term = (Term*)termPointer;
+  solver->assertFormula(*term);
+}
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    push
+ * Signature: (JI)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Solver_push(JNIEnv*,
+                                             jobject,
+                                             jlong solverPointer,
+                                             jint nscopes)
+{
+  Solver* solver = (Solver*)solverPointer;
+  solver->push(nscopes);
 }

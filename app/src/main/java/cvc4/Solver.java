@@ -80,5 +80,37 @@ public class Solver
 
   private native long mkTerm(long solverPointer, int kind, long child1Pointer, long child2Pointer);
 
+  public Term mkTerm(Kind kind, Term child1, Term child2, Term child3)
+  {
+    long termPointer = mkTerm(solverPointer,
+        kind.getValue(),
+        child1.getPointer(),
+        child2.getPointer(),
+        child3.getPointer());
+    return new Term(solverPointer, termPointer);
+  }
+
+  private native long mkTerm(
+      long solverPointer, int kind, long child1Pointer, long child2Pointer, long child3Pointer);
+
   private native long checkSat(long solverPointer);
+
+  public void assertFormula(Term term)
+  {
+    assertFormula(solverPointer, term.getPointer());
+  }
+
+  private native void assertFormula(long solverPointer, long termPointer);
+
+  public void push()
+  {
+    push(solverPointer, 1);
+  }
+
+  public void push(int nscopes)
+  {
+    push(solverPointer, nscopes);
+  }
+
+  private native void push(long solverPointer, int nscopes);
 }
