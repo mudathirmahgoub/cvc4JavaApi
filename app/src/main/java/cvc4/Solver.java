@@ -51,4 +51,11 @@ public class Solver
   public native Term mkInteger(int val);
 
   public native Term mkReal(int num, int den);
+
+  public Result checkSat()
+  {
+    long resultPointer = checkSat(solverPointer);
+    return new Result(solverPointer, resultPointer);
+  }
+  private native long checkSat(long solverPointer);
 }

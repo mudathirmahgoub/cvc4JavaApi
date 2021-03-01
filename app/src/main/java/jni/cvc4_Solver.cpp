@@ -1,7 +1,5 @@
 #include "cvc4_Solver.h"
 
-#include <iostream>
-
 #include "cvc4/api/cvc4cpp.h"
 
 using namespace CVC4::api;
@@ -56,7 +54,6 @@ JNIEXPORT void JNICALL Java_cvc4_Solver_setLogic(JNIEnv* env,
     return; /* out of memory error already thrown */
   }
   solver->setLogic(std::string(cLogic));
-  std::cout << "I am here without problems in c++ \n" << std::endl;
 }
 
 /*
@@ -120,4 +117,19 @@ JNIEXPORT jobject JNICALL Java_cvc4_Solver_mkInteger(JNIEnv*, jobject, jint) {}
  */
 JNIEXPORT jobject JNICALL Java_cvc4_Solver_mkReal(JNIEnv*, jobject, jint, jint)
 {
+}
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    checkSat
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_checkSat(JNIEnv*,
+                                                  jobject,
+                                                  jlong solverPointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Result result = solver->checkSat();
+  Result* resultPointer = new Result(result);
+  return ((jlong)resultPointer);
 }

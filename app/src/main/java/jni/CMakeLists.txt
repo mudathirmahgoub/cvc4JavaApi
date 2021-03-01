@@ -13,8 +13,8 @@ link_directories("/usr/lib/jvm/default-java/lib")
 add_executable(cvc4Api main.cpp
         cvc4_Solver.cpp
         cvc4_Solver.h
-        )
+        cvc4_Result.cpp)
 
-add_library(cvc4JavaApi SHARED cvc4_Solver.cpp)
+add_library(cvc4JavaApi SHARED cvc4_Solver.cpp cvc4_Result.cpp)
 target_link_libraries(cvc4JavaApi cvc4)
 target_link_libraries(cvc4Api cvc4)

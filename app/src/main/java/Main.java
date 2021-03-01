@@ -1,3 +1,4 @@
+import cvc4.Result;
 import cvc4.Solver;
 import cvc4.Sort;
 import cvc4.Term;
@@ -23,7 +24,8 @@ public class Main
     Term y = slv.mkConst(real, "y");
     System.out.println(y);
 
-    //slv.checkSat();
+    Result result = slv.checkSat();
+    System.out.println(result.toString());
   }
 
   static

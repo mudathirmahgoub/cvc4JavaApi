@@ -4,9 +4,9 @@ public class Term
 {
   private long termPointer;
 
-  Term(long sortPointer)
+  Term(long termPointer)
   {
-    this.termPointer = sortPointer;
+    this.termPointer = termPointer;
   }
 
   public long getPointer()

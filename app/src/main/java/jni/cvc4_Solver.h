@@ -71,6 +71,14 @@ JNIEXPORT jobject JNICALL Java_cvc4_Solver_mkInteger
 JNIEXPORT jobject JNICALL Java_cvc4_Solver_mkReal
   (JNIEnv *, jobject, jint, jint);
 
+/*
+ * Class:     cvc4_Solver
+ * Method:    checkSat
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_checkSat
+  (JNIEnv *, jobject, jlong);
+
 #ifdef __cplusplus
 }
 #endif
