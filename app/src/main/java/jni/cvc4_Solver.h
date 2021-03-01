@@ -111,6 +111,22 @@ JNIEXPORT void JNICALL Java_cvc4_Solver_assertFormula
 JNIEXPORT void JNICALL Java_cvc4_Solver_push
   (JNIEnv *, jobject, jlong, jint);
 
+/*
+ * Class:     cvc4_Solver
+ * Method:    checkEntailed
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_checkEntailed
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    pop
+ * Signature: (JI)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Solver_pop
+  (JNIEnv *, jobject, jlong, jint);
+
 #ifdef __cplusplus
 }
 #endif

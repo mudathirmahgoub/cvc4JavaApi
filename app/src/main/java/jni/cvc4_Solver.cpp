@@ -218,3 +218,34 @@ JNIEXPORT void JNICALL Java_cvc4_Solver_push(JNIEnv*,
   Solver* solver = (Solver*)solverPointer;
   solver->push(nscopes);
 }
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    checkEntailed
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_checkEntailed(JNIEnv*,
+                                                       jobject,
+                                                       jlong solverPointer,
+                                                       jlong termPointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Term* term = (Term*)termPointer;
+  Result result = solver->checkEntailed(*term);
+  Result* resultPointer = new Result(result);
+  return (jlong)resultPointer;
+}
+
+/*
+ * Class:     cvc4_Solver
+ * Method:    pop
+ * Signature: (JI)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Solver_pop(JNIEnv*,
+                                            jobject,
+                                            jlong solverPointer,
+                                            jint nscopes)
+{
+  Solver* solver = (Solver*)solverPointer;
+  solver->pop(nscopes);
+}

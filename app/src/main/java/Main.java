@@ -41,8 +41,25 @@ public class Main
 
     slv.push();
 
-    Result result = slv.checkSat();
-    System.out.println(result.toString());
+    Term diff_leq_two_thirds = slv.mkTerm(LEQ, diff, two_thirds);
+    System.out.println("Prove that " + diff_leq_two_thirds + " with CVC4.");
+    System.out.println("CVC4 should report ENTAILED.");
+    System.out.println("Result from CVC4 is: " + slv.checkEntailed(diff_leq_two_thirds));
+
+    slv.pop();
+
+    System.out.println();
+
+    slv.push();
+    Term diff_is_two_thirds = slv.mkTerm(EQUAL, diff, two_thirds);
+    slv.assertFormula(diff_is_two_thirds);
+    System.out.println("Show that the assertions are consistent with ");
+    System.out.println(diff_is_two_thirds + " with CVC4.");
+    System.out.println("CVC4 should report SAT.");
+    System.out.println("Result from CVC4 is: " + slv.checkSat());
+    slv.pop();
+
+    System.out.println("Thus the maximum value of (y - x) is 2/3.");
   }
 
   static

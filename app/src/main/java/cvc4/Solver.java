@@ -113,4 +113,24 @@ public class Solver
   }
 
   private native void push(long solverPointer, int nscopes);
+
+  public Result checkEntailed(Term term)
+  {
+    long resultPointer = checkEntailed(solverPointer, term.getPointer());
+    return new Result(solverPointer, resultPointer);
+  }
+
+  private native long checkEntailed(long solverPointer, long termPointer);
+
+  public void pop()
+  {
+    pop(solverPointer, 1);
+  }
+
+  public void pop(int nscopes)
+  {
+    pop(solverPointer, nscopes);
+  }
+
+  private native void pop(long solverPointer, int nscopes);
 }
