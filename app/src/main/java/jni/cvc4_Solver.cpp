@@ -88,9 +88,8 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkConst(JNIEnv* env,
   Solver* solver = (Solver*)solverPointer;
   Sort* sort = (Sort*)sortPointer;
   const char* cSymbol = env->GetStringUTFChars(jSymbol, nullptr);
-  Term term = solver->mkConst((*sort), std::string(cSymbol));
-  Term* termPointer = new Term(term);
-  return ((jlong)termPointer);
+  Term* term = new Term(solver->mkConst((*sort), std::string(cSymbol)));
+  return ((jlong)term);
 }
 
 /*
@@ -104,9 +103,8 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkInteger(JNIEnv* env,
                                                    jint val)
 {
   Solver* solver = (Solver*)solverPointer;
-  Term term = solver->mkInteger(val);
-  Term* termPointer = new Term(term);
-  return ((jlong)termPointer);
+  Term* term = new Term(solver->mkInteger(val));
+  return ((jlong)term);
 }
 
 /*
@@ -118,9 +116,8 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkReal(
     JNIEnv*, jobject, jlong solverPointer, jint num, jint den)
 {
   Solver* solver = (Solver*)solverPointer;
-  Term term = solver->mkReal(num, den);
-  Term* termPointer = new Term(term);
-  return ((jlong)termPointer);
+  Term* term = new Term(solver->mkReal(num, den));
+  return ((jlong)term);
 }
 
 /*
@@ -138,9 +135,8 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm__JIJJ(JNIEnv*,
   Solver* solver = (Solver*)solverPointer;
   Term* child1 = (Term*)child1Pointer;
   Term* child2 = (Term*)child2Pointer;
-  Term term = solver->mkTerm((Kind)kind, *child1, *child2);
-  Term* termPointer = new Term(term);
-  return ((jlong)termPointer);
+  Term* term = new Term(solver->mkTerm((Kind)kind, *child1, *child2));
+  return ((jlong)term);
 }
 
 /*
@@ -160,9 +156,8 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm__JIJJJ(JNIEnv*,
   Term* child1 = (Term*)child1Pointer;
   Term* child2 = (Term*)child2Pointer;
   Term* child3 = (Term*)child3Pointer;
-  Term term = solver->mkTerm((Kind)kind, *child1, *child2, *child3);
-  Term* termPointer = new Term(term);
-  return ((jlong)termPointer);
+  Term* term = new Term(solver->mkTerm((Kind)kind, *child1, *child2, *child3));
+  return ((jlong)term);
 }
 
 /*
@@ -175,8 +170,7 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_checkSat(JNIEnv*,
                                                   jlong solverPointer)
 {
   Solver* solver = (Solver*)solverPointer;
-  Result result = solver->checkSat();
-  Result* resultPointer = new Result(result);
+  Result* resultPointer = new Result(solver->checkSat());
   return ((jlong)resultPointer);
 }
 
@@ -221,8 +215,7 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_checkEntailed(JNIEnv*,
 {
   Solver* solver = (Solver*)solverPointer;
   Term* term = (Term*)termPointer;
-  Result result = solver->checkEntailed(*term);
-  Result* resultPointer = new Result(result);
+  Result* resultPointer = new Result(solver->checkEntailed(*term));
   return (jlong)resultPointer;
 }
 
