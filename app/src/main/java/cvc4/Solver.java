@@ -28,6 +28,14 @@ public class Solver
     this.results.add(result);
   }
 
+  static
+  {
+    String path = Solver.class.getClassLoader().getResource("libcvc4.so").toExternalForm();
+    System.out.println(path);
+    System.setProperty("java.library.path", "../../src/main/resources");
+    System.loadLibrary("cvc4JavaApi");
+  }
+
   public Solver()
   {
     solverPointer = newSolver();

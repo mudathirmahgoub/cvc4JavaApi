@@ -63,9 +63,4 @@ public class Main
 
     slv.deleteSolver();
   }
-
-  static
-  {
-    System.loadLibrary("cvc4JavaApi");
-  }
 }

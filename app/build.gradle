@@ -19,3 +19,16 @@ application {
         systemProperty 'java.library.path','/home/mudathir/Desktop/CVC4/java/build/install/cvc4JavaApi/app/src/main/java/jni/cmake-build-debug'
     }
 }
+
+jar {
+    manifest {
+        attributes('Main-Class': 'Main')
+    }
+}
+
+task copyLibraries(type: Copy) {
+    from "src/main/java/jni/cmake-build-debug/libcvc4JavaApi.so", "src/main/java/jni/install/lib/libcvc4.so"
+    into "src/main/resources"
+}
+
+compileJava.configure {dependsOn(copyLibraries)}

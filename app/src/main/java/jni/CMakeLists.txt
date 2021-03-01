@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16)
 project(cvc4Api)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories("/home/mudathir/Desktop/CVC4/java/build/install/include")
-link_directories("/home/mudathir/Desktop/CVC4/java/build/install/lib")
+include_directories("install/include")
+link_directories("install/lib")
 
 include_directories("/usr/lib/jvm/default-java/include")
 include_directories("/usr/lib/jvm/default-java/include/linux")
