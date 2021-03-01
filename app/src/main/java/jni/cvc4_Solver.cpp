@@ -30,16 +30,6 @@ JNIEXPORT void JNICALL Java_cvc4_Solver_deleteSolver(JNIEnv*,
 /*
  * Class:     cvc4_Solver
  * Method:    setLogic
- * Signature: (JLjava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_cvc4_Solver_setLogic(JNIEnv*,
-                                                 jobject,
-                                                 jlong,
-                                                 jstring);
-
-/*
- * Class:     cvc4_Solver
- * Method:    setLogic
  * Signature: (Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_cvc4_Solver_setLogic(JNIEnv* env,
