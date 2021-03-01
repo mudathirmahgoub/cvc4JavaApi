@@ -8,7 +8,8 @@ plugins {
 }
 
 dependencies {
-    implementation 'org.apache.commons:commons-text'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
 }
 
 application {
@@ -19,6 +20,10 @@ application {
 jar {
     manifest {
         attributes('Main-Class': 'Main')
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 

@@ -1,5 +1,6 @@
 package cvc4;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -7,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.SystemUtils;
 
 public class Solver
 {
@@ -37,11 +39,22 @@ public class Solver
   {
     try
     {
-      String cvc4LibFile = System.getProperty("java.io.tmpdir") + "/libcvc4JavaApi.so";
-      InputStream input = Solver.class.getResourceAsStream("/libcvc4JavaApi.so");
-      System.out.println(input);
+      String cvc4LibName = null;
+      if (SystemUtils.IS_OS_LINUX)
+      {
+        cvc4LibName = "libcvc4JavaApi.so";
+      }
+      if (SystemUtils.IS_OS_MAC)
+      {
+        cvc4LibName = "libcvc4JavaApi.dylib";
+      }
+      if (SystemUtils.IS_OS_WINDOWS)
+      {
+        cvc4LibName = "c4JavaApi.dll";
+      }
+      String cvc4LibFile = System.getProperty("java.io.tmpdir") + File.separatorChar + cvc4LibName;
+      InputStream input = Solver.class.getResourceAsStream("/" + cvc4LibName);
       Files.copy(input, Paths.get(cvc4LibFile), StandardCopyOption.REPLACE_EXISTING);
-      System.out.println(cvc4LibFile);
       System.load(cvc4LibFile);
     }
     catch (IOException e)
