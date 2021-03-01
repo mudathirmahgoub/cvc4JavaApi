@@ -2,12 +2,12 @@ package cvc4;
 
 public class Sort
 {
-  private long solverPointer;
+  private Solver solver;
   private long sortPointer;
 
-  Sort(long solverPointer, long sortPointer)
+  Sort(Solver solver, long sortPointer)
   {
-    this.sortPointer = solverPointer;
+    this.solver = solver;
     this.sortPointer = sortPointer;
   }
 

@@ -2,12 +2,12 @@ package cvc4;
 
 public class Result
 {
-  private long solverPointer;
+  private Solver solver;
   private long resultPointer;
 
-  Result(long solverPointer, long resultPointer)
+  Result(Solver solverPointer, long resultPointer)
   {
-    this.solverPointer = solverPointer;
+    this.solver = solver;
     this.resultPointer = resultPointer;
   }
 

@@ -2,12 +2,12 @@ package cvc4;
 
 public class Term
 {
-  private long solverPointer;
+  private Solver solver;
   private long termPointer;
 
-  Term(long solverPointer, long termPointer)
+  Term(Solver solver, long termPointer)
   {
-    this.solverPointer = solverPointer;
+    this.solver = solver;
     this.termPointer = termPointer;
   }
 
