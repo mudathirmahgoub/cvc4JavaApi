@@ -1,7 +1,7 @@
-import cvc4.Result;
-import cvc4.Solver;
-import cvc4.Sort;
-import cvc4.Term;
+import static cvc4.Kind.MINUS;
+import static cvc4.Kind.MULT;
+
+import cvc4.*;
 
 public class Main
 {
@@ -27,13 +27,13 @@ public class Main
     Term two_thirds = slv.mkReal(2, 3);
 
     // Terms
-//    Term three_y = slv.mkTerm(MULT, three, y);
-//    Term diff = slv.mkTerm(MINUS, y, x);
-//
-//    // Formulas
-//    Term x_geq_3y = slv.mkTerm(GEQ, x, three_y);
-//    Term x_leq_y = slv.mkTerm(LEQ, x, y);
-//    Term neg2_lt_x = slv.mkTerm(LT, neg2, x);
+    Term three_y = slv.mkTerm(MULT, three, y);
+    Term diff = slv.mkTerm(MINUS, y, x);
+
+    //    // Formulas
+    //    Term x_geq_3y = slv.mkTerm(GEQ, x, three_y);
+    //    Term x_leq_y = slv.mkTerm(LEQ, x, y);
+    //    Term neg2_lt_x = slv.mkTerm(LT, neg2, x);
 
     Result result = slv.checkSat();
     System.out.println(result.toString());

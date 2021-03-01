@@ -73,6 +73,14 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkReal
 
 /*
  * Class:     cvc4_Solver
+ * Method:    mkTerm
+ * Signature: (JIJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm
+  (JNIEnv *, jobject, jlong, jint, jlong, jlong);
+
+/*
+ * Class:     cvc4_Solver
  * Method:    checkSat
  * Signature: (J)J
  */

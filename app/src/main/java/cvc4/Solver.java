@@ -71,5 +71,14 @@ public class Solver
     return new Result(solverPointer, resultPointer);
   }
 
+  public Term mkTerm(Kind kind, Term child1, Term child2)
+  {
+    long termPointer =
+        mkTerm(solverPointer, kind.getValue(), child1.getPointer(), child2.getPointer());
+    return new Term(solverPointer, termPointer);
+  }
+
+  private native long mkTerm(long solverPointer, int kind, long child1Pointer, long child2Pointer);
+
   private native long checkSat(long solverPointer);
 }

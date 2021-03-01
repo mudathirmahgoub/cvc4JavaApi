@@ -135,6 +135,27 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkReal(
 
 /*
  * Class:     cvc4_Solver
+ * Method:    mkTerm
+ * Signature: (JIJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkTerm(JNIEnv*,
+                                                jobject,
+                                                jlong solverPointer,
+                                                jint kind,
+                                                jlong child1Pointer,
+                                                jlong child2Pointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Term* child1 = (Term*)child1Pointer;
+  Term* child2 = (Term*)child2Pointer;
+  std::cout << (Kind)kind << std::endl;
+  Term term = solver->mkTerm((Kind)kind, *child1, *child2);
+  Term* termPointer = new Term(term);
+  return ((jlong)termPointer);
+}
+
+/*
+ * Class:     cvc4_Solver
  * Method:    checkSat
  * Signature: (J)J
  */
