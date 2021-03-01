@@ -1,6 +1,6 @@
 package cvc4;
 
-public class Sort
+public class Sort implements AutoCloseable
 {
   private Solver solver;
   private long sortPointer;
@@ -9,7 +9,6 @@ public class Sort
   {
     this.solver = solver;
     this.sortPointer = sortPointer;
-    solver.addSort(this);
   }
 
   public void deleteSort()
@@ -30,4 +29,9 @@ public class Sort
   }
 
   private native String toString(long sortPointer);
+
+  @Override public void close() throws Exception
+  {
+    deleteSort();
+  }
 }

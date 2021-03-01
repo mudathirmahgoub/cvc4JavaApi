@@ -1,6 +1,6 @@
 package cvc4;
 
-public class Result
+public class Result implements AutoCloseable
 {
   private Solver solver;
   private long resultPointer;
@@ -9,7 +9,6 @@ public class Result
   {
     this.solver = solver;
     this.resultPointer = resultPointer;
-    solver.addResult(this);
   }
 
   public void deleteResult()
@@ -30,4 +29,9 @@ public class Result
   }
 
   private native String toString(long resultPointer);
+
+  @Override public void close() throws Exception
+  {
+    deleteResult();
+  }
 }
