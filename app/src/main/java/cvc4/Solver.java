@@ -3,13 +3,35 @@ package cvc4;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solver implements AutoCloseable
+public class Solver
 {
   private long solverPointer;
+
+  private List<Sort> sorts = new ArrayList<>();
+
+  private List<Term> terms = new ArrayList<>();
+
+  private List<Result> results = new ArrayList<>();
+
+  void addSort(Sort sort)
+  {
+    this.sorts.add(sort);
+  }
+
+  void addTerm(Term term)
+  {
+    this.terms.add(term);
+  }
+
+  void addResult(Result result)
+  {
+    this.results.add(result);
+  }
 
   static
   {
     String path = Solver.class.getClassLoader().getResource("libcvc4.so").toExternalForm();
+    System.out.println(path);
     System.setProperty("java.library.path", "../../src/main/resources");
     System.loadLibrary("cvc4JavaApi");
   }
@@ -23,15 +45,26 @@ public class Solver implements AutoCloseable
 
   public void deleteSolver()
   {
+    for (Result result : results)
+    {
+      result.deleteResult();
+    }
+
+    for (Term term : terms)
+    {
+      term.deleteTerm();
+    }
+
+    for (Sort sort : sorts)
+    {
+      //TODO: fix errors with this line
+      // sort.deleteSort();
+    }
+
     deleteSolver(solverPointer);
   }
 
   private native void deleteSolver(long solverPointer);
-
-  @Override public void close() throws Exception
-  {
-    deleteSolver();
-  }
 
   public void setLogic(String logic)
   {

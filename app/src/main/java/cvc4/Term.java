@@ -1,6 +1,6 @@
 package cvc4;
 
-public class Term implements AutoCloseable
+public class Term
 {
   private Solver solver;
   private long termPointer;
@@ -9,6 +9,7 @@ public class Term implements AutoCloseable
   {
     this.solver = solver;
     this.termPointer = termPointer;
+    solver.addTerm(this);
   }
 
   public void deleteTerm()
@@ -29,9 +30,4 @@ public class Term implements AutoCloseable
   }
 
   private native String toString(long termPointer);
-
-  @Override public void close() throws Exception
-  {
-      deleteTerm();
-  }
 }
