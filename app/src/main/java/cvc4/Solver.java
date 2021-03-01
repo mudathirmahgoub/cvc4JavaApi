@@ -44,18 +44,32 @@ public class Solver
   public Term mkConst(Sort sort, String symbol)
   {
     long termPointer = mkConst(solverPointer, sort.getPointer(), symbol);
-    return new Term(termPointer);
+    return new Term(solverPointer, termPointer);
   }
+
   private native long mkConst(long solverPointer, long sortPointer, String symbol);
 
-  public native Term mkInteger(int val);
+  public Term mkInteger(int val)
+  {
+    long termPointer = mkInteger(solverPointer, val);
+    return new Term(solverPointer, termPointer);
+  }
 
-  public native Term mkReal(int num, int den);
+  private native long mkInteger(long solverPointer, int val);
+
+  public Term mkReal(int num, int den)
+  {
+    long termPointer = mkReal(solverPointer, num, den);
+    return new Term(solverPointer, termPointer);
+  }
+
+  private native long mkReal(long solverPointer, int num, int den);
 
   public Result checkSat()
   {
     long resultPointer = checkSat(solverPointer);
     return new Result(solverPointer, resultPointer);
   }
+
   private native long checkSat(long solverPointer);
 }

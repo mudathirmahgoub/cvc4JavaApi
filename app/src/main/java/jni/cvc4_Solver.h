@@ -58,18 +58,18 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkConst
 /*
  * Class:     cvc4_Solver
  * Method:    mkInteger
- * Signature: (I)Lcvc4/Term;
+ * Signature: (JI)J
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_mkInteger
-  (JNIEnv *, jobject, jint);
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkInteger
+  (JNIEnv *, jobject, jlong, jint);
 
 /*
  * Class:     cvc4_Solver
  * Method:    mkReal
- * Signature: (II)Lcvc4/Term;
+ * Signature: (JII)J
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_mkReal
-  (JNIEnv *, jobject, jint, jint);
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkReal
+  (JNIEnv *, jobject, jlong, jint, jint);
 
 /*
  * Class:     cvc4_Solver

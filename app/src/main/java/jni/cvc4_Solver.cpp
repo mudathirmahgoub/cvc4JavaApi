@@ -106,17 +106,31 @@ JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkConst(JNIEnv* env,
 /*
  * Class:     cvc4_Solver
  * Method:    mkInteger
- * Signature: (I)Lcvc4/Term;
+ * Signature: (JJ)J
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_mkInteger(JNIEnv*, jobject, jint) {}
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkInteger(JNIEnv* env,
+                                                   jobject,
+                                                   jlong solverPointer,
+                                                   jint val)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Term term = solver->mkInteger(val);
+  Term* termPointer = new Term(term);
+  return ((jlong)termPointer);
+}
 
 /*
  * Class:     cvc4_Solver
  * Method:    mkReal
- * Signature: (II)Lcvc4/Term;
+ * Signature: (JII)J
  */
-JNIEXPORT jobject JNICALL Java_cvc4_Solver_mkReal(JNIEnv*, jobject, jint, jint)
+JNIEXPORT jlong JNICALL Java_cvc4_Solver_mkReal(
+    JNIEnv*, jobject, jlong solverPointer, jint num, jint den)
 {
+  Solver* solver = (Solver*)solverPointer;
+  Term term = solver->mkReal(num, den);
+  Term* termPointer = new Term(term);
+  return ((jlong)termPointer);
 }
 
 /*
