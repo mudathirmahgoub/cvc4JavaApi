@@ -9,7 +9,15 @@ public class Sort
   {
     this.solver = solver;
     this.sortPointer = sortPointer;
+    solver.addSort(this);
   }
+
+  public void deleteSort()
+  {
+    deleteSort(sortPointer);
+  }
+
+  private native void deleteSort(long sortPointer);
 
   public long getPointer()
   {

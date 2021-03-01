@@ -5,11 +5,19 @@ public class Result
   private Solver solver;
   private long resultPointer;
 
-  Result(Solver solverPointer, long resultPointer)
+  Result(Solver solver, long resultPointer)
   {
     this.solver = solver;
     this.resultPointer = resultPointer;
+    solver.addResult(this);
   }
+
+  public void deleteResult()
+  {
+    deleteResult(resultPointer);
+  }
+
+  private native void deleteResult(long resultPointer);
 
   public long getPointer()
   {

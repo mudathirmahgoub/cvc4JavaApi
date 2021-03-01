@@ -9,7 +9,15 @@ public class Term
   {
     this.solver = solver;
     this.termPointer = termPointer;
+    solver.addTerm(this);
   }
+
+  public void deleteTerm()
+  {
+    deleteTerm(termPointer);
+  }
+
+  private native void deleteTerm(long termPointer);
 
   public long getPointer()
   {

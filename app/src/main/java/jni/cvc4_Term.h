@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     cvc4_Term
+ * Method:    deleteTerm
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Term_deleteTerm
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc4_Term
  * Method:    toString
  * Signature: (J)Ljava/lang/String;
  */

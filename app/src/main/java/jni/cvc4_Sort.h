@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     cvc4_Sort
+ * Method:    deleteSort
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Sort_deleteSort
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc4_Sort
  * Method:    toString
  * Signature: (J)Ljava/lang/String;
  */

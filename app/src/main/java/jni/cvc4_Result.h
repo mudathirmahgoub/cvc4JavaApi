@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     cvc4_Result
+ * Method:    deleteResult
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_cvc4_Result_deleteResult
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc4_Result
  * Method:    toString
  * Signature: (J)Ljava/lang/String;
  */

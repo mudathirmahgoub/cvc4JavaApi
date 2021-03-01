@@ -1,8 +1,32 @@
 package cvc4;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Solver
 {
   private long solverPointer;
+
+  private List<Sort> sorts = new ArrayList<>();
+
+  private List<Term> terms = new ArrayList<>();
+
+  private List<Result> results = new ArrayList<>();
+
+  void addSort(Sort sort)
+  {
+    this.sorts.add(sort);
+  }
+
+  void addTerm(Term term)
+  {
+    this.terms.add(term);
+  }
+
+  void addResult(Result result)
+  {
+    this.results.add(result);
+  }
 
   public Solver()
   {
@@ -13,6 +37,22 @@ public class Solver
 
   public void deleteSolver()
   {
+    for (Result result : results)
+    {
+      result.deleteResult();
+    }
+
+    for (Term term : terms)
+    {
+      term.deleteTerm();
+    }
+
+    for (Sort sort : sorts)
+    {
+      //TODO: fix errors with this line
+      // sort.deleteSort();
+    }
+
     deleteSolver(solverPointer);
   }
 
