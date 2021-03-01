@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "cvc4/api/cvc4cpp.h"
 #include "cvc4_Result.h"
 

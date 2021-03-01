@@ -28,7 +28,7 @@ public class Solver
   public Sort getRealSort()
   {
     long sortPointer = getRealSort(solverPointer);
-    return new Sort(sortPointer);
+    return new Sort(solverPointer, sortPointer);
   }
 
   private native long getRealSort(long solverPointer);
@@ -36,7 +36,7 @@ public class Solver
   public Sort getIntegerSort()
   {
     long sortPointer = getIntegerSort(solverPointer);
-    return new Sort(sortPointer);
+    return new Sort(solverPointer, sortPointer);
   }
 
   public native long getIntegerSort(long solverPointer);

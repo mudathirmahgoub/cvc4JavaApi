@@ -1,7 +1,5 @@
 #include "cvc4_Term.h"
 
-#include <iostream>
-
 #include "cvc4/api/cvc4cpp.h"
 
 using namespace CVC4::api;

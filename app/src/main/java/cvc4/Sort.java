@@ -2,10 +2,12 @@ package cvc4;
 
 public class Sort
 {
+  private long solverPointer;
   private long sortPointer;
 
-  Sort(long sortPointer)
+  Sort(long solverPointer, long sortPointer)
   {
+    this.sortPointer = solverPointer;
     this.sortPointer = sortPointer;
   }
 
@@ -16,7 +18,8 @@ public class Sort
 
   @Override public String toString()
   {
-    return "Sort{"
-        + "sortPointer=" + sortPointer + '}';
+    return toString(sortPointer);
   }
+
+  private native String toString(long sortPointer);
 }
