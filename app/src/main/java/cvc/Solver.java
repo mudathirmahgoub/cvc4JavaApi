@@ -52,7 +52,8 @@ public class Solver
       {
         cvcApiLibName = "cvcJavaApi.dll";
       }
-      String cvcApiLibFile = System.getProperty("java.io.tmpdir") + File.separatorChar + cvcApiLibName;
+      String cvcApiLibFile =
+          System.getProperty("java.io.tmpdir") + File.separatorChar + cvcApiLibName;
       System.out.println(cvcApiLibFile);
       InputStream input = Solver.class.getResourceAsStream("/" + cvcApiLibName);
       System.out.println("Input: " + input);
@@ -95,12 +96,12 @@ public class Solver
 
   private native void deleteSolver(long solverPointer);
 
-  public void setLogic(String logic)
+  public void setLogic(String logic) throws CVCApiException
   {
     setLogic(solverPointer, logic);
   }
 
-  private native void setLogic(long solverPointer, String logic);
+  private native void setLogic(long solverPointer, String logic) throws CVCApiException;
 
   public Sort getRealSort()
   {
@@ -210,4 +211,12 @@ public class Solver
   }
 
   private native void pop(long solverPointer, int nscopes);
+
+  public Term mkTrue()
+  {
+    long termPointer = mkTrue(solverPointer);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkTrue(long solverPointer);
 }

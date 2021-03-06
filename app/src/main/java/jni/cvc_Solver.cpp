@@ -1,5 +1,6 @@
-#include "cvc4/api/cvc4cpp.h"
 #include "cvc_Solver.h"
+
+#include "cvc4/api/cvc4cpp.h"
 
 using namespace CVC4::api;
 
@@ -42,7 +43,21 @@ JNIEXPORT void JNICALL Java_cvc_Solver_setLogic(JNIEnv* env,
   {
     return; /* out of memory error already thrown */
   }
-  solver->setLogic(std::string(cLogic));
+
+  try
+  {
+    solver->setLogic(std::string(cLogic));
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    if (exceptionClass == nullptr)
+    {
+      /* Unable to find the exception class, give up. */
+      return;
+    }
+    env->ThrowNew(exceptionClass, e.what());
+  }
 }
 
 /*
@@ -230,4 +245,18 @@ JNIEXPORT void JNICALL Java_cvc_Solver_pop(JNIEnv*,
 {
   Solver* solver = (Solver*)solverPointer;
   solver->pop(nscopes);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTrue
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTrue(JNIEnv*,
+                                               jobject,
+                                               jlong solverPointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Term* term = new Term(solver->mkTrue());
+  return ((jlong)term);
 }

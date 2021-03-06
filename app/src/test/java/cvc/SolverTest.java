@@ -1,5 +1,7 @@
 package cvc;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,15 +20,15 @@ class SolverTest
     solver.deleteSolver();
   }
 
-  @Test void addSort() {}
-
-  @Test void addTerm() {}
-
-  @Test void addResult() {}
-
   @Test void deleteSolver() {}
 
-  @Test void setLogic() {}
+  @Test void setLogic() throws CVCApiException
+  {
+    assertDoesNotThrow(() -> solver.setLogic("AUFLIRA"));
+    assertThrows(CVCApiException.class, () -> solver.setLogic("AF_BV"));
+    solver.assertFormula(solver.mkTrue());
+    assertThrows(CVCApiException.class, () -> solver.setLogic("AUFLIRA"));
+  }
 
   @Test void getRealSort() {}
 

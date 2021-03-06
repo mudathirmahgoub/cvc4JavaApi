@@ -127,6 +127,14 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_checkEntailed
 JNIEXPORT void JNICALL Java_cvc_Solver_pop
   (JNIEnv *, jobject, jlong, jint);
 
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTrue
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTrue
+  (JNIEnv *, jobject, jlong);
+
 #ifdef __cplusplus
 }
 #endif
