@@ -44,6 +44,21 @@ class SolverTest
     }
   }
 
+  @Test void getBooleanSort()
+  {
+    assertDoesNotThrow(() -> d_solver.getBooleanSort());
+  }
+
+  @Test void getIntegerSort()
+  {
+    assertDoesNotThrow(() -> d_solver.getIntegerSort());
+  }
+
+  @Test void getRealSort()
+  {
+    assertDoesNotThrow(() -> d_solver.getRealSort());
+  }
+
   @Test void setLogic() throws CVCApiException
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));
@@ -51,10 +66,6 @@ class SolverTest
     d_solver.assertFormula(d_solver.mkTrue());
     assertThrows(CVCApiException.class, () -> d_solver.setLogic("AUFLIRA"));
   }
-
-  @Test void getRealSort() {}
-
-  @Test void getIntegerSort() {}
 
   @Test void testGetIntegerSort() {}
 
