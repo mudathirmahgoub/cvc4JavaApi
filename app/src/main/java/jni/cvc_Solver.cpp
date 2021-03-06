@@ -210,9 +210,8 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVectorSort(JNIEnv* env,
   try
   {
     Solver* solver = (Solver*)solverPointer;
-    // TODO: exclude negative values for size
-    Sort* sortPointer =
-        new Sort(solver->mkBitVectorSort((uint32_t)solverPointer));
+    Sort* sortPointer = new Sort(solver->mkBitVectorSort((uint32_t)size));
+    std::cout << "sort: " << sortPointer->toString() << std::endl;
     return ((jlong)sortPointer);
   }
   catch (const CVC4ApiException& e)

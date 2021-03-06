@@ -210,7 +210,8 @@ public class Solver
 
   /**
    * Create an array sort.
-   * @param indexSort the array index sort
+   *
+   * @param indexSort   the array index sort
    * @param elementSort the array element sort
    * @return the array sort
    */
@@ -220,15 +221,21 @@ public class Solver
     return new Sort(this, sortPointer);
   }
 
-  private native long mkArraySort(long solverPointer, long indexSortPointer, long elementSortPointer);
+  private native long mkArraySort(
+      long solverPointer, long indexSortPointer, long elementSortPointer);
 
   /**
    * Create a bit-vector sort.
+   *
    * @param size the bit-width of the bit-vector sort
    * @return the bit-vector sort
    */
-  public Sort mkBitVectorSort(int size)
+  public Sort mkBitVectorSort(int size) throws CVCApiException
   {
+    if (size < 0)
+    {
+      throw new CVCApiException("Expected size '" + size + "' to be non negative.");
+    }
     long sortPointer = mkBitVectorSort(solverPointer, size);
     return new Sort(this, sortPointer);
   }
@@ -237,16 +244,26 @@ public class Solver
 
   /**
    * Create a floating-point sort.
+   *
    * @param exp the bit-width of the exponent of the floating-point sort.
    * @param sig the bit-width of the significand of the floating-point sort.
    */
-  public Sort mkFloatingPointSort(int exp, int sig)
+  public Sort mkFloatingPointSort(int exp, int sig) throws CVCApiException
   {
+    if (exp < 0)
+    {
+      throw new CVCApiException("Expected expr '" + exp + "' to be non negative.");
+    }
+    if (sig < 0)
+    {
+      throw new CVCApiException("Expected sig '" + sig + "' to be non negative.");
+    }
     long sortPointer = mkFloatingPointSort(solverPointer, exp, sig);
     return new Sort(this, sortPointer);
   }
 
-  private native long mkFloatingPointSort(long solverPointer, int exp, int sig);
+  private native long mkFloatingPointSort(long solverPointer, int exp, int sig)
+      throws CVCApiException;
 
   // endregion
 
@@ -348,8 +365,9 @@ public class Solver
   /**
    * Set option.
    * SMT-LIB: ( set-option <option> )
+   *
    * @param option option the option name
-   * @param value the option value
+   * @param value  the option value
    * @throws CVCApiException
    */
   public void setOption(String option, String value) throws CVCApiException
@@ -363,6 +381,7 @@ public class Solver
   /**
    * Get the value of the given term.
    * SMT-LIB: ( get-value ( <term> ) )
+   *
    * @param term term the term for which the value is queried
    * @return the value of the given term
    */
@@ -384,6 +403,7 @@ public class Solver
 
   /**
    * Create a roundingmode constant.
+   *
    * @param rm the floating point rounding mode this constant represents
    */
   public Term mkRoundingMode(RoundingMode rm) throws CVCApiException

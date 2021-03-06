@@ -86,7 +86,7 @@ class SolverTest
     }
   }
 
-  @Test void mkArraySort()
+  @Test void mkArraySort() throws CVCApiException
   {
     Sort boolSort = d_solver.getBooleanSort();
     Sort intSort = d_solver.getIntegerSort();
@@ -108,6 +108,13 @@ class SolverTest
 
     Solver slv = new Solver();
     assertThrows(CVCApiException.class, () -> slv.mkArraySort(boolSort, boolSort));
+  }
+
+  @Test void mkBitVectorSort() throws CVCApiException
+  {
+    assertDoesNotThrow(() -> d_solver.mkBitVectorSort(32));
+    assertThrows(CVCApiException.class, () -> d_solver.mkBitVectorSort(0));
+    assertThrows(CVCApiException.class, () -> d_solver.mkBitVectorSort(-5));
   }
 
   @Test void setLogic() throws CVCApiException
