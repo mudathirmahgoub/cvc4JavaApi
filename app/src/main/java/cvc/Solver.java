@@ -96,6 +96,12 @@ public class Solver
 
   private native void deleteSolver(long solverPointer);
 
+  /**
+   * Set logic.
+   * SMT-LIB: ( set-logic <symbol> )
+   * @param logic
+   * @throws CVCApiException
+   */
   public void setLogic(String logic) throws CVCApiException
   {
     setLogic(solverPointer, logic);
