@@ -21,6 +21,8 @@ add_executable(cvcApi main.cpp
         cvc_Result.cpp)
 
 add_library(cvcJavaApi SHARED
+        cvc_DatatypeConstructorDecl.cpp
+        cvc_DatatypeDecl.cpp
         cvc_Result.cpp
         cvc_Solver.cpp
         cvc_Term.cpp

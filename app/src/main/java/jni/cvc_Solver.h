@@ -113,6 +113,14 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFloatingPointSort
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkDatatypeSort
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeSort
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkConst
  * Signature: (JJLjava/lang/String;)J
  */
@@ -230,6 +238,22 @@ JNIEXPORT jboolean JNICALL Java_cvc_Solver_supportsFloatingPoint
  */
 JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRoundingMode
   (JNIEnv *, jobject, jlong, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkDatatypeDecl
+ * Signature: (JLjava/lang/String;Z)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeDecl
+  (JNIEnv *, jobject, jlong, jstring, jboolean);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkDatatypeConstructorDecl
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeConstructorDecl
+  (JNIEnv *, jobject, jlong, jstring);
 
 #ifdef __cplusplus
 }

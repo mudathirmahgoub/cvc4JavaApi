@@ -31,7 +31,7 @@ class SolverTest
     assertThrows(CVCApiRecoverableException.class, () -> d_solver.getValue(x));
   }
 
-  @Test void supportsFloatingPoint() throws CVCApiException
+  @Test void supportsFloatingPoint()
   {
     if (d_solver.supportsFloatingPoint())
     {
@@ -110,14 +110,14 @@ class SolverTest
     assertThrows(CVCApiException.class, () -> slv.mkArraySort(boolSort, boolSort));
   }
 
-  @Test void mkBitVectorSort() throws CVCApiException
+  @Test void mkBitVectorSort()
   {
     assertDoesNotThrow(() -> d_solver.mkBitVectorSort(32));
     assertThrows(CVCApiException.class, () -> d_solver.mkBitVectorSort(0));
     assertThrows(CVCApiException.class, () -> d_solver.mkBitVectorSort(-5));
   }
 
-  @Test void mkFloatingPointSort() throws CVCApiException
+  @Test void mkFloatingPointSort()
   {
     if (d_solver.supportsFloatingPoint())
     {
@@ -131,7 +131,24 @@ class SolverTest
     }
   }
 
-  @Test void setLogic() throws CVCApiException
+  @Test void mkDatatypeSort()
+  {
+    DatatypeDecl dtypeSpec = d_solver.mkDatatypeDecl("list");
+    DatatypeConstructorDecl cons = d_solver.mkDatatypeConstructorDecl("cons");
+    cons.addSelector("head", d_solver.getIntegerSort());
+    dtypeSpec.addConstructor(cons);
+    DatatypeConstructorDecl nil = d_solver.mkDatatypeConstructorDecl("nil");
+    dtypeSpec.addConstructor(nil);
+    assertDoesNotThrow(() -> d_solver.mkDatatypeSort(dtypeSpec));
+
+    Solver slv = new Solver();
+    assertThrows(CVCApiException.class, () -> slv.mkDatatypeSort(dtypeSpec));
+
+    DatatypeDecl throwsDtypeSpec = d_solver.mkDatatypeDecl("list");
+    assertThrows(CVCApiException.class, () -> d_solver.mkDatatypeSort(throwsDtypeSpec));
+  }
+
+  @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));
     assertThrows(CVCApiException.class, () -> d_solver.setLogic("AF_BV"));

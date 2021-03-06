@@ -25,6 +25,8 @@ public class Solver
 
   private List<Result> results = new ArrayList<>();
 
+  private List<DatatypeDecl> datatypeDecls = new ArrayList<>();
+
   void addSort(Sort sort)
   {
     this.sorts.add(sort);
@@ -38,6 +40,11 @@ public class Solver
   void addResult(Result result)
   {
     this.results.add(result);
+  }
+
+  public void addDatatypeDecl(DatatypeDecl datatypeDecl)
+  {
+    this.datatypeDecls.add(datatypeDecl);
   }
 
   static
@@ -265,6 +272,20 @@ public class Solver
   private native long mkFloatingPointSort(long solverPointer, int exp, int sig)
       throws CVCApiException;
 
+  /**
+   * Create a datatype sort.
+   * @param datatypeDecl the datatype declaration from which the sort is created
+   * @return the datatype sort
+   */
+  public Sort mkDatatypeSort(DatatypeDecl datatypeDecl) throws CVCApiException
+  {
+    long pointer = mkDatatypeSort(solverPointer, datatypeDecl.getPointer());
+    return new Sort(this, pointer);
+  }
+
+  private native long mkDatatypeSort(long solverPointer, long datatypeDeclPointer)
+      throws CVCApiException;
+
   // endregion
 
   private native long mkConst(long solverPointer, long sortPointer, String symbol);
@@ -413,4 +434,42 @@ public class Solver
   }
 
   private native long mkRoundingMode(long solverPointer, int value) throws CVCApiException;
+  /* Create datatype declarations                                               */
+  /* -------------------------------------------------------------------------- */
+  // region Create datatype declarations
+
+  /**
+   * Create a datatype declaration.
+   *
+   * @param name the name of the datatype
+   * @return the DatatypeDecl
+   */
+  public DatatypeDecl mkDatatypeDecl(String name)
+  {
+    return mkDatatypeDecl(name, false);
+  }
+
+  /**
+   * Create a datatype declaration.
+   *
+   * @param name         the name of the datatype
+   * @param isCoDatatype true if a codatatype is to be constructed
+   * @return the DatatypeDecl
+   */
+  public DatatypeDecl mkDatatypeDecl(String name, boolean isCoDatatype)
+  {
+    long pointer = mkDatatypeDecl(solverPointer, name, isCoDatatype);
+    return new DatatypeDecl(this, pointer);
+  }
+
+  private native long mkDatatypeDecl(long solverPointer, String name, boolean isCoDatatype);
+
+  public DatatypeConstructorDecl mkDatatypeConstructorDecl(String name)
+  {
+    long pointer = mkDatatypeConstructorDecl(solverPointer, name);
+    return new DatatypeConstructorDecl(this, pointer);
+  }
+
+  private native long mkDatatypeConstructorDecl(long solverPointer, String name);
+  // endregion
 }

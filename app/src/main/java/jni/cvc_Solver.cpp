@@ -51,11 +51,6 @@ JNIEXPORT void JNICALL Java_cvc_Solver_setLogic(JNIEnv* env,
   catch (const CVC4ApiException& e)
   {
     jclass exceptionClass = env->FindClass("cvc/CVCApiException");
-    if (exceptionClass == nullptr)
-    {
-      /* Unable to find the exception class, give up. */
-      return;
-    }
     env->ThrowNew(exceptionClass, e.what());
   }
 }
@@ -211,7 +206,6 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVectorSort(JNIEnv* env,
   {
     Solver* solver = (Solver*)solverPointer;
     Sort* sortPointer = new Sort(solver->mkBitVectorSort((uint32_t)size));
-    std::cout << "sort: " << sortPointer->toString() << std::endl;
     return ((jlong)sortPointer);
   }
   catch (const CVC4ApiException& e)
@@ -236,6 +230,29 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFloatingPointSort(
     Sort* sortPointer =
         new Sort(solver->mkFloatingPointSort((uint32_t)exp, (uint32_t)sig));
     return ((jlong)sortPointer);
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkDatatypeSort
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeSort(
+    JNIEnv* env, jobject, jlong solverPointer, jlong datatypeDeclPointer)
+{
+  try
+  {
+    Solver* solver = (Solver*)solverPointer;
+    DatatypeDecl* datatypeDecl = (DatatypeDecl*)datatypeDeclPointer;
+    Sort* sort = new Sort(solver->mkDatatypeSort(*datatypeDecl));
+    return ((jlong)sort);
   }
   catch (const CVC4ApiException& e)
   {
@@ -500,6 +517,60 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRoundingMode(JNIEnv* env,
     Solver* solver = (Solver*)solverPointer;
     Term* ret = new Term(solver->mkRoundingMode((RoundingMode)rm));
     return (jlong)ret;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  // code should never reach here
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkDatatypeDecl
+ * Signature: (JLjava/lang/String;Z)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeDecl(JNIEnv* env,
+                                                       jobject,
+                                                       jlong solverPointer,
+                                                       jstring jName,
+                                                       jboolean jIsCoDatatype)
+{
+  try
+  {
+    Solver* solver = (Solver*)solverPointer;
+    const char* cName = env->GetStringUTFChars(jName, nullptr);
+    bool cIsCoDatatype = (bool)jIsCoDatatype;
+    DatatypeDecl* decl = new DatatypeDecl(
+        solver->mkDatatypeDecl(std::string(cName), cIsCoDatatype));
+    return (jlong)decl;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  // code should never reach here
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkDatatypeConstructorDecl
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeConstructorDecl(
+    JNIEnv* env, jobject, jlong solverPointer, jstring jName)
+{
+  try
+  {
+    Solver* solver = (Solver*)solverPointer;
+    const char* cName = env->GetStringUTFChars(jName, nullptr);
+    DatatypeConstructorDecl* decl = new DatatypeConstructorDecl(
+        solver->mkDatatypeConstructorDecl(std::string(cName)));
+    return (jlong)decl;
   }
   catch (const CVC4ApiException& e)
   {
