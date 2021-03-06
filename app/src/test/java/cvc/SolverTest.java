@@ -8,26 +8,34 @@ import org.junit.jupiter.api.Test;
 
 class SolverTest
 {
-  private Solver solver;
+  private Solver d_solver;
 
   @BeforeEach void setUp()
   {
-    solver = new Solver();
+    d_solver = new Solver();
   }
 
   @AfterEach void tearDown()
   {
-    solver.deleteSolver();
+    d_solver.deleteSolver();
   }
 
   @Test void deleteSolver() {}
 
+  @Test void recoverableException() throws CVCApiException
+  {
+    d_solver.setOption("produce-models", "true");
+    Term x = d_solver.mkConst(d_solver.getBooleanSort(), "x");
+    d_solver.assertFormula(x.eqTerm(x).notTerm());
+    assertThrows(CVCApiRecoverableException.class, () -> d_solver.getValue(x));
+  }
+
   @Test void setLogic() throws CVCApiException
   {
-    assertDoesNotThrow(() -> solver.setLogic("AUFLIRA"));
-    assertThrows(CVCApiException.class, () -> solver.setLogic("AF_BV"));
-    solver.assertFormula(solver.mkTrue());
-    assertThrows(CVCApiException.class, () -> solver.setLogic("AUFLIRA"));
+    assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));
+    assertThrows(CVCApiException.class, () -> d_solver.setLogic("AF_BV"));
+    d_solver.assertFormula(d_solver.mkTrue());
+    assertThrows(CVCApiException.class, () -> d_solver.setLogic("AUFLIRA"));
   }
 
   @Test void getRealSort() {}

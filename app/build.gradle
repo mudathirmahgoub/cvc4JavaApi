@@ -32,4 +32,4 @@ task copyLibraries(type: Copy) {
     into "src/main/resources"
 }
 
-compileJava.configure {dependsOn(copyLibraries)}
+compileJava.configure {mustRunAfter(copyLibraries)}

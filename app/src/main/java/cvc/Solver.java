@@ -14,6 +14,11 @@ public class Solver
 {
   private long solverPointer;
 
+  public long getSolverPointer()
+  {
+    return solverPointer;
+  }
+
   private List<Sort> sorts = new ArrayList<>();
 
   private List<Term> terms = new ArrayList<>();
@@ -99,6 +104,7 @@ public class Solver
   /**
    * Set logic.
    * SMT-LIB: ( set-logic <symbol> )
+   *
    * @param logic
    * @throws CVCApiException
    */
@@ -109,6 +115,31 @@ public class Solver
 
   private native void setLogic(long solverPointer, String logic) throws CVCApiException;
 
+  /**
+   * @return sort Boolean
+   */
+  public Sort getBooleanSort()
+  {
+    long sortPointer = getBooleanSort(solverPointer);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long getBooleanSort(long solverPointer);
+
+  /**
+   * @return sort Integer (in CVC4, Integer is a subtype of Real)
+   */
+  public Sort getIntegerSort()
+  {
+    long sortPointer = getIntegerSort(solverPointer);
+    return new Sort(this, sortPointer);
+  }
+
+  /**
+   * @return sort Real
+   */
+  public native long getIntegerSort(long solverPointer);
+
   public Sort getRealSort()
   {
     long sortPointer = getRealSort(solverPointer);
@@ -116,14 +147,6 @@ public class Solver
   }
 
   private native long getRealSort(long solverPointer);
-
-  public Sort getIntegerSort()
-  {
-    long sortPointer = getIntegerSort(solverPointer);
-    return new Sort(this, sortPointer);
-  }
-
-  public native long getIntegerSort(long solverPointer);
 
   public Term mkConst(Sort sort, String symbol)
   {
@@ -225,4 +248,34 @@ public class Solver
   }
 
   private native long mkTrue(long solverPointer);
+
+  /**
+   * Set option.
+   * SMT-LIB: ( set-option <option> )
+   * @param option option the option name
+   * @param value the option value
+   * @throws CVCApiException
+   */
+  public void setOption(String option, String value) throws CVCApiException
+  {
+    setOption(solverPointer, option, value);
+  }
+
+  private native void setOption(long solverPointer, String option, String value)
+      throws CVCApiException;
+
+  /**
+   * Get the value of the given term.
+   * SMT-LIB: ( get-value ( <term> ) )
+   * @param term term the term for which the value is queried
+   * @return the value of the given term
+   */
+  public Term getValue(Term term) throws CVCApiRecoverableException
+  {
+    long termPointer = getValue(solverPointer, term.getPointer());
+    return new Term(this, termPointer);
+  }
+
+  private native long getValue(long solverPointer, long termPointer)
+      throws CVCApiRecoverableException;
 }

@@ -62,6 +62,20 @@ JNIEXPORT void JNICALL Java_cvc_Solver_setLogic(JNIEnv* env,
 
 /*
  * Class:     cvc_Solver
+ * Method:    getBooleanSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getBooleanSort(JNIEnv*,
+                                                       jobject,
+                                                       jlong solverPointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Sort* sortPointer = new Sort(solver->getBooleanSort());
+  return ((jlong)sortPointer);
+}
+
+/*
+ * Class:     cvc_Solver
  * Method:    getRealSort
  * Signature: ()Lcvc4/Sort;
  */
@@ -259,4 +273,57 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTrue(JNIEnv*,
   Solver* solver = (Solver*)solverPointer;
   Term* term = new Term(solver->mkTrue());
   return ((jlong)term);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    setOption
+ * Signature: (JLjava/lang/String;Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_cvc_Solver_setOption(
+    JNIEnv* env, jobject, jlong solverPointer, jstring jOption, jstring jValue)
+{
+  try
+  {
+    Solver* solver = (Solver*)solverPointer;
+    const char* cOption = env->GetStringUTFChars(jOption, nullptr);
+    const char* cValue = env->GetStringUTFChars(jValue, nullptr);
+    solver->setOption(std::string(cOption), std::string(cValue));
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    getValue
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getValue(JNIEnv* env,
+                                                 jobject,
+                                                 jlong solverPointer,
+                                                 jlong termPointer)
+{
+  try
+  {
+    Solver* solver = (Solver*)solverPointer;
+    Term* term = (Term*)termPointer;
+    Term* ret = new Term(solver->getValue(*term));
+    return (jlong)ret;
+  }
+  catch (const CVC4ApiRecoverableException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiRecoverableException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  // code should never reach here
+  return 0;
 }

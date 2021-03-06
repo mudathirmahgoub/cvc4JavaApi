@@ -23,6 +23,22 @@ JNIEXPORT void JNICALL Java_cvc_Term_deleteTerm
 JNIEXPORT jstring JNICALL Java_cvc_Term_toString
   (JNIEnv *, jobject, jlong);
 
+/*
+ * Class:     cvc_Term
+ * Method:    eqTerm
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Term_eqTerm
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Term
+ * Method:    notTerm
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Term_notTerm
+  (JNIEnv *, jobject, jlong);
+
 #ifdef __cplusplus
 }
 #endif
