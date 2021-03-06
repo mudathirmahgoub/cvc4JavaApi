@@ -278,4 +278,23 @@ public class Solver
 
   private native long getValue(long solverPointer, long termPointer)
       throws CVCApiRecoverableException;
+
+  public boolean supportsFloatingPoint()
+  {
+    return supportsFloatingPoint(solverPointer);
+  }
+
+  private native boolean supportsFloatingPoint(long solverPointer);
+
+  /**
+   * Create a roundingmode constant.
+   * @param rm the floating point rounding mode this constant represents
+   */
+  public Term mkRoundingMode(RoundingMode rm) throws CVCApiException
+  {
+    long termPointer = mkRoundingMode(solverPointer, rm.getValue());
+    return new Term(this, termPointer);
+  }
+
+  private native long mkRoundingMode(long solverPointer, int value) throws CVCApiException;
 }

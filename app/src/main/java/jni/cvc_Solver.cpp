@@ -327,3 +327,40 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_getValue(JNIEnv* env,
   // code should never reach here
   return 0;
 }
+
+/*
+ * Class:     cvc_Solver
+ * Method:    supportsFloatingPoint
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL
+Java_cvc_Solver_supportsFloatingPoint(JNIEnv*, jobject, jlong solverPointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  return (jboolean)solver->supportsFloatingPoint();
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkRoundingMode
+ * Signature: (JI)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRoundingMode(JNIEnv* env,
+                                                       jobject,
+                                                       jlong solverPointer,
+                                                       jint rm)
+{
+  try
+  {
+    Solver* solver = (Solver*)solverPointer;
+    Term* ret = new Term(solver->mkRoundingMode((RoundingMode)rm));
+    return (jlong)ret;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  // code should never reach here
+  return 0;
+}

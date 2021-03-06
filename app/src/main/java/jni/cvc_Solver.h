@@ -159,6 +159,22 @@ JNIEXPORT void JNICALL Java_cvc_Solver_setOption
 JNIEXPORT jlong JNICALL Java_cvc_Solver_getValue
   (JNIEnv *, jobject, jlong, jlong);
 
+/*
+ * Class:     cvc_Solver
+ * Method:    supportsFloatingPoint
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_cvc_Solver_supportsFloatingPoint
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkRoundingMode
+ * Signature: (JI)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRoundingMode
+  (JNIEnv *, jobject, jlong, jint);
+
 #ifdef __cplusplus
 }
 #endif

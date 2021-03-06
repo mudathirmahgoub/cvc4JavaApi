@@ -1,5 +1,6 @@
 package cvc;
 
+import static cvc.RoundingMode.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterEach;
@@ -28,6 +29,19 @@ class SolverTest
     Term x = d_solver.mkConst(d_solver.getBooleanSort(), "x");
     d_solver.assertFormula(x.eqTerm(x).notTerm());
     assertThrows(CVCApiRecoverableException.class, () -> d_solver.getValue(x));
+  }
+
+  @Test void supportsFloatingPoint() throws CVCApiException
+  {
+    if (d_solver.supportsFloatingPoint())
+    {
+      assertDoesNotThrow(() -> d_solver.mkRoundingMode(ROUND_NEAREST_TIES_TO_EVEN));
+    }
+    else
+    {
+      assertThrows(
+          CVCApiException.class, () -> d_solver.mkRoundingMode(ROUND_NEAREST_TIES_TO_EVEN));
+    }
   }
 
   @Test void setLogic() throws CVCApiException
