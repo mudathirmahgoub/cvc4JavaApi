@@ -117,6 +117,20 @@ class SolverTest
     assertThrows(CVCApiException.class, () -> d_solver.mkBitVectorSort(-5));
   }
 
+  @Test void mkFloatingPointSort() throws CVCApiException
+  {
+    if (d_solver.supportsFloatingPoint())
+    {
+      assertDoesNotThrow(() -> d_solver.mkFloatingPointSort(4, 8));
+      assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPointSort(0, 8));
+      assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPointSort(4, 0));
+    }
+    else
+    {
+      assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPointSort(4, 8));
+    }
+  }
+
   @Test void setLogic() throws CVCApiException
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));
