@@ -89,6 +89,30 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_getStringSort
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkArraySort
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkArraySort
+  (JNIEnv *, jobject, jlong, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBitVectorSort
+ * Signature: (JI)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVectorSort
+  (JNIEnv *, jobject, jlong, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkFloatingPointSort
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFloatingPointSort
+  (JNIEnv *, jobject, jlong, jint, jint);
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkConst
  * Signature: (JJLjava/lang/String;)J
  */

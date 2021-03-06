@@ -86,6 +86,30 @@ class SolverTest
     }
   }
 
+  @Test void mkArraySort()
+  {
+    Sort boolSort = d_solver.getBooleanSort();
+    Sort intSort = d_solver.getIntegerSort();
+    Sort realSort = d_solver.getRealSort();
+    Sort bvSort = d_solver.mkBitVectorSort(32);
+    assertDoesNotThrow(() -> d_solver.mkArraySort(boolSort, boolSort));
+    assertDoesNotThrow(() -> d_solver.mkArraySort(intSort, intSort));
+    assertDoesNotThrow(() -> d_solver.mkArraySort(realSort, realSort));
+    assertDoesNotThrow(() -> d_solver.mkArraySort(bvSort, bvSort));
+    assertDoesNotThrow(() -> d_solver.mkArraySort(boolSort, intSort));
+    assertDoesNotThrow(() -> d_solver.mkArraySort(realSort, bvSort));
+
+    if (d_solver.supportsFloatingPoint())
+    {
+      Sort fpSort = d_solver.mkFloatingPointSort(3, 5);
+      assertDoesNotThrow(() -> d_solver.mkArraySort(fpSort, fpSort));
+      assertDoesNotThrow(() -> d_solver.mkArraySort(bvSort, fpSort));
+    }
+
+    Solver slv = new Solver();
+    assertThrows(CVCApiException.class, () -> slv.mkArraySort(boolSort, boolSort));
+  }
+
   @Test void setLogic() throws CVCApiException
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));

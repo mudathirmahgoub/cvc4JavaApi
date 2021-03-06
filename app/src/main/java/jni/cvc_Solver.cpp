@@ -167,6 +167,87 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_getStringSort(JNIEnv*,
   return ((jlong)sortPointer);
 }
 
+/* Create sorts ------------------------------------------------------- */
+// region Create sorts
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkArraySort
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkArraySort(JNIEnv* env,
+                                                    jobject,
+                                                    jlong solverPointer,
+                                                    jlong indexSortPointer,
+                                                    jlong elementSortPointer)
+{
+  try
+  {
+    Solver* solver = (Solver*)solverPointer;
+    Sort* indexSort = (Sort*)indexSortPointer;
+    Sort* elementSort = (Sort*)elementSortPointer;
+    Sort* sortPointer = new Sort(solver->mkArraySort(*indexSort, *elementSort));
+    return ((jlong)sortPointer);
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBitVectorSort
+ * Signature: (JI)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVectorSort(JNIEnv* env,
+                                                        jobject,
+                                                        jlong solverPointer,
+                                                        jint size)
+{
+  try
+  {
+    Solver* solver = (Solver*)solverPointer;
+    // TODO: exclude negative values for size
+    Sort* sortPointer =
+        new Sort(solver->mkBitVectorSort((uint32_t)solverPointer));
+    return ((jlong)sortPointer);
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkFloatingPointSort
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFloatingPointSort(
+    JNIEnv* env, jobject, jlong solverPointer, jint exp, jint sig)
+{
+  try
+  {
+    Solver* solver = (Solver*)solverPointer;
+    Sort* sortPointer =
+        new Sort(solver->mkFloatingPointSort((uint32_t)exp, (uint32_t)sig));
+    return ((jlong)sortPointer);
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
+// endregion
+
 /*
  * Class:     cvc_Solver
  * Method:    mkConst

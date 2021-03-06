@@ -205,6 +205,51 @@ public class Solver
     return new Term(this, termPointer);
   }
 
+  /* Create sorts ------------------------------------------------------- */
+  // region Create sorts
+
+  /**
+   * Create an array sort.
+   * @param indexSort the array index sort
+   * @param elementSort the array element sort
+   * @return the array sort
+   */
+  public Sort mkArraySort(Sort indexSort, Sort elementSort)
+  {
+    long sortPointer = mkArraySort(solverPointer, indexSort.getPointer(), elementSort.getPointer());
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkArraySort(long solverPointer, long indexSortPointer, long elementSortPointer);
+
+  /**
+   * Create a bit-vector sort.
+   * @param size the bit-width of the bit-vector sort
+   * @return the bit-vector sort
+   */
+  public Sort mkBitVectorSort(int size)
+  {
+    long sortPointer = mkBitVectorSort(solverPointer, size);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkBitVectorSort(long solverPointer, int size);
+
+  /**
+   * Create a floating-point sort.
+   * @param exp the bit-width of the exponent of the floating-point sort.
+   * @param sig the bit-width of the significand of the floating-point sort.
+   */
+  public Sort mkFloatingPointSort(int exp, int sig)
+  {
+    long sortPointer = mkFloatingPointSort(solverPointer, exp, sig);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkFloatingPointSort(long solverPointer, int exp, int sig);
+
+  // endregion
+
   private native long mkConst(long solverPointer, long sortPointer, String symbol);
 
   public Term mkInteger(int val)
