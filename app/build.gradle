@@ -28,7 +28,7 @@ jar {
 }
 
 task copyLibraries(type: Copy) {
-    from "src/main/java/jni/cmake-build-debug/libcvc4JavaApi.so", "src/main/java/jni/install/lib/libcvc4.so", "src/main/java/jni/cmake-build-debug/libcvc4JavaApi.dylib", "src/main/java/jni/cmake-build-debug/cvc4JavaApi.dll", "src/main/java/jni/install/lib/libcvc4.dylib"
+    from "src/main/java/jni/cmake-build-debug/libcvcJavaApi.so", "src/main/java/jni/install/lib/libcvc4.so", "src/main/java/jni/cmake-build-debug/libcvcJavaApi.dylib", "src/main/java/jni/cmake-build-debug/cvcJavaApi.dll", "src/main/java/jni/install/lib/libcvc4.dylib"
     into "src/main/resources"
 }
 

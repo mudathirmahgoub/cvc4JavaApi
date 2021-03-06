@@ -18,7 +18,7 @@
 #include <iostream>
 
 #include "cvc4/api/cvc4cpp.h"
-#include "cvc4_Solver.h"
+#include "cvc_Solver.h"
 
 using namespace std;
 using namespace CVC4::api;

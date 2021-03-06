@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(cvc4Api)
+project(cvcApi)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -15,16 +15,16 @@ if(JNI_FOUND)
     link_directories(${JNI_LIBRARIES})
 endif()
 
-add_executable(cvc4Api main.cpp
-        cvc4_Solver.cpp
-        cvc4_Solver.h
-        cvc4_Result.cpp)
+add_executable(cvcApi main.cpp
+        cvc_Solver.cpp
+        cvc_Solver.h
+        cvc_Result.cpp)
 
-add_library(cvc4JavaApi SHARED
-        cvc4_Result.cpp
-        cvc4_Solver.cpp
-        cvc4_Term.cpp
+add_library(cvcJavaApi SHARED
+        cvc_Result.cpp
+        cvc_Solver.cpp
+        cvc_Term.cpp
         )
-target_link_libraries(cvc4JavaApi cvc4)
-target_link_libraries(cvc4Api cvc4)
+target_link_libraries(cvcJavaApi cvc4)
+target_link_libraries(cvcApi cvc4)
 

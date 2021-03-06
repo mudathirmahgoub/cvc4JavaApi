@@ -1,6 +1,6 @@
-import static cvc4.Kind.*;
+import static cvc.Kind.*;
 
-import cvc4.*;
+import cvc.*;
 
 public class Main
 {
