@@ -54,9 +54,36 @@ class SolverTest
     assertDoesNotThrow(() -> d_solver.getIntegerSort());
   }
 
+  @Test void getNullSort()
+  {
+    assertDoesNotThrow(() -> d_solver.getNullSort());
+  }
+
   @Test void getRealSort()
   {
     assertDoesNotThrow(() -> d_solver.getRealSort());
+  }
+
+  @Test void getRegExpSort()
+  {
+    assertDoesNotThrow(() -> d_solver.getRegExpSort());
+  }
+
+  @Test void getStringSort()
+  {
+    assertDoesNotThrow(() -> d_solver.getStringSort());
+  }
+
+  @Test void getRoundingModeSort()
+  {
+    if (d_solver.supportsFloatingPoint())
+    {
+      assertDoesNotThrow(() -> d_solver.getRoundingModeSort());
+    }
+    else
+    {
+      assertThrows(CVCApiException.class, () -> d_solver.getRoundingModeSort());
+    }
   }
 
   @Test void setLogic() throws CVCApiException

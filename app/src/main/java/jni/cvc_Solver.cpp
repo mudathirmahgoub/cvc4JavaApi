@@ -62,6 +62,20 @@ JNIEXPORT void JNICALL Java_cvc_Solver_setLogic(JNIEnv* env,
 
 /*
  * Class:     cvc_Solver
+ * Method:    getNullSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getNullSort(JNIEnv*,
+                                                    jobject,
+                                                    jlong solverPointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Sort* sortPointer = new Sort(solver->getNullSort());
+  return ((jlong)sortPointer);
+}
+
+/*
+ * Class:     cvc_Solver
  * Method:    getBooleanSort
  * Signature: (J)J
  */
@@ -71,6 +85,20 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_getBooleanSort(JNIEnv*,
 {
   Solver* solver = (Solver*)solverPointer;
   Sort* sortPointer = new Sort(solver->getBooleanSort());
+  return ((jlong)sortPointer);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    getIntegerSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getIntegerSort(JNIEnv*,
+                                                       jobject,
+                                                       jlong solverPointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Sort* sortPointer = new Sort(solver->getIntegerSort());
   return ((jlong)sortPointer);
 }
 
@@ -90,15 +118,52 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_getRealSort(JNIEnv*,
 
 /*
  * Class:     cvc_Solver
- * Method:    getIntegerSort
+ * Method:    getRegExpSort
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_cvc_Solver_getIntegerSort(JNIEnv*,
-                                                       jobject,
-                                                       jlong solverPointer)
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getRegExpSort(JNIEnv*,
+                                                      jobject,
+                                                      jlong solverPointer)
 {
   Solver* solver = (Solver*)solverPointer;
-  Sort* sortPointer = new Sort(solver->getIntegerSort());
+  Sort* sortPointer = new Sort(solver->getRegExpSort());
+  return ((jlong)sortPointer);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    getRoundingModeSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getRoundingModeSort(JNIEnv* env,
+                                                            jobject,
+                                                            jlong solverPointer)
+{
+  try
+  {
+    Solver* solver = (Solver*)solverPointer;
+    Sort* sortPointer = new Sort(solver->getRoundingModeSort());
+    return ((jlong)sortPointer);
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    getStringSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getStringSort(JNIEnv*,
+                                                      jobject,
+                                                      jlong solverPointer)
+{
+  Solver* solver = (Solver*)solverPointer;
+  Sort* sortPointer = new Sort(solver->getStringSort());
   return ((jlong)sortPointer);
 }
 

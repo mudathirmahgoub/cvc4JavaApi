@@ -33,6 +33,14 @@ JNIEXPORT void JNICALL Java_cvc_Solver_setLogic
 
 /*
  * Class:     cvc_Solver
+ * Method:    getNullSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getNullSort
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
  * Method:    getBooleanSort
  * Signature: (J)J
  */
@@ -53,6 +61,30 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_getIntegerSort
  * Signature: (J)J
  */
 JNIEXPORT jlong JNICALL Java_cvc_Solver_getRealSort
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    getRegExpSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getRegExpSort
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    getRoundingModeSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getRoundingModeSort
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    getStringSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_getStringSort
   (JNIEnv *, jobject, jlong);
 
 /*

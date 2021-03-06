@@ -116,6 +116,17 @@ public class Solver
   private native void setLogic(long solverPointer, String logic) throws CVCApiException;
 
   /**
+   * @return sort null
+   */
+  public Sort getNullSort()
+  {
+    long sortPointer = getNullSort(solverPointer);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long getNullSort(long solverPointer);
+
+  /**
    * @return sort Boolean
    */
   public Sort getBooleanSort()
@@ -125,6 +136,10 @@ public class Solver
   }
 
   private native long getBooleanSort(long solverPointer);
+
+  /* Sorts Handling                                                             */
+  /* -------------------------------------------------------------------------- */
+  // region Sorts Handling
 
   /**
    * @return sort Integer (in CVC4, Integer is a subtype of Real)
@@ -147,6 +162,42 @@ public class Solver
   }
 
   private native long getRealSort(long solverPointer);
+
+  /**
+   * @return sort RegExp
+   */
+  public Sort getRegExpSort()
+  {
+    long sortPointer = getRegExpSort(solverPointer);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long getRegExpSort(long solverPointer);
+
+  /**
+   * @return sort RoundingMode
+   * @throws CVCApiException
+   */
+  public Sort getRoundingModeSort() throws CVCApiException
+  {
+    long sortPointer = getRoundingModeSort(solverPointer);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long getRoundingModeSort(long solverPointer) throws CVCApiException;
+
+  /**
+   * @return sort String
+   */
+  public Sort getStringSort()
+  {
+    long sortPointer = getStringSort(solverPointer);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long getStringSort(long solverPointer);
+
+  // endregion
 
   public Term mkConst(Sort sort, String symbol)
   {
