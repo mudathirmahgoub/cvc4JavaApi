@@ -493,6 +493,45 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkParamSort(JNIEnv* env,
   return 0;
 }
 
+/*
+ * Class:     cvc_Solver
+ * Method:    mkPredicateSort
+ * Signature: (J[J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkPredicateSort(JNIEnv* env,
+                                                        jobject,
+                                                        jlong pointer,
+                                                        jlongArray sortPointers)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    jsize sortsSize = env->GetArrayLength(sortPointers);
+    jlong* sortsElements = env->GetLongArrayElements(sortPointers, nullptr);
+    if (sortsElements == 0)
+    {
+      throw CVC4ApiException("Null pointer sortsElements in mkPredicateSort");
+    }
+
+    std::vector<Sort> sorts;
+    for (size_t i = 0; i < sortsSize; i++)
+    {
+      Sort* sort = (Sort*)sortsElements[i];
+      sorts.push_back(*sort);
+    }
+    env->ReleaseLongArrayElements(sortPointers, sortsElements, 0);
+
+    Sort* sort = new Sort(solver->mkPredicateSort(sorts));
+    return (jlong)sort;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
 // endregion
 
 /*

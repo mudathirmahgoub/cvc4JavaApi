@@ -234,6 +234,20 @@ class SolverTest
     assertDoesNotThrow(() -> d_solver.mkParamSort(""));
   }
 
+  @Test void mkPredicateSort()
+  {
+    assertDoesNotThrow(() -> d_solver.mkPredicateSort(new Sort[] {d_solver.getIntegerSort()}));
+    assertThrows(CVCApiException.class, () -> d_solver.mkPredicateSort(new Sort[] {}));
+    Sort funSort =
+        d_solver.mkFunctionSort(d_solver.mkUninterpretedSort("u"), d_solver.getIntegerSort());
+    assertThrows(CVCApiException.class,
+        () -> d_solver.mkPredicateSort(new Sort[] {d_solver.getIntegerSort(), funSort}));
+
+    Solver slv = new Solver();
+    assertThrows(
+        CVCApiException.class, () -> slv.mkPredicateSort(new Sort[] {d_solver.getIntegerSort()}));
+  }
+
   @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));

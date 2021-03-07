@@ -169,6 +169,14 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkParamSort
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkPredicateSort
+ * Signature: (J[J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkPredicateSort
+  (JNIEnv *, jobject, jlong, jlongArray);
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkConst
  * Signature: (JJLjava/lang/String;)J
  */

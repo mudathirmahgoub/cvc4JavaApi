@@ -399,6 +399,19 @@ public class Solver implements IPointer
 
   private native long mkParamSort(long pointer, String symbol);
 
+  /**
+   * Create a predicate sort.
+   * @param sorts the list of sorts of the predicate
+   * @return the predicate sort
+   */
+  public Sort mkPredicateSort(Sort[] sorts)
+  {
+    long sortPointer = mkPredicateSort(pointer, Utils.getPointers(sorts));
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkPredicateSort(long pointer, long[] sortPointers);
+
   // endregion
 
   private native long mkConst(long solverPointer, long sortPointer, String symbol);
@@ -580,7 +593,6 @@ public class Solver implements IPointer
   }
 
   private native long mkDatatypeConstructorDecl(long solverPointer, String name);
-
 
 
   // endregion
