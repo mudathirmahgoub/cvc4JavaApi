@@ -6,47 +6,10 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang3.SystemUtils;
 
 public class Solver implements IPointer
 {
-  private long pointer;
-
-  public long getPointer()
-  {
-    return pointer;
-  }
-
-  private List<Sort> sorts = new ArrayList<>();
-
-  private List<Term> terms = new ArrayList<>();
-
-  private List<Result> results = new ArrayList<>();
-
-  private List<DatatypeDecl> datatypeDecls = new ArrayList<>();
-
-  void addSort(Sort sort)
-  {
-    this.sorts.add(sort);
-  }
-
-  void addTerm(Term term)
-  {
-    this.terms.add(term);
-  }
-
-  void addResult(Result result)
-  {
-    this.results.add(result);
-  }
-
-  public void addDatatypeDecl(DatatypeDecl datatypeDecl)
-  {
-    this.datatypeDecls.add(datatypeDecl);
-  }
-
   static
   {
     try
@@ -76,6 +39,13 @@ public class Solver implements IPointer
     }
   }
 
+  private long pointer;
+
+  public long getPointer()
+  {
+    return pointer;
+  }
+
   public Solver()
   {
     pointer = newSolver();
@@ -85,22 +55,6 @@ public class Solver implements IPointer
 
   public void deletePointer()
   {
-    for (Result result : results)
-    {
-      result.deletePointer();
-    }
-
-    for (Term term : terms)
-    {
-      term.deletePointer();
-    }
-
-    for (Sort sort : sorts)
-    {
-      // TODO: fix errors with this line
-      // sort.deletePointer();
-    }
-
     deletePointer(pointer);
   }
 
@@ -108,7 +62,6 @@ public class Solver implements IPointer
 
   @Override public void finalize()
   {
-    System.out.println("Finalizing solver: " + pointer);
     deletePointer();
   }
 

@@ -12,7 +12,9 @@ JNIEXPORT void JNICALL Java_cvc_Datatype_deletePointer(JNIEnv*,
                                                        jobject,
                                                        jlong pointer)
 {
-  delete ((Result*)pointer);
+  std::cout << "Deleting datatype: " << ((Datatype*)pointer)->toString()
+            << std::endl;
+  delete ((Datatype*)pointer);
 }
 
 /*

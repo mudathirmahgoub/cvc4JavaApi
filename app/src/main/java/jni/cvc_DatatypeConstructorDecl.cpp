@@ -12,6 +12,8 @@ using namespace CVC4::api;
 JNIEXPORT void JNICALL
 Java_cvc_DatatypeConstructorDecl_deletePointer(JNIEnv*, jobject, jlong pointer)
 {
+  std::cout << "Deleting DatatypeConstructorDecl: "
+            << ((DatatypeConstructorDecl*)pointer)->toString() << std::endl;
   delete ((DatatypeConstructorDecl*)pointer);
 }
 

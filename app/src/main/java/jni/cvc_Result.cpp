@@ -13,6 +13,8 @@ JNIEXPORT void JNICALL Java_cvc_Result_deletePointer(JNIEnv*,
                                                      jobject,
                                                      jlong pointer)
 {
+  std::cout << "Deleting Result: " << ((Result*)pointer)->toString()
+            << std::endl;
   delete ((Result*)pointer);
 }
 

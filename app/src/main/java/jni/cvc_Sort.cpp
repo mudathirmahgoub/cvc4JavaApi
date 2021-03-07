@@ -13,6 +13,7 @@ JNIEXPORT void JNICALL Java_cvc_Sort_deletePointer(JNIEnv*,
                                                    jobject,
                                                    jlong pointer)
 {
+  std::cout << "Deleting Sort: " << ((Sort*)pointer)->toString() << std::endl;
   delete ((Sort*)pointer);
 }
 

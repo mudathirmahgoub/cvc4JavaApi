@@ -13,6 +13,7 @@ JNIEXPORT void JNICALL Java_cvc_Term_deletePointer(JNIEnv*,
                                                    jobject,
                                                    jlong pointer)
 {
+  std::cout << "Deleting Term: " << ((Term*)pointer)->toString() << std::endl;
   delete ((Term*)pointer);
 }
 

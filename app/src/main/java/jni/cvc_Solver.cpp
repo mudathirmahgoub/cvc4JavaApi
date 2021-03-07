@@ -24,6 +24,7 @@ JNIEXPORT void JNICALL Java_cvc_Solver_deletePointer(JNIEnv*,
                                                      jobject,
                                                      jlong pointer)
 {
+  std::cout << "Deleting Solver: " << pointer << std::endl;
   delete ((Solver*)pointer);
 }
 
