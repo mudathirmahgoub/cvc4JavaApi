@@ -1,39 +1,13 @@
 package cvc;
 
-public class Result implements IPointer
+public class Result extends AbstractPointer
 {
-  private Solver solver;
-  private long pointer;
-
   Result(Solver solver, long pointer)
   {
-    this.solver = solver;
-    this.pointer = pointer;
-    solver.addResult(this);
+    super(solver, pointer);
   }
 
-  public void deletePointer()
-  {
-    deletePointer(pointer);
-  }
+  protected native void deletePointer(long pointer);
 
-  private native void deletePointer(long pointer);
-
-  public long getPointer()
-  {
-    return pointer;
-  }
-
-  @Override
-  public void finalize()
-  {
-    System.out.println("Finalizing result: " + toString());
-  }
-
-  @Override public String toString()
-  {
-    return toString(pointer);
-  }
-
-  private native String toString(long resultPointer);
+  protected native String toString(long pointer);
 }

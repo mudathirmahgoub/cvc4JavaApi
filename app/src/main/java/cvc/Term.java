@@ -1,41 +1,15 @@
 package cvc;
 
-public class Term implements IPointer
+public class Term extends AbstractPointer
 {
-  private Solver solver;
-  private long pointer;
-
   Term(Solver solver, long pointer)
   {
-    this.solver = solver;
-    this.pointer = pointer;
-    solver.addTerm(this);
+    super(solver, pointer);
   }
 
-  public void deletePointer()
-  {
-    deletePointer(pointer);
-  }
+  protected native void deletePointer(long pointer);
 
-  private native void deletePointer(long pointer);
-
-  public long getPointer()
-  {
-    return pointer;
-  }
-
-  @Override
-  public void finalize()
-  {
-    System.out.println("Finalizing term: " + toString());
-  }
-
-  @Override public String toString()
-  {
-    return toString(pointer);
-  }
-
-  private native String toString(long termPointer);
+  protected native String toString(long pointer);
 
   /**
    * Equality.

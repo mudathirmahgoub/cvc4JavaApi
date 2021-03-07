@@ -1,40 +1,15 @@
 package cvc;
 
-public class Sort implements IPointer
+public class Sort extends AbstractPointer
 {
-  private Solver solver;
-  private long pointer;
-
   Sort(Solver solver, long pointer)
   {
-    this.solver = solver;
-    this.pointer = pointer;
-    solver.addSort(this);
+    super(solver, pointer);
   }
 
-  public void deletePointer()
-  {
-    deletePointer(pointer);
-  }
+  protected native void deletePointer(long pointer);
 
-  private native void deletePointer(long pointer);
-
-  @Override public void finalize()
-  {
-    System.out.println("Finalizing sort: " + toString());
-  }
-
-  public long getPointer()
-  {
-    return pointer;
-  }
-
-  @Override public String toString()
-  {
-    return toString(pointer);
-  }
-
-  private native String toString(long sortPointer);
+  protected native String toString(long pointer);
 
   /**
    * @return the underlying datatype of a datatype sort

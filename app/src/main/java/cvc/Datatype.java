@@ -1,37 +1,13 @@
 package cvc;
 
-public class Datatype implements IPointer
+public class Datatype extends AbstractPointer
 {
-  private Solver solver;
-  private long pointer;
-
   Datatype(Solver solver, long pointer)
   {
-    this.solver = solver;
-    this.pointer = pointer;
+    super(solver, pointer);
   }
 
-  public void deletePointer()
-  {
-    deletePointer(pointer);
-  }
+  protected native void deletePointer(long pointer);
 
-  private native void deletePointer(long pointer);
-
-  @Override public void finalize()
-  {
-    System.out.println("Finalizing datatype: " + toString());
-  }
-
-  public long getPointer()
-  {
-    return pointer;
-  }
-
-  @Override public String toString()
-  {
-    return toString(pointer);
-  }
-
-  private native String toString(long sortPointer);
+  protected native String toString(long pointer);
 }
