@@ -18,10 +18,8 @@ class SolverTest
 
   @AfterEach void tearDown()
   {
-    d_solver.deleteSolver();
+    d_solver.deletePointer();
   }
-
-  @Test void deleteSolver() {}
 
   @Test void recoverableException() throws CVCApiException
   {
@@ -148,6 +146,48 @@ class SolverTest
     assertThrows(CVCApiException.class, () -> d_solver.mkDatatypeSort(throwsDtypeSpec));
   }
 
+  @Test void mkDatatypeSorts()
+  {
+    Solver slv = new Solver();
+
+    DatatypeDecl dtypeSpec1 = d_solver.mkDatatypeDecl("list1");
+    DatatypeConstructorDecl cons1 = d_solver.mkDatatypeConstructorDecl("cons1");
+    cons1.addSelector("head1", d_solver.getIntegerSort());
+    dtypeSpec1.addConstructor(cons1);
+    DatatypeConstructorDecl nil1 = d_solver.mkDatatypeConstructorDecl("nil1");
+    dtypeSpec1.addConstructor(nil1);
+    DatatypeDecl dtypeSpec2 = d_solver.mkDatatypeDecl("list2");
+    DatatypeConstructorDecl cons2 = d_solver.mkDatatypeConstructorDecl("cons2");
+    cons2.addSelector("head2", d_solver.getIntegerSort());
+    dtypeSpec2.addConstructor(cons2);
+    DatatypeConstructorDecl nil2 = d_solver.mkDatatypeConstructorDecl("nil2");
+    dtypeSpec2.addConstructor(nil2);
+    DatatypeDecl[] decls = {dtypeSpec1, dtypeSpec2};
+    assertDoesNotThrow(() -> d_solver.mkDatatypeSorts(decls));
+
+    assertThrows(CVCApiException.class, () -> slv.mkDatatypeSorts(decls));
+
+    DatatypeDecl throwsDtypeSpec = d_solver.mkDatatypeDecl("list");
+    DatatypeDecl[] throwsDecls = {throwsDtypeSpec};
+    assertThrows(CVCApiException.class, () -> d_solver.mkDatatypeSorts(throwsDecls));
+    /* with unresolved sorts */
+    Sort unresList = d_solver.mkUninterpretedSort("ulist");
+    Sort[] unresSorts = {unresList};
+    DatatypeDecl ulist = d_solver.mkDatatypeDecl("ulist");
+    DatatypeConstructorDecl ucons = d_solver.mkDatatypeConstructorDecl("ucons");
+    ucons.addSelector("car", unresList);
+    ucons.addSelector("cdr", unresList);
+    ulist.addConstructor(ucons);
+    DatatypeConstructorDecl unil = d_solver.mkDatatypeConstructorDecl("unil");
+    ulist.addConstructor(unil);
+    DatatypeDecl[] udecls = {ulist};
+    assertDoesNotThrow(() -> d_solver.mkDatatypeSorts(udecls, unresSorts));
+
+    assertThrows(CVCApiException.class, () -> slv.mkDatatypeSorts(udecls, unresSorts));
+
+    /* Note: More tests are in datatype_api_black. */
+  }
+
   @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));
@@ -155,30 +195,4 @@ class SolverTest
     d_solver.assertFormula(d_solver.mkTrue());
     assertThrows(CVCApiException.class, () -> d_solver.setLogic("AUFLIRA"));
   }
-
-  @Test void testGetIntegerSort() {}
-
-  @Test void mkConst() {}
-
-  @Test void mkInteger() {}
-
-  @Test void mkReal() {}
-
-  @Test void checkSat() {}
-
-  @Test void mkTerm() {}
-
-  @Test void testMkTerm() {}
-
-  @Test void assertFormula() {}
-
-  @Test void push() {}
-
-  @Test void testPush() {}
-
-  @Test void checkEntailed() {}
-
-  @Test void pop() {}
-
-  @Test void testPop() {}
 }

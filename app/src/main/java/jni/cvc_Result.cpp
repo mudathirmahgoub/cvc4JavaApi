@@ -6,14 +6,14 @@ using namespace CVC4::api;
 
 /*
  * Class:     cvc_Result
- * Method:    deleteResult
+ * Method:    deletePointer
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_cvc_Result_deleteResult(JNIEnv*,
+JNIEXPORT void JNICALL Java_cvc_Result_deletePointer(JNIEnv*,
                                                      jobject,
-                                                     jlong resultPointer)
+                                                     jlong pointer)
 {
-  delete ((Result*)resultPointer);
+  delete ((Result*)pointer);
 }
 
 /*
@@ -22,8 +22,8 @@ JNIEXPORT void JNICALL Java_cvc_Result_deleteResult(JNIEnv*,
  * Signature: (J)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_cvc_Result_toString(JNIEnv* env,
-                                                    jobject,
-                                                    jlong resultPointer)
+                                                   jobject,
+                                                   jlong resultPointer)
 {
   Result* result = (Result*)resultPointer;
   return env->NewStringUTF(result->toString().c_str());

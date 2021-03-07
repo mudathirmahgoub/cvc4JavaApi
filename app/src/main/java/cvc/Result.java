@@ -1,32 +1,32 @@
 package cvc;
 
-public class Result
+public class Result implements IPointer
 {
   private Solver solver;
-  private long resultPointer;
+  private long pointer;
 
-  Result(Solver solver, long resultPointer)
+  Result(Solver solver, long pointer)
   {
     this.solver = solver;
-    this.resultPointer = resultPointer;
+    this.pointer = pointer;
     solver.addResult(this);
   }
 
-  public void deleteResult()
+  public void deletePointer()
   {
-    deleteResult(resultPointer);
+    deletePointer(pointer);
   }
 
-  private native void deleteResult(long resultPointer);
+  private native void deletePointer(long pointer);
 
   public long getPointer()
   {
-    return resultPointer;
+    return pointer;
   }
 
   @Override public String toString()
   {
-    return toString(resultPointer);
+    return toString(pointer);
   }
 
   private native String toString(long resultPointer);

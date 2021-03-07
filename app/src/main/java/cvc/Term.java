@@ -1,32 +1,32 @@
 package cvc;
 
-public class Term
+public class Term implements IPointer
 {
   private Solver solver;
-  private long termPointer;
+  private long pointer;
 
-  Term(Solver solver, long termPointer)
+  Term(Solver solver, long pointer)
   {
     this.solver = solver;
-    this.termPointer = termPointer;
+    this.pointer = pointer;
     solver.addTerm(this);
   }
 
-  public void deleteTerm()
+  public void deletePointer()
   {
-    deleteTerm(termPointer);
+    deletePointer(pointer);
   }
 
-  private native void deleteTerm(long termPointer);
+  private native void deletePointer(long pointer);
 
   public long getPointer()
   {
-    return termPointer;
+    return pointer;
   }
 
   @Override public String toString()
   {
-    return toString(termPointer);
+    return toString(pointer);
   }
 
   private native String toString(long termPointer);
@@ -38,7 +38,7 @@ public class Term
    */
   public Term eqTerm(Term t) throws CVCApiException
   {
-    long pointer = eqTerm(this.termPointer, t.termPointer);
+    long pointer = eqTerm(this.pointer, t.pointer);
     return new Term(solver, pointer);
   }
 
@@ -50,7 +50,7 @@ public class Term
    */
   public Term notTerm() throws CVCApiException
   {
-    long pointer = notTerm(this.termPointer);
+    long pointer = notTerm(this.pointer);
     return new Term(solver, pointer);
   }
 

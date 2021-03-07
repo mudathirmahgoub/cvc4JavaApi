@@ -9,10 +9,10 @@ extern "C" {
 #endif
 /*
  * Class:     cvc_Sort
- * Method:    deleteSort
+ * Method:    deletePointer
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_cvc_Sort_deleteSort
+JNIEXPORT void JNICALL Java_cvc_Sort_deletePointer
   (JNIEnv *, jobject, jlong);
 
 /*

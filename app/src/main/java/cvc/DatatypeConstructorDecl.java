@@ -1,6 +1,6 @@
 package cvc;
 
-public class DatatypeConstructorDecl
+public class DatatypeConstructorDecl implements IPointer
 {
   private Solver solver;
   private long pointer;

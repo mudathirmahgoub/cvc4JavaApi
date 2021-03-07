@@ -9,10 +9,10 @@ extern "C" {
 #endif
 /*
  * Class:     cvc_Result
- * Method:    deleteResult
+ * Method:    deletePointer
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_cvc_Result_deleteResult
+JNIEXPORT void JNICALL Java_cvc_Result_deletePointer
   (JNIEnv *, jobject, jlong);
 
 /*

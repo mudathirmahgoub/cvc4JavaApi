@@ -6,14 +6,14 @@ using namespace CVC4::api;
 
 /*
  * Class:     cvc_Sort
- * Method:    deleteSort
+ * Method:    deletePointer
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_cvc_Sort_deleteSort(JNIEnv*,
-                                                 jobject,
-                                                 jlong sortPointer);
+JNIEXPORT void JNICALL Java_cvc_Sort_deletePointer(JNIEnv*,
+                                                   jobject,
+                                                   jlong pointer)
 {
-  delete ((Sort*)sortPointer);
+  delete ((Sort*)pointer);
 }
 
 /*
@@ -22,8 +22,8 @@ JNIEXPORT void JNICALL Java_cvc_Sort_deleteSort(JNIEnv*,
  * Signature: (J)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_cvc_Sort_toString(JNIEnv* env,
-                                                  jobject,
-                                                  jlong sortPointer)
+                                                 jobject,
+                                                 jlong sortPointer)
 {
   Sort* sort = (Sort*)sortPointer;
   return env->NewStringUTF(sort->toString().c_str());

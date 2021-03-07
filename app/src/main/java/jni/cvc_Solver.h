@@ -17,10 +17,10 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_newSolver
 
 /*
  * Class:     cvc_Solver
- * Method:    deleteSolver
+ * Method:    deletePointer
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_cvc_Solver_deleteSolver
+JNIEXPORT void JNICALL Java_cvc_Solver_deletePointer
   (JNIEnv *, jobject, jlong);
 
 /*
@@ -118,6 +118,30 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFloatingPointSort
  */
 JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeSort
   (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkDatatypeSorts
+ * Signature: (J[J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_cvc_Solver_mkDatatypeSorts__J_3J
+  (JNIEnv *, jobject, jlong, jlongArray);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkDatatypeSorts
+ * Signature: (J[J[J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_cvc_Solver_mkDatatypeSorts__J_3J_3J
+  (JNIEnv *, jobject, jlong, jlongArray, jlongArray);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkUninterpretedSort
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkUninterpretedSort
+  (JNIEnv *, jobject, jlong, jstring);
 
 /*
  * Class:     cvc_Solver

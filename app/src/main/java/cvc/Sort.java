@@ -1,32 +1,32 @@
 package cvc;
 
-public class Sort
+public class Sort implements IPointer
 {
   private Solver solver;
-  private long sortPointer;
+  private long pointer;
 
-  Sort(Solver solver, long sortPointer)
+  Sort(Solver solver, long pointer)
   {
     this.solver = solver;
-    this.sortPointer = sortPointer;
+    this.pointer = pointer;
     solver.addSort(this);
   }
 
-  public void deleteSort()
+  public void deletePointer()
   {
-    deleteSort(sortPointer);
+    deletePointer(pointer);
   }
 
-  private native void deleteSort(long sortPointer);
+  private native void deletePointer(long pointer);
 
   public long getPointer()
   {
-    return sortPointer;
+    return pointer;
   }
 
   @Override public String toString()
   {
-    return toString(sortPointer);
+    return toString(pointer);
   }
 
   private native String toString(long sortPointer);

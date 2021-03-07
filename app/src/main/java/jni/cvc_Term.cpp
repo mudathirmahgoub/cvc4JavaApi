@@ -6,14 +6,14 @@ using namespace CVC4::api;
 
 /*
  * Class:     cvc_Term
- * Method:    deleteTerm
+ * Method:    deletePointer
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_cvc_Term_deleteTerm(JNIEnv*,
-                                                jobject,
-                                                jlong termPointer)
+JNIEXPORT void JNICALL Java_cvc_Term_deletePointer(JNIEnv*,
+                                                   jobject,
+                                                   jlong pointer)
 {
-  delete ((Term*)termPointer);
+  delete ((Term*)pointer);
 }
 
 /*

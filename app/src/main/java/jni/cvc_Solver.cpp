@@ -17,14 +17,14 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_newSolver(JNIEnv*, jobject)
 
 /*
  * Class:     cvc_Solver
- * Method:    deleteSolver
+ * Method:    deletePointer
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_cvc_Solver_deleteSolver(JNIEnv*,
-                                                    jobject,
-                                                    jlong solverPointer)
+JNIEXPORT void JNICALL Java_cvc_Solver_deletePointer(JNIEnv*,
+                                                     jobject,
+                                                     jlong pointer)
 {
-  delete ((Solver*)solverPointer);
+  delete ((Solver*)pointer);
 }
 
 /*
@@ -253,6 +253,142 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeSort(
     DatatypeDecl* datatypeDecl = (DatatypeDecl*)datatypeDeclPointer;
     Sort* sort = new Sort(solver->mkDatatypeSort(*datatypeDecl));
     return ((jlong)sort);
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkDatatypeSorts
+ * Signature: (J[J)[J
+ */
+JNIEXPORT jlongArray JNICALL Java_cvc_Solver_mkDatatypeSorts__J_3J(
+    JNIEnv* env, jobject, jlong pointer, jlongArray declPointers)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    jsize size = env->GetArrayLength(declPointers);
+    jlong* elements = env->GetLongArrayElements(declPointers, nullptr);
+    if (elements == 0)
+    {
+      throw CVC4ApiException("Null pointer elements in mkDatatypeSorts");
+    }
+    std::vector<DatatypeDecl> decls;
+    for (size_t i = 0; i < size; i++)
+    {
+      DatatypeDecl* decl = (DatatypeDecl*)elements[i];
+      decls.push_back(*decl);
+    }
+    env->ReleaseLongArrayElements(declPointers, elements, 0);
+
+    std::vector<Sort> sorts = solver->mkDatatypeSorts(decls);
+    long* sortPointers = new long[sorts.size()];
+    for (size_t i = 0; i < sorts.size(); i++)
+    {
+      sortPointers[i] = (long)new Sort(sorts[i]);
+    }
+
+    jlongArray ret = env->NewLongArray(sorts.size());
+    env->SetLongArrayRegion(ret, 0, sorts.size(), sortPointers);
+
+    return ret;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return nullptr;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkDatatypeSorts
+ * Signature: (J[J[J)[J
+ */
+JNIEXPORT jlongArray JNICALL
+Java_cvc_Solver_mkDatatypeSorts__J_3J_3J(JNIEnv* env,
+                                         jobject,
+                                         jlong pointer,
+                                         jlongArray declPointers,
+                                         jlongArray unresolvedPointers)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    jsize declsSize = env->GetArrayLength(declPointers);
+    jsize unresolvedSize = env->GetArrayLength(unresolvedPointers);
+    jlong* declElements = env->GetLongArrayElements(declPointers, nullptr);
+    if (declElements == 0)
+    {
+      throw CVC4ApiException("Null pointer declElements in mkDatatypeSorts");
+    }
+    jlong* unresolvedElements =
+        env->GetLongArrayElements(unresolvedPointers, nullptr);
+    if (unresolvedElements == 0)
+    {
+      throw CVC4ApiException(
+          "Null pointer unresolvedElements in mkDatatypeSorts");
+    }
+
+    std::vector<DatatypeDecl> decls;
+    for (size_t i = 0; i < declsSize; i++)
+    {
+      DatatypeDecl* decl = (DatatypeDecl*)declElements[i];
+      decls.push_back(*decl);
+    }
+    env->ReleaseLongArrayElements(declPointers, declElements, 0);
+
+    std::set<Sort> unresolved;
+    for (size_t i = 0; i < unresolvedSize; i++)
+    {
+      Sort* sort = (Sort*)unresolvedElements[i];
+      unresolved.insert(*sort);
+    }
+
+    env->ReleaseLongArrayElements(unresolvedPointers, unresolvedElements, 0);
+    std::vector<Sort> sorts = solver->mkDatatypeSorts(decls, unresolved);
+    long* sortPointers = new long[sorts.size()];
+    for (size_t i = 0; i < sorts.size(); i++)
+    {
+      sortPointers[i] = (long)new Sort(sorts[i]);
+    }
+
+    jlongArray ret = env->NewLongArray(sorts.size());
+    env->SetLongArrayRegion(ret, 0, sorts.size(), sortPointers);
+
+    return ret;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return nullptr;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkUninterpretedSort
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkUninterpretedSort(JNIEnv* env,
+                                                            jobject,
+                                                            jlong pointer,
+                                                            jstring jSymbol)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    const char* cSymbol = env->GetStringUTFChars(jSymbol, nullptr);
+    Sort* sort = new Sort(solver->mkUninterpretedSort(std::string(cSymbol)));
+    return (jlong)sort;
   }
   catch (const CVC4ApiException& e)
   {

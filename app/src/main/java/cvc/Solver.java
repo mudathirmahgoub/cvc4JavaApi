@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.SystemUtils;
 
-public class Solver
+public class Solver implements IPointer
 {
-  private long solverPointer;
+  private long pointer;
 
-  public long getSolverPointer()
+  public long getPointer()
   {
-    return solverPointer;
+    return pointer;
   }
 
   private List<Sort> sorts = new ArrayList<>();
@@ -66,9 +66,7 @@ public class Solver
       }
       String cvcApiLibFile =
           System.getProperty("java.io.tmpdir") + File.separatorChar + cvcApiLibName;
-      System.out.println(cvcApiLibFile);
       InputStream input = Solver.class.getResourceAsStream("/" + cvcApiLibName);
-      System.out.println("Input: " + input);
       Files.copy(input, Paths.get(cvcApiLibFile), StandardCopyOption.REPLACE_EXISTING);
       System.load(cvcApiLibFile);
     }
@@ -80,33 +78,33 @@ public class Solver
 
   public Solver()
   {
-    solverPointer = newSolver();
+    pointer = newSolver();
   }
 
   private native long newSolver();
 
-  public void deleteSolver()
+  public void deletePointer()
   {
     for (Result result : results)
     {
-      result.deleteResult();
+      result.deletePointer();
     }
 
     for (Term term : terms)
     {
-      term.deleteTerm();
+      term.deletePointer();
     }
 
     for (Sort sort : sorts)
     {
       // TODO: fix errors with this line
-      // sort.deleteSort();
+      // sort.deletePointer();
     }
 
-    deleteSolver(solverPointer);
+    deletePointer(pointer);
   }
 
-  private native void deleteSolver(long solverPointer);
+  private native void deletePointer(long solverPointer);
 
   /**
    * Set logic.
@@ -117,7 +115,7 @@ public class Solver
    */
   public void setLogic(String logic) throws CVCApiException
   {
-    setLogic(solverPointer, logic);
+    setLogic(pointer, logic);
   }
 
   private native void setLogic(long solverPointer, String logic) throws CVCApiException;
@@ -127,7 +125,7 @@ public class Solver
    */
   public Sort getNullSort()
   {
-    long sortPointer = getNullSort(solverPointer);
+    long sortPointer = getNullSort(pointer);
     return new Sort(this, sortPointer);
   }
 
@@ -138,7 +136,7 @@ public class Solver
    */
   public Sort getBooleanSort()
   {
-    long sortPointer = getBooleanSort(solverPointer);
+    long sortPointer = getBooleanSort(pointer);
     return new Sort(this, sortPointer);
   }
 
@@ -153,7 +151,7 @@ public class Solver
    */
   public Sort getIntegerSort()
   {
-    long sortPointer = getIntegerSort(solverPointer);
+    long sortPointer = getIntegerSort(pointer);
     return new Sort(this, sortPointer);
   }
 
@@ -164,7 +162,7 @@ public class Solver
 
   public Sort getRealSort()
   {
-    long sortPointer = getRealSort(solverPointer);
+    long sortPointer = getRealSort(pointer);
     return new Sort(this, sortPointer);
   }
 
@@ -175,7 +173,7 @@ public class Solver
    */
   public Sort getRegExpSort()
   {
-    long sortPointer = getRegExpSort(solverPointer);
+    long sortPointer = getRegExpSort(pointer);
     return new Sort(this, sortPointer);
   }
 
@@ -187,7 +185,7 @@ public class Solver
    */
   public Sort getRoundingModeSort() throws CVCApiException
   {
-    long sortPointer = getRoundingModeSort(solverPointer);
+    long sortPointer = getRoundingModeSort(pointer);
     return new Sort(this, sortPointer);
   }
 
@@ -198,7 +196,7 @@ public class Solver
    */
   public Sort getStringSort()
   {
-    long sortPointer = getStringSort(solverPointer);
+    long sortPointer = getStringSort(pointer);
     return new Sort(this, sortPointer);
   }
 
@@ -208,7 +206,7 @@ public class Solver
 
   public Term mkConst(Sort sort, String symbol)
   {
-    long termPointer = mkConst(solverPointer, sort.getPointer(), symbol);
+    long termPointer = mkConst(pointer, sort.getPointer(), symbol);
     return new Term(this, termPointer);
   }
 
@@ -224,7 +222,7 @@ public class Solver
    */
   public Sort mkArraySort(Sort indexSort, Sort elementSort)
   {
-    long sortPointer = mkArraySort(solverPointer, indexSort.getPointer(), elementSort.getPointer());
+    long sortPointer = mkArraySort(pointer, indexSort.getPointer(), elementSort.getPointer());
     return new Sort(this, sortPointer);
   }
 
@@ -243,7 +241,7 @@ public class Solver
     {
       throw new CVCApiException("Expected size '" + size + "' to be non negative.");
     }
-    long sortPointer = mkBitVectorSort(solverPointer, size);
+    long sortPointer = mkBitVectorSort(pointer, size);
     return new Sort(this, sortPointer);
   }
 
@@ -265,7 +263,7 @@ public class Solver
     {
       throw new CVCApiException("Expected sig '" + sig + "' to be non negative.");
     }
-    long sortPointer = mkFloatingPointSort(solverPointer, exp, sig);
+    long sortPointer = mkFloatingPointSort(pointer, exp, sig);
     return new Sort(this, sortPointer);
   }
 
@@ -279,12 +277,85 @@ public class Solver
    */
   public Sort mkDatatypeSort(DatatypeDecl datatypeDecl) throws CVCApiException
   {
-    long pointer = mkDatatypeSort(solverPointer, datatypeDecl.getPointer());
+    long pointer = mkDatatypeSort(this.pointer, datatypeDecl.getPointer());
     return new Sort(this, pointer);
   }
 
   private native long mkDatatypeSort(long solverPointer, long datatypeDeclPointer)
       throws CVCApiException;
+
+  /**
+   * Create a vector of datatype sorts. The names of the datatype declarations
+   * must be distinct.
+   *
+   * @param datatypeDecls the datatype declarations from which the sort is created
+   * @return the datatype sorts
+   */
+  public Sort[] mkDatatypeSorts(DatatypeDecl[] datatypeDecls) throws CVCApiException
+  {
+    long[] declPointers = new long[datatypeDecls.length];
+    for (int i = 0; i < datatypeDecls.length; i++)
+    {
+      declPointers[i] = datatypeDecls[i].getPointer();
+    }
+
+    long[] sortPointers = mkDatatypeSorts(pointer, declPointers);
+
+    Sort[] sorts = new Sort[sortPointers.length];
+    for (int i = 0; i < sortPointers.length; i++)
+    {
+      sorts[i] = new Sort(this, sortPointers[i]);
+    }
+
+    return sorts;
+  }
+
+  private native long[] mkDatatypeSorts(long solverPointer, long[] declPointers)
+      throws CVCApiException;
+
+  /**
+   * Create a vector of datatype sorts using unresolved sorts. The names of
+   * the datatype declarations in dtypedecls must be distinct.
+   *
+   * This method is called when the DatatypeDecl objects dtypedecls have been
+   * built using "unresolved" sorts.
+   *
+   * We associate each sort in unresolvedSorts with exactly one datatype from
+   * dtypedecls. In particular, it must have the same name as exactly one
+   * datatype declaration in dtypedecls.
+   *
+   * When constructing datatypes, unresolved sorts are replaced by the datatype
+   * sort constructed for the datatype declaration it is associated with.
+   *
+   * @param dtypedecls the datatype declarations from which the sort is created
+   * @param unresolvedSorts the list of unresolved sorts
+   * @return the datatype sorts
+   */
+  public Sort[] mkDatatypeSorts(DatatypeDecl[] dtypedecls, Sort[] unresolvedSorts)
+      throws CVCApiException
+  {
+    long[] declPointers = Utils.getPointers(dtypedecls);
+    long[] unresolvedPointers = Utils.getPointers(unresolvedSorts);
+    long[] sortPointers = mkDatatypeSorts(pointer, declPointers, unresolvedPointers);
+    Sort[] sorts = Utils.getSorts(this, sortPointers);
+    return sorts;
+  }
+
+  private native long[] mkDatatypeSorts(
+      long pointer, long[] declPointers, long[] unresolvedPointers) throws CVCApiException;
+
+  /**
+   * Create an uninterpreted sort.
+   * @param symbol the name of the sort
+   * @return the uninterpreted sort
+   */
+  public Sort mkUninterpretedSort(String symbol)
+  {
+    long sortPointer = mkUninterpretedSort(pointer, symbol);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkUninterpretedSort(long solverPointer, String symbol);
 
   // endregion
 
@@ -292,7 +363,7 @@ public class Solver
 
   public Term mkInteger(int val)
   {
-    long termPointer = mkInteger(solverPointer, val);
+    long termPointer = mkInteger(pointer, val);
     return new Term(this, termPointer);
   }
 
@@ -300,7 +371,7 @@ public class Solver
 
   public Term mkReal(int num, int den)
   {
-    long termPointer = mkReal(solverPointer, num, den);
+    long termPointer = mkReal(pointer, num, den);
     return new Term(this, termPointer);
   }
 
@@ -308,14 +379,13 @@ public class Solver
 
   public Result checkSat()
   {
-    long resultPointer = checkSat(solverPointer);
+    long resultPointer = checkSat(pointer);
     return new Result(this, resultPointer);
   }
 
   public Term mkTerm(Kind kind, Term child1, Term child2)
   {
-    long termPointer =
-        mkTerm(solverPointer, kind.getValue(), child1.getPointer(), child2.getPointer());
+    long termPointer = mkTerm(pointer, kind.getValue(), child1.getPointer(), child2.getPointer());
     return new Term(this, termPointer);
   }
 
@@ -323,11 +393,8 @@ public class Solver
 
   public Term mkTerm(Kind kind, Term child1, Term child2, Term child3)
   {
-    long termPointer = mkTerm(solverPointer,
-        kind.getValue(),
-        child1.getPointer(),
-        child2.getPointer(),
-        child3.getPointer());
+    long termPointer = mkTerm(
+        pointer, kind.getValue(), child1.getPointer(), child2.getPointer(), child3.getPointer());
     return new Term(this, termPointer);
   }
 
@@ -338,26 +405,26 @@ public class Solver
 
   public void assertFormula(Term term)
   {
-    assertFormula(solverPointer, term.getPointer());
+    assertFormula(pointer, term.getPointer());
   }
 
   private native void assertFormula(long solverPointer, long termPointer);
 
   public void push()
   {
-    push(solverPointer, 1);
+    push(pointer, 1);
   }
 
   public void push(int nscopes)
   {
-    push(solverPointer, nscopes);
+    push(pointer, nscopes);
   }
 
   private native void push(long solverPointer, int nscopes);
 
   public Result checkEntailed(Term term)
   {
-    long resultPointer = checkEntailed(solverPointer, term.getPointer());
+    long resultPointer = checkEntailed(pointer, term.getPointer());
     return new Result(this, resultPointer);
   }
 
@@ -365,19 +432,19 @@ public class Solver
 
   public void pop()
   {
-    pop(solverPointer, 1);
+    pop(pointer, 1);
   }
 
   public void pop(int nscopes)
   {
-    pop(solverPointer, nscopes);
+    pop(pointer, nscopes);
   }
 
   private native void pop(long solverPointer, int nscopes);
 
   public Term mkTrue()
   {
-    long termPointer = mkTrue(solverPointer);
+    long termPointer = mkTrue(pointer);
     return new Term(this, termPointer);
   }
 
@@ -393,7 +460,7 @@ public class Solver
    */
   public void setOption(String option, String value) throws CVCApiException
   {
-    setOption(solverPointer, option, value);
+    setOption(pointer, option, value);
   }
 
   private native void setOption(long solverPointer, String option, String value)
@@ -408,7 +475,7 @@ public class Solver
    */
   public Term getValue(Term term) throws CVCApiRecoverableException
   {
-    long termPointer = getValue(solverPointer, term.getPointer());
+    long termPointer = getValue(pointer, term.getPointer());
     return new Term(this, termPointer);
   }
 
@@ -417,7 +484,7 @@ public class Solver
 
   public boolean supportsFloatingPoint()
   {
-    return supportsFloatingPoint(solverPointer);
+    return supportsFloatingPoint(pointer);
   }
 
   private native boolean supportsFloatingPoint(long solverPointer);
@@ -429,7 +496,7 @@ public class Solver
    */
   public Term mkRoundingMode(RoundingMode rm) throws CVCApiException
   {
-    long termPointer = mkRoundingMode(solverPointer, rm.getValue());
+    long termPointer = mkRoundingMode(pointer, rm.getValue());
     return new Term(this, termPointer);
   }
 
@@ -458,7 +525,7 @@ public class Solver
    */
   public DatatypeDecl mkDatatypeDecl(String name, boolean isCoDatatype)
   {
-    long pointer = mkDatatypeDecl(solverPointer, name, isCoDatatype);
+    long pointer = mkDatatypeDecl(this.pointer, name, isCoDatatype);
     return new DatatypeDecl(this, pointer);
   }
 
@@ -466,10 +533,11 @@ public class Solver
 
   public DatatypeConstructorDecl mkDatatypeConstructorDecl(String name)
   {
-    long pointer = mkDatatypeConstructorDecl(solverPointer, name);
+    long pointer = mkDatatypeConstructorDecl(this.pointer, name);
     return new DatatypeConstructorDecl(this, pointer);
   }
 
   private native long mkDatatypeConstructorDecl(long solverPointer, String name);
+
   // endregion
 }

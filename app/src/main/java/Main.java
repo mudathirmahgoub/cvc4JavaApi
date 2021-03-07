@@ -63,7 +63,7 @@ public class Main
 
       System.out.println("Thus the maximum value of (y - x) is 2/3.");
 
-      slv.deleteSolver();
+      slv.deletePointer();
     }
     catch (CVCApiException e)
     {
