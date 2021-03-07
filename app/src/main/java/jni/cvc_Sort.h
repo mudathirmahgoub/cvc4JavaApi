@@ -23,6 +23,14 @@ JNIEXPORT void JNICALL Java_cvc_Sort_deletePointer
 JNIEXPORT jstring JNICALL Java_cvc_Sort_toString
   (JNIEnv *, jobject, jlong);
 
+/*
+ * Class:     cvc_Sort
+ * Method:    getDatatype
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Sort_getDatatype
+  (JNIEnv *, jobject, jlong);
+
 #ifdef __cplusplus
 }
 #endif

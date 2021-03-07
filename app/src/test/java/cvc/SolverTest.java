@@ -248,6 +248,24 @@ class SolverTest
         CVCApiException.class, () -> slv.mkPredicateSort(new Sort[] {d_solver.getIntegerSort()}));
   }
 
+  @Test void mkRecordSort() throws CVCApiException
+  {
+    Pair<String, Sort>[] fields = new Pair[] {new Pair<>("b", d_solver.getBooleanSort()),
+        new Pair<>("bv", d_solver.mkBitVectorSort(8)),
+        new Pair<>("i", d_solver.getIntegerSort())};
+    Pair<String, Sort>[] empty = new Pair[] {};
+    assertDoesNotThrow(() -> d_solver.mkRecordSort(fields));
+    assertDoesNotThrow(() -> d_solver.mkRecordSort(empty));
+    Sort recSort = d_solver.mkRecordSort(fields);
+    assertDoesNotThrow(() -> recSort.getDatatype());
+
+    Solver slv = new Solver();
+    assertThrows(CVCApiException.class, () -> slv.mkRecordSort(fields));
+    Long x = Long.valueOf(10);
+    x.longValue();
+
+  }
+
   @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));

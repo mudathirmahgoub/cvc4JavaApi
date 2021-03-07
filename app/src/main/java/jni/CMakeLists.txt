@@ -16,15 +16,21 @@ if(JNI_FOUND)
 endif()
 
 add_executable(cvcApi main.cpp
-        cvc_Solver.cpp
-        cvc_Solver.h
-        cvc_Result.cpp)
-
-add_library(cvcJavaApi SHARED
+        cvc_Datatype.cpp
         cvc_DatatypeConstructorDecl.cpp
         cvc_DatatypeDecl.cpp
         cvc_Result.cpp
         cvc_Solver.cpp
+        cvc_Sort.cpp
+        cvc_Term.cpp)
+
+add_library(cvcJavaApi SHARED
+        cvc_Datatype.cpp
+        cvc_DatatypeConstructorDecl.cpp
+        cvc_DatatypeDecl.cpp
+        cvc_Result.cpp
+        cvc_Solver.cpp
+        cvc_Sort.cpp
         cvc_Term.cpp
         )
 target_link_libraries(cvcJavaApi cvc4)

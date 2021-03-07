@@ -1,15 +1,14 @@
 package cvc;
 
-public class Sort implements IPointer
+public class Datatype implements IPointer
 {
   private Solver solver;
   private long pointer;
 
-  Sort(Solver solver, long pointer)
+  Datatype(Solver solver, long pointer)
   {
     this.solver = solver;
     this.pointer = pointer;
-    solver.addSort(this);
   }
 
   public void deletePointer()
@@ -21,7 +20,7 @@ public class Sort implements IPointer
 
   @Override public void finalize()
   {
-    System.out.println("Finalizing sort: " + toString());
+    System.out.println("Finalizing datatype: " + toString());
   }
 
   public long getPointer()
@@ -35,15 +34,4 @@ public class Sort implements IPointer
   }
 
   private native String toString(long sortPointer);
-
-  /**
-   * @return the underlying datatype of a datatype sort
-   */
-  public Datatype getDatatype()
-  {
-    long datatypePointer = getDatatype(pointer);
-    return new Datatype(solver, datatypePointer);
-  }
-
-  private native long getDatatype(long pointer);
 }

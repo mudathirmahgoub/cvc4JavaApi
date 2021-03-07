@@ -532,6 +532,63 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkPredicateSort(JNIEnv* env,
   return 0;
 }
 
+/*
+ * Class:     cvc_Solver
+ * Method:    mkRecordSort
+ * Signature: (J[Lcvc/Pair;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRecordSort(JNIEnv* env,
+                                                     jobject,
+                                                     jlong pointer,
+                                                     jobjectArray jFields)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    jsize size = env->GetArrayLength(jFields);
+    // Lcvc/Pair; is signature of cvc.Pair<String, Long>
+    jclass pairClass = env->FindClass("Lcvc/Pair;");
+    jclass longClass = env->FindClass("Ljava/lang/Long;");
+    // Ljava/lang/Object; is the signature of cvc.Pair.first field
+    jfieldID firstFieldId =
+        env->GetFieldID(pairClass, "first", "Ljava/lang/Object;");
+    // Ljava/lang/Object; is the signature of cvc.Pair.second field
+    jfieldID secondFieldId =
+        env->GetFieldID(pairClass, "second", "Ljava/lang/Object;");
+    // we need to call method longValue to get long Long object
+    jmethodID methodId = env->GetMethodID(longClass, "longValue", "()J");
+
+    std::vector<std::pair<std::string, Sort>> cFields;
+    for (size_t i = 0; i < size; i++)
+    {
+      // get the pair at index i
+      jobject object = env->GetObjectArrayElement(jFields, i);
+
+      // get the object at cvc.Pair.first and convert it to char *
+      jstring jFirst = (jstring)env->GetObjectField(object, firstFieldId);
+      const char* cFirst = env->GetStringUTFChars(jFirst, nullptr);
+
+      // get the object at cvc.Pair.second and convert it to Sort
+      jobject jSecond = env->GetObjectField(object, secondFieldId);
+      jlong sortPointer = env->CallLongMethod(jSecond, methodId);
+      Sort* sort = (Sort*)sortPointer;
+
+      // add the pair to to the list of fields
+      cFields.push_back(std::make_pair(std::string(cFirst), *sort));
+    }
+    // get the record sort from the solver
+    Sort* sort = new Sort(solver->mkRecordSort(cFields));
+    // return a pointer to the sort
+    return (jlong)sort;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
 // endregion
 
 /*

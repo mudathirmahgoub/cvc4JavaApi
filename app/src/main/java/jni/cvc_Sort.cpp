@@ -28,3 +28,17 @@ JNIEXPORT jstring JNICALL Java_cvc_Sort_toString(JNIEnv* env,
   Sort* sort = (Sort*)sortPointer;
   return env->NewStringUTF(sort->toString().c_str());
 }
+
+/*
+ * Class:     cvc_Sort
+ * Method:    getDatatype
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Sort_getDatatype(JNIEnv*,
+                                                  jobject,
+                                                  jlong pointer)
+{
+  Sort* sort = (Sort*)pointer;
+  Datatype* datatype = new Datatype(sort->getDatatype());
+  return (jlong)datatype;
+}

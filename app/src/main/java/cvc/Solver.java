@@ -419,6 +419,19 @@ public class Solver implements IPointer
 
   private native long mkPredicateSort(long pointer, long[] sortPointers);
 
+  /**
+   * Create a record sort
+   * @param fields the list of fields of the record
+   * @return the record sort
+   */
+  public Sort mkRecordSort(Pair<String, Sort>[] fields)
+  {
+    long sortPointer = mkRecordSort(pointer, Utils.getPairs(fields));
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkRecordSort(long pointer, Pair<String, Long>[] fields);
+
   // endregion
 
   private native long mkConst(long solverPointer, long sortPointer, String symbol);
@@ -600,7 +613,6 @@ public class Solver implements IPointer
   }
 
   private native long mkDatatypeConstructorDecl(long solverPointer, String name);
-
 
   // endregion
 }
