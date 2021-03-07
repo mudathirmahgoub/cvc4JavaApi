@@ -1,7 +1,5 @@
 package cvc;
 
-import java.util.List;
-
 public class Utils
 {
   public static long[] getPointers(IPointer[] objects)
