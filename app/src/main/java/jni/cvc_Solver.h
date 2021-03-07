@@ -145,6 +145,22 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkUninterpretedSort
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkFunctionSort
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFunctionSort__JJJ
+  (JNIEnv *, jobject, jlong, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkFunctionSort
+ * Signature: (J[JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFunctionSort__J_3JJ
+  (JNIEnv *, jobject, jlong, jlongArray, jlong);
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkConst
  * Signature: (JJLjava/lang/String;)J
  */

@@ -185,7 +185,47 @@ class SolverTest
 
     assertThrows(CVCApiException.class, () -> slv.mkDatatypeSorts(udecls, unresSorts));
 
-    /* Note: More tests are in datatype_api_black. */
+    /* Note: More tests are in DatatypeTests. */
+  }
+
+  @Test void mkFunctionSort()
+  {
+    assertDoesNotThrow(()
+                           -> d_solver.mkFunctionSort(
+                               d_solver.mkUninterpretedSort("u"), d_solver.getIntegerSort()));
+    Sort funSort =
+        d_solver.mkFunctionSort(d_solver.mkUninterpretedSort("u"), d_solver.getIntegerSort());
+    assertThrows(
+        CVCApiException.class, () -> d_solver.mkFunctionSort(funSort, d_solver.getIntegerSort()));
+    assertThrows(
+        CVCApiException.class, () -> d_solver.mkFunctionSort(d_solver.getIntegerSort(), funSort));
+    assertDoesNotThrow(()
+                           -> d_solver.mkFunctionSort(new Sort[] {d_solver.mkUninterpretedSort("u"),
+                                                          d_solver.getIntegerSort()},
+                               d_solver.getIntegerSort()));
+    Sort funSort2 =
+        d_solver.mkFunctionSort(d_solver.mkUninterpretedSort("u"), d_solver.getIntegerSort());
+    assertThrows(CVCApiException.class,
+        ()
+            -> d_solver.mkFunctionSort(new Sort[] {funSort2, d_solver.mkUninterpretedSort("u")},
+                d_solver.getIntegerSort()));
+    assertThrows(CVCApiException.class,
+        ()
+            -> d_solver.mkFunctionSort(
+                new Sort[] {d_solver.getIntegerSort(), d_solver.mkUninterpretedSort("u")},
+                funSort2));
+
+    Solver slv = new Solver();
+    assertThrows(CVCApiException.class,
+        () -> slv.mkFunctionSort(d_solver.mkUninterpretedSort("u"), d_solver.getIntegerSort()));
+    assertThrows(CVCApiException.class,
+        () -> slv.mkFunctionSort(slv.mkUninterpretedSort("u"), d_solver.getIntegerSort()));
+    Sort[] sorts1 = {d_solver.getBooleanSort(), slv.getIntegerSort(), d_solver.getIntegerSort()};
+    Sort[] sorts2 = {slv.getBooleanSort(), slv.getIntegerSort()};
+    assertDoesNotThrow(() -> slv.mkFunctionSort(sorts2, slv.getIntegerSort()));
+    assertThrows(CVCApiException.class, () -> slv.mkFunctionSort(sorts1, slv.getIntegerSort()));
+    assertThrows(
+        CVCApiException.class, () -> slv.mkFunctionSort(sorts2, d_solver.getIntegerSort()));
   }
 
   @Test void setLogic()

@@ -357,6 +357,34 @@ public class Solver implements IPointer
 
   private native long mkUninterpretedSort(long solverPointer, String symbol);
 
+  /**
+   * Create function sort.
+   * @param domain the sort of the fuction argument
+   * @param codomain the sort of the function return value
+   * @return the function sort
+   */
+  public Sort mkFunctionSort(Sort domain, Sort codomain)
+  {
+    long sortPointer = mkFunctionSort(pointer, domain.getPointer(), codomain.getPointer());
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkFunctionSort(long pointer, long domainPointer, long codomainPointer);
+
+
+  /**
+   * Create function sort.
+   * @param sorts the sort of the function arguments
+   * @param codomain the sort of the function return value
+   * @return the function sort
+   */
+  public Sort mkFunctionSort(Sort[] sorts, Sort codomain)
+  {
+    long sortPointer = mkFunctionSort(pointer, Utils.getPointers(sorts), codomain.getPointer());
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkFunctionSort(long pointer, long[] sortPointers, long codomainPointer);
   // endregion
 
   private native long mkConst(long solverPointer, long sortPointer, String symbol);

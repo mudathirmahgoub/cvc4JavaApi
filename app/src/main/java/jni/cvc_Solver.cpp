@@ -398,6 +398,76 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkUninterpretedSort(JNIEnv* env,
   return 0;
 }
 
+/*
+ * Class:     cvc_Solver
+ * Method:    mkFunctionSort
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL
+Java_cvc_Solver_mkFunctionSort__JJJ(JNIEnv* env,
+                                    jobject,
+                                    jlong pointer,
+                                    jlong domainPointer,
+                                    jlong codomainPointer)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    Sort* domain = (Sort*)domainPointer;
+    Sort* codomain = (Sort*)codomainPointer;
+    Sort* sort = new Sort(solver->mkFunctionSort(*domain, *codomain));
+    return (jlong)sort;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkFunctionSort
+ * Signature: (J[JJ)J
+ */
+JNIEXPORT jlong JNICALL
+Java_cvc_Solver_mkFunctionSort__J_3JJ(JNIEnv* env,
+                                      jobject,
+                                      jlong pointer,
+                                      jlongArray sortPointers,
+                                      jlong codomainPointer)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    Sort* codomain = (Sort*)codomainPointer;
+    jsize sortsSize = env->GetArrayLength(sortPointers);
+    jlong* sortsElements = env->GetLongArrayElements(sortPointers, nullptr);
+    if (sortsElements == 0)
+    {
+      throw CVC4ApiException("Null pointer sortsElements in mkFunctionSort");
+    }
+
+    std::vector<Sort> sorts;
+    for (size_t i = 0; i < sortsSize; i++)
+    {
+      Sort* sort = (Sort*)sortsElements[i];
+      sorts.push_back(*sort);
+    }
+    env->ReleaseLongArrayElements(sortPointers, sortsElements, 0);
+
+    Sort* sort = new Sort(solver->mkFunctionSort(sorts, *codomain));
+    return (jlong)sort;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
 // endregion
 
 /*
