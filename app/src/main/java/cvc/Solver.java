@@ -385,6 +385,20 @@ public class Solver implements IPointer
   }
 
   private native long mkFunctionSort(long pointer, long[] sortPointers, long codomainPointer);
+
+  /**
+   * Create a sort parameter.
+   * @param symbol the name of the sort
+   * @return the sort parameter
+   */
+  public Sort mkParamSort(String symbol)
+  {
+    long sortPointer = mkParamSort(pointer, symbol);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkParamSort(long pointer, String symbol);
+
   // endregion
 
   private native long mkConst(long solverPointer, long sortPointer, String symbol);
@@ -566,6 +580,8 @@ public class Solver implements IPointer
   }
 
   private native long mkDatatypeConstructorDecl(long solverPointer, String name);
+
+
 
   // endregion
 }

@@ -468,6 +468,31 @@ Java_cvc_Solver_mkFunctionSort__J_3JJ(JNIEnv* env,
   return 0;
 }
 
+/*
+ * Class:     cvc_Solver
+ * Method:    mkParamSort
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkParamSort(JNIEnv* env,
+                                                    jobject,
+                                                    jlong pointer,
+                                                    jstring jSymbol)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    const char* cSymbol = env->GetStringUTFChars(jSymbol, nullptr);
+    Sort* sort = new Sort(solver->mkParamSort(cSymbol));
+    return (jlong)sort;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
 // endregion
 
 /*

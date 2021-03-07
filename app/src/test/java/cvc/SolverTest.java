@@ -228,6 +228,12 @@ class SolverTest
         CVCApiException.class, () -> slv.mkFunctionSort(sorts2, d_solver.getIntegerSort()));
   }
 
+  @Test void mkParamSort()
+  {
+    assertDoesNotThrow(() -> d_solver.mkParamSort("T"));
+    assertDoesNotThrow(() -> d_solver.mkParamSort(""));
+  }
+
   @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));
