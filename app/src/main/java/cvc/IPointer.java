@@ -1,7 +1,8 @@
 package cvc;
 
-public interface IPointer
+interface IPointer
 {
     void deletePointer();
     long getPointer();
+    void finalize();
 }

@@ -24,6 +24,12 @@ public class Result implements IPointer
     return pointer;
   }
 
+  @Override
+  public void finalize()
+  {
+    System.out.println("Finalizing result: " + toString());
+  }
+
   @Override public String toString()
   {
     return toString(pointer);

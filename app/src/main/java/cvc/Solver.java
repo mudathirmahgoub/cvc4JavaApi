@@ -106,6 +106,13 @@ public class Solver implements IPointer
 
   private native void deletePointer(long solverPointer);
 
+  @Override
+  public void finalize()
+  {
+    System.out.println("Finalizing solver: " + pointer);
+    deletePointer();
+  }
+
   /**
    * Set logic.
    * SMT-LIB: ( set-logic <symbol> )

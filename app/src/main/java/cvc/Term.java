@@ -24,6 +24,12 @@ public class Term implements IPointer
     return pointer;
   }
 
+  @Override
+  public void finalize()
+  {
+    System.out.println("Finalizing term: " + toString());
+  }
+
   @Override public String toString()
   {
     return toString(pointer);

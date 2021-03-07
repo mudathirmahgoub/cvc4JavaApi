@@ -24,6 +24,12 @@ public class DatatypeDecl implements IPointer
     return pointer;
   }
 
+  @Override
+  public void finalize()
+  {
+    System.out.println("Finalizing datatypeDecl: " + toString());
+  }
+
   @Override public String toString()
   {
     return toString(pointer);

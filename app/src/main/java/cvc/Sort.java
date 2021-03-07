@@ -19,6 +19,12 @@ public class Sort implements IPointer
 
   private native void deletePointer(long pointer);
 
+  @Override
+  public void finalize()
+  {
+    System.out.println("Finalizing sort: " + toString());
+  }
+
   public long getPointer()
   {
     return pointer;
