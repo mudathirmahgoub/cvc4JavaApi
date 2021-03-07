@@ -24,12 +24,12 @@ public class Utils
     return sorts;
   }
 
-  public static <K> Pair<K, Long>[] getPairs(Pair<K, Sort>[] ipointers)
+  public static <K> Pair<K, Long>[] getPairs(Pair<K, ? extends AbstractPointer>[] abstractPointers)
   {
-    Pair<K, Long>[] pointers = new Pair[ipointers.length];
+    Pair<K, Long>[] pointers = new Pair[abstractPointers.length];
     for (int i = 0; i < pointers.length; i++)
     {
-      pointers[i] = new Pair<K, Long>(ipointers[i].first, ipointers[i].second.getPointer());
+      pointers[i] = new Pair<>(abstractPointers[i].first, abstractPointers[i].second.getPointer());
     }
     return pointers;
   }
