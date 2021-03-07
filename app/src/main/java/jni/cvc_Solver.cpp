@@ -288,14 +288,14 @@ JNIEXPORT jlongArray JNICALL Java_cvc_Solver_mkDatatypeSorts__J_3J(
     env->ReleaseLongArrayElements(declPointers, elements, 0);
 
     std::vector<Sort> sorts = solver->mkDatatypeSorts(decls);
-    long* sortPointers = new long[sorts.size()];
+    std::vector<long> sortPointers(sorts.size());
     for (size_t i = 0; i < sorts.size(); i++)
     {
       sortPointers[i] = (long)new Sort(sorts[i]);
     }
 
     jlongArray ret = env->NewLongArray(sorts.size());
-    env->SetLongArrayRegion(ret, 0, sorts.size(), sortPointers);
+    env->SetLongArrayRegion(ret, 0, sorts.size(), sortPointers.data());
 
     return ret;
   }
@@ -354,14 +354,14 @@ Java_cvc_Solver_mkDatatypeSorts__J_3J_3J(JNIEnv* env,
 
     env->ReleaseLongArrayElements(unresolvedPointers, unresolvedElements, 0);
     std::vector<Sort> sorts = solver->mkDatatypeSorts(decls, unresolved);
-    long* sortPointers = new long[sorts.size()];
+    std::vector<long> sortPointers(sorts.size());
     for (size_t i = 0; i < sorts.size(); i++)
     {
       sortPointers[i] = (long)new Sort(sorts[i]);
     }
 
     jlongArray ret = env->NewLongArray(sorts.size());
-    env->SetLongArrayRegion(ret, 0, sorts.size(), sortPointers);
+    env->SetLongArrayRegion(ret, 0, sorts.size(), sortPointers.data());
 
     return ret;
   }
