@@ -1,7 +1,5 @@
 package cvc;
 
-import org.apache.commons.lang3.SystemUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.SystemUtils;
 
 public class Solver implements IPointer
 {
@@ -456,6 +455,50 @@ public class Solver implements IPointer
   }
 
   private native long mkBagSort(long pointer, long elementSortPointer);
+
+  /**
+   * Create a sequence sort.
+   * @param elementSort the sort of the sequence elements
+   * @return the sequence sort
+   */
+  public Sort mkSequenceSort(Sort elementSort)
+  {
+    long sortPointer = mkSequenceSort(pointer, elementSort.getPointer());
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkSequenceSort(long pointer, long elementSortPointer);
+
+  /**
+   * Create a sort constructor sort.
+   * @param symbol the symbol of the sort
+   * @param arity the arity of the sort
+   * @return the sort constructor sort
+   */
+  public Sort mkSortConstructorSort(String symbol, int arity) throws CVCApiException
+  {
+    if (arity < 0)
+    {
+      throw new CVCApiException("Expected arity '" + arity + "' to be non negative.");
+    }
+    long sortPointer = mkSortConstructorSort(pointer, symbol, arity);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkSortConstructorSort(long pointer, String symbol, int arity);
+
+  /**
+   * Create a tuple sort.
+   * @param sorts of the elements of the tuple
+   * @return the tuple sort
+   */
+  public Sort mkTupleSort(Sort[] sorts)
+  {
+    long sortPointer = mkTupleSort(pointer, Utils.getPointers(sorts));
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkTupleSort(long pointer, long[] sortPointers);
 
   // endregion
 

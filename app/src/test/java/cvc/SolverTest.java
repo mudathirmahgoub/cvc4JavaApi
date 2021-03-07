@@ -283,6 +283,41 @@ class SolverTest
     assertThrows(CVCApiException.class, () -> slv.mkBagSort(d_solver.mkBitVectorSort(4)));
   }
 
+  @Test void mkSequenceSort()
+  {
+    assertDoesNotThrow(() -> d_solver.mkSequenceSort(d_solver.getBooleanSort()));
+    assertDoesNotThrow(
+        () -> d_solver.mkSequenceSort(d_solver.mkSequenceSort(d_solver.getIntegerSort())));
+    Solver slv = new Solver();
+    assertThrows(CVCApiException.class, () -> slv.mkSequenceSort(d_solver.getIntegerSort()));
+  }
+
+  @Test void mkUninterpretedSort()
+  {
+    assertDoesNotThrow(() -> d_solver.mkUninterpretedSort("u"));
+    assertDoesNotThrow(() -> d_solver.mkUninterpretedSort(""));
+  }
+
+  @Test void mkSortConstructorSort()
+  {
+    assertDoesNotThrow(() -> d_solver.mkSortConstructorSort("s", 2));
+    assertDoesNotThrow(() -> d_solver.mkSortConstructorSort("", 2));
+    assertThrows(CVCApiException.class, () -> d_solver.mkSortConstructorSort("", 0));
+  }
+
+  @Test void mkTupleSort()
+  {
+    assertDoesNotThrow(() -> d_solver.mkTupleSort(new Sort[] {d_solver.getIntegerSort()}));
+    Sort funSort =
+        d_solver.mkFunctionSort(d_solver.mkUninterpretedSort("u"), d_solver.getIntegerSort());
+    assertThrows(CVCApiException.class,
+        () -> d_solver.mkTupleSort(new Sort[] {d_solver.getIntegerSort(), funSort}));
+
+    Solver slv = new Solver();
+    assertThrows(
+        CVCApiException.class, () -> slv.mkTupleSort(new Sort[] {d_solver.getIntegerSort()}));
+  }
+
   @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));

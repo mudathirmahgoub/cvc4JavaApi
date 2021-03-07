@@ -201,6 +201,30 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBagSort
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkSequenceSort
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSequenceSort
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkSortConstructorSort
+ * Signature: (JLjava/lang/String;I)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSortConstructorSort
+  (JNIEnv *, jobject, jlong, jstring, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTupleSort
+ * Signature: (J[J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTupleSort
+  (JNIEnv *, jobject, jlong, jlongArray);
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkConst
  * Signature: (JJLjava/lang/String;)J
  */

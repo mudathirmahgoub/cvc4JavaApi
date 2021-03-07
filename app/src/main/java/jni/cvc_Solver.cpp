@@ -639,6 +639,94 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBagSort(JNIEnv* env,
   return 0;
 }
 
+/*
+ * Class:     cvc_Solver
+ * Method:    mkSequenceSort
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSequenceSort(JNIEnv* env,
+                                                       jobject,
+                                                       jlong pointer,
+                                                       jlong elementSortPointer)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    Sort* elementSort = (Sort*)elementSortPointer;
+    Sort* sort = new Sort(solver->mkSequenceSort(*elementSort));
+    return (jlong)sort;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkSortConstructorSort
+ * Signature: (JLjava/lang/String;I)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSortConstructorSort(
+    JNIEnv* env, jobject, jlong pointer, jstring jSymbol, jint arity)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    const char* cSymbol = env->GetStringUTFChars(jSymbol, nullptr);
+    Sort* sort = new Sort(
+        solver->mkSortConstructorSort(std::string(cSymbol), (size_t)arity));
+    return (jlong)sort;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTupleSort
+ * Signature: (J[J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTupleSort(JNIEnv* env,
+                                                    jobject,
+                                                    jlong pointer,
+                                                    jlongArray sortPointers)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    jsize sortsSize = env->GetArrayLength(sortPointers);
+    jlong* sortsElements = env->GetLongArrayElements(sortPointers, nullptr);
+    if (sortsElements == 0)
+    {
+      throw CVC4ApiException("Null pointer sortsElements in mkTupleSort");
+    }
+
+    std::vector<Sort> sorts;
+    for (size_t i = 0; i < sortsSize; i++)
+    {
+      Sort* sort = (Sort*)sortsElements[i];
+      sorts.push_back(*sort);
+    }
+    env->ReleaseLongArrayElements(sortPointers, sortsElements, 0);
+
+    Sort* sort = new Sort(solver->mkTupleSort(sorts));
+    return (jlong)sort;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
 // endregion
 
 /*
