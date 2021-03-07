@@ -263,7 +263,24 @@ class SolverTest
     assertThrows(CVCApiException.class, () -> slv.mkRecordSort(fields));
     Long x = Long.valueOf(10);
     x.longValue();
+  }
 
+  @Test void mkSetSort()
+  {
+    assertDoesNotThrow(() -> d_solver.mkSetSort(d_solver.getBooleanSort()));
+    assertDoesNotThrow(() -> d_solver.mkSetSort(d_solver.getIntegerSort()));
+    assertDoesNotThrow(() -> d_solver.mkSetSort(d_solver.mkBitVectorSort(4)));
+    Solver slv = new Solver();
+    assertThrows(CVCApiException.class, () -> slv.mkSetSort(d_solver.mkBitVectorSort(4)));
+  }
+
+  @Test void mkBagSort()
+  {
+    assertDoesNotThrow(() -> d_solver.mkBagSort(d_solver.getBooleanSort()));
+    assertDoesNotThrow(() -> d_solver.mkBagSort(d_solver.getIntegerSort()));
+    assertDoesNotThrow(() -> d_solver.mkBagSort(d_solver.mkBitVectorSort(4)));
+    Solver slv = new Solver();
+    assertThrows(CVCApiException.class, () -> slv.mkBagSort(d_solver.mkBitVectorSort(4)));
   }
 
   @Test void setLogic()

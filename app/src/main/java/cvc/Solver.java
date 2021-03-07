@@ -106,8 +106,7 @@ public class Solver implements IPointer
 
   private native void deletePointer(long solverPointer);
 
-  @Override
-  public void finalize()
+  @Override public void finalize()
   {
     System.out.println("Finalizing solver: " + pointer);
     deletePointer();
@@ -378,7 +377,6 @@ public class Solver implements IPointer
 
   private native long mkFunctionSort(long pointer, long domainPointer, long codomainPointer);
 
-
   /**
    * Create function sort.
    * @param sorts the sort of the function arguments
@@ -431,6 +429,32 @@ public class Solver implements IPointer
   }
 
   private native long mkRecordSort(long pointer, Pair<String, Long>[] fields);
+
+  /**
+   * Create a set sort.
+   * @param elementSort the sort of the set elements
+   * @return the set sort
+   */
+  public Sort mkSetSort(Sort elementSort)
+  {
+    long sortPointer = mkSetSort(pointer, elementSort.getPointer());
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkSetSort(long pointer, long elementSortPointer);
+
+  /**
+   * Create a bag sort.
+   * @param elementSort the sort of the bag elements
+   * @return the bag sort
+   */
+  public Sort mkBagSort(Sort elementSort)
+  {
+    long sortPointer = mkBagSort(pointer, elementSort.getPointer());
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkBagSort(long pointer, long elementSortPointer);
 
   // endregion
 

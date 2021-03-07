@@ -185,6 +185,22 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRecordSort
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkSetSort
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSetSort
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBagSort
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBagSort
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkConst
  * Signature: (JJLjava/lang/String;)J
  */

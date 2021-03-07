@@ -589,6 +589,56 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRecordSort(JNIEnv* env,
   return 0;
 }
 
+/*
+ * Class:     cvc_Solver
+ * Method:    mkSetSort
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSetSort(JNIEnv* env,
+                                                  jobject,
+                                                  jlong pointer,
+                                                  jlong elementSortPointer)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    Sort* elementSort = (Sort*)elementSortPointer;
+    Sort* sort = new Sort(solver->mkSetSort(*elementSort));
+    return (jlong)sort;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBagSort
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBagSort(JNIEnv* env,
+                                                  jobject,
+                                                  jlong pointer,
+                                                  jlong elementSortPointer)
+{
+  try
+  {
+    Solver* solver = (Solver*)pointer;
+    Sort* elementSort = (Sort*)elementSortPointer;
+    Sort* sort = new Sort(solver->mkBagSort(*elementSort));
+    return (jlong)sort;
+  }
+  catch (const CVC4ApiException& e)
+  {
+    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
+    env->ThrowNew(exceptionClass, e.what());
+  }
+  return 0;
+}
+
 // endregion
 
 /*
