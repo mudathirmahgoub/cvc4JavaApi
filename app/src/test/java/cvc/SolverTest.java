@@ -318,6 +318,165 @@ class SolverTest
         CVCApiException.class, () -> slv.mkTupleSort(new Sort[] {d_solver.getIntegerSort()}));
   }
 
+
+  @Test void mkBitVector() throws CVCApiException
+  {
+    int size0 = 0, size1 = 8, size2 = 32, val1 = 2;
+    long val2 = 2;
+    assertDoesNotThrow(() -> d_solver.mkBitVector(size1, val1));
+    assertDoesNotThrow(() -> d_solver.mkBitVector(size2, val2));
+    assertDoesNotThrow(() -> d_solver.mkBitVector("1010", 2));
+    assertDoesNotThrow(() -> d_solver.mkBitVector("1010", 10));
+    assertDoesNotThrow(() -> d_solver.mkBitVector("1234", 10));
+    assertDoesNotThrow(() -> d_solver.mkBitVector("1010", 16));
+    assertDoesNotThrow(() -> d_solver.mkBitVector("a09f", 16));
+    assertDoesNotThrow(() -> d_solver.mkBitVector(8, "-127", 10));
+    assertThrows(CVCApiException.class, () -> d_solver.mkBitVector(size0, val1));
+    assertThrows(CVCApiException.class, () -> d_solver.mkBitVector(size0, val2));
+    assertThrows(CVCApiException.class, () -> d_solver.mkBitVector("", 2));
+    assertThrows(CVCApiException.class, () -> d_solver.mkBitVector("10", 3));
+    assertThrows(CVCApiException.class, () -> d_solver.mkBitVector("20", 2));
+    assertThrows(CVCApiException.class, () -> d_solver.mkBitVector(8, "101010101", 2));
+    assertThrows(CVCApiException.class, () -> d_solver.mkBitVector(8, "-256", 10));
+    assertEquals(d_solver.mkBitVector("1010", 2), d_solver.mkBitVector("10", 10));
+    assertEquals(d_solver.mkBitVector("1010", 2), d_solver.mkBitVector("a", 16));
+    assertEquals(d_solver.mkBitVector(8, "01010101", 2).toString(), "#b01010101");
+    assertEquals(d_solver.mkBitVector(8, "F", 16).toString(), "#b00001111");
+    assertEquals(d_solver.mkBitVector(8, "-1", 10),
+            d_solver.mkBitVector(8, "FF", 16));
+  }
+
+  @Test void mkVar()
+  {
+    Sort boolSort = d_solver.getBooleanSort();
+    Sort intSort = d_solver.getIntegerSort();
+    Sort funSort = d_solver.mkFunctionSort(intSort, boolSort);
+    assertDoesNotThrow(() -> d_solver.mkVar(boolSort));
+    assertDoesNotThrow(() -> d_solver.mkVar(funSort));
+    assertDoesNotThrow(() -> d_solver.mkVar(boolSort, "b"));
+    assertDoesNotThrow(() -> d_solver.mkVar(funSort, ""));
+    assertThrows(CVCApiException.class, () -> d_solver.mkVar(d_solver.getNullSort()));
+    assertThrows(CVCApiException.class, () -> d_solver.mkVar(d_solver.getNullSort(), "a"));
+    Solver slv = new Solver();
+    assertThrows(CVCApiException.class, () -> slv.mkVar(boolSort, "x"));
+  }
+
+  @Test void mkBoolean()
+  {
+    assertDoesNotThrow(() -> d_solver.mkBoolean(true));
+    assertDoesNotThrow(() -> d_solver.mkBoolean(false));
+  }
+
+//  @Test void mkRoundingMode()
+//  {
+//    if (CVC4::Configuration::isBuiltWithSymFPU())
+//    {
+//      assertDoesNotThrow(() -> d_solver.mkRoundingMode(RoundingMode.ROUND_TOWARD_ZERO));
+//    }
+//  else
+//    {
+//      assertThrows(CVCApiException.class, () -> d_solver.mkRoundingMode(RoundingMode.ROUND_TOWARD_ZERO));
+//    }
+//  }
+
+  @Test void mkUninterpretedConst()
+  {
+    assertDoesNotThrow(() -> d_solver.mkUninterpretedConst(d_solver.getBooleanSort(), 1));
+    assertThrows(CVCApiException.class, () -> d_solver.mkUninterpretedConst(d_solver.getNullSort(), 1));
+    Solver slv = new Solver();
+    assertThrows(CVCApiException.class, () -> slv.mkUninterpretedConst(d_solver.getBooleanSort(), 1));
+  }
+
+  @Test void mkAbstractValue()
+  {
+    assertDoesNotThrow(() -> d_solver.mkAbstractValue(("1")));
+    assertThrows(CVCApiException.class, () -> d_solver.mkAbstractValue("0"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkAbstractValue("-1"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkAbstractValue("1.2"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkAbstractValue("1/2"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkAbstractValue("asdf"));
+
+    assertDoesNotThrow(() -> d_solver.mkAbstractValue(1));
+    assertDoesNotThrow(() -> d_solver.mkAbstractValue((long)1));
+    assertDoesNotThrow(() -> d_solver.mkAbstractValue(-1));
+    assertDoesNotThrow(() -> d_solver.mkAbstractValue(-1));
+    assertThrows(CVCApiException.class, () -> d_solver.mkAbstractValue(0));
+  }
+
+//  @Test void mkFloatingPoint() throws CVCApiException
+//  {
+//    Term t1 = d_solver.mkBitVector(8);
+//    Term t2 = d_solver.mkBitVector(4);
+//    Term t3 = d_solver.mkInteger(2);
+//    if (CVC4::Configuration::isBuiltWithSymFPU())
+//    {
+//      assertDoesNotThrow(() -> d_solver.mkFloatingPoint(3, 5, t1));
+//    }
+//  else
+//    {
+//      assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t1));
+//    }
+//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(0, 5, Term()));
+//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(0, 5, t1));
+//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 0, t1));
+//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t2));
+//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t2));
+//
+//    if (CVC4::Configuration::isBuiltWithSymFPU())
+//    {
+//      Solver slv;
+//      assertThrows(CVCApiException.class, () -> slv.mkFloatingPoint(3, 5, t1));
+//    }
+//  }
+
+  @Test void mkEmptySet()
+  {
+    Solver slv = new Solver();
+    Sort s = d_solver.mkSetSort(d_solver.getBooleanSort());
+    assertDoesNotThrow(() -> d_solver.mkEmptySet(d_solver.getNullSort()));
+    assertDoesNotThrow(() -> d_solver.mkEmptySet(s));
+    assertThrows(CVCApiException.class, () -> d_solver.mkEmptySet(d_solver.getBooleanSort()));
+    assertThrows(CVCApiException.class, () -> slv.mkEmptySet(s));
+  }
+
+  @Test void mkEmptyBag()
+  {
+    Solver slv = new Solver();
+    Sort s = d_solver.mkBagSort(d_solver.getBooleanSort());
+    assertDoesNotThrow(() -> d_solver.mkEmptyBag(d_solver.getNullSort()));
+    assertDoesNotThrow(() -> d_solver.mkEmptyBag(s));
+    assertThrows(CVCApiException.class, () -> d_solver.mkEmptyBag(d_solver.getBooleanSort()));
+    assertThrows(CVCApiException.class, () -> slv.mkEmptyBag(s));
+  }
+
+  @Test void mkEmptySequence()
+  {
+    Solver slv = new Solver();
+    Sort s = d_solver.mkSequenceSort(d_solver.getBooleanSort());
+    assertDoesNotThrow(() -> d_solver.mkEmptySequence(s));
+    assertDoesNotThrow(() -> d_solver.mkEmptySequence(d_solver.getBooleanSort()));
+    assertThrows(CVCApiException.class, () -> slv.mkEmptySequence(s));
+  }
+
+  @Test void mkFalse()
+  {
+    assertDoesNotThrow(() -> d_solver.mkFalse());
+    assertDoesNotThrow(() -> d_solver.mkFalse());
+  }
+
+//  @Test void mkNaN()
+//  {
+//    if (CVC4::Configuration::isBuiltWithSymFPU())
+//    {
+//      assertDoesNotThrow(() -> d_solver.mkNaN(3, 5));
+//    }
+//  else
+//    {
+//      assertThrows(CVCApiException.class, () -> d_solver.mkNaN(3, 5));
+//    }
+//  }
+
+
   @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));

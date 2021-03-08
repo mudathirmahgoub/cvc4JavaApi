@@ -305,14 +305,6 @@ JNIEXPORT void JNICALL Java_cvc_Solver_pop
 
 /*
  * Class:     cvc_Solver
- * Method:    mkTrue
- * Signature: (J)J
- */
-JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTrue
-  (JNIEnv *, jobject, jlong);
-
-/*
- * Class:     cvc_Solver
  * Method:    setOption
  * Signature: (JLjava/lang/String;Ljava/lang/String;)V
  */
@@ -358,6 +350,118 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeDecl
  */
 JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeConstructorDecl
   (JNIEnv *, jobject, jlong, jstring);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTrue
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTrue
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkFalse
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFalse
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBoolean
+ * Signature: (JZ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBoolean
+  (JNIEnv *, jobject, jlong, jboolean);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkEmptySet
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkEmptySet
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkEmptyBag
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkEmptyBag
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkEmptySequence
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkEmptySequence
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBitVector
+ * Signature: (JIJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVector__JIJ
+  (JNIEnv *, jobject, jlong, jint, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBitVector
+ * Signature: (JLjava/lang/String;I)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVector__JLjava_lang_String_2I
+  (JNIEnv *, jobject, jlong, jstring, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBitVector
+ * Signature: (JILjava/lang/String;I)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVector__JILjava_lang_String_2I
+  (JNIEnv *, jobject, jlong, jint, jstring, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkUninterpretedConst
+ * Signature: (JJI)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkUninterpretedConst
+  (JNIEnv *, jobject, jlong, jlong, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkAbstractValue
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkAbstractValue__JLjava_lang_String_2
+  (JNIEnv *, jobject, jlong, jstring);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkAbstractValue
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkAbstractValue__JJ
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkFloatingPoint
+ * Signature: (JIIJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFloatingPoint
+  (JNIEnv *, jobject, jlong, jint, jint, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkVar
+ * Signature: (JJLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkVar
+  (JNIEnv *, jobject, jlong, jlong, jstring);
 
 #ifdef __cplusplus
 }

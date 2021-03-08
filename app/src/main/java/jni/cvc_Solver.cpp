@@ -796,22 +796,6 @@ JNIEXPORT void JNICALL Java_cvc_Solver_pop(JNIEnv* env,
 
 /*
  * Class:     cvc_Solver
- * Method:    mkTrue
- * Signature: (J)J
- */
-JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTrue(JNIEnv* env,
-                                               jobject,
-                                               jlong solverPointer)
-{
-  CVC_JAVA_API_TRY_CATCH_BEGIN;
-  Solver* solver = (Solver*)solverPointer;
-  Term* term = new Term(solver->mkTrue());
-  return ((jlong)term);
-  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
-}
-
-/*
- * Class:     cvc_Solver
  * Method:    setOption
  * Signature: (JLjava/lang/String;Ljava/lang/String;)V
  */
@@ -910,5 +894,241 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeConstructorDecl(
   DatatypeConstructorDecl* decl = new DatatypeConstructorDecl(
       solver->mkDatatypeConstructorDecl(std::string(cName)));
   return (jlong)decl;
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTrue
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTrue(JNIEnv* env,
+                                               jobject,
+                                               jlong pointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkTrue());
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkFalse
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFalse(JNIEnv* env,
+                                                jobject,
+                                                jlong pointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkFalse());
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBoolean
+ * Signature: (JZ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBoolean(JNIEnv* env,
+                                                  jobject,
+                                                  jlong pointer,
+                                                  jboolean val)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkBoolean((bool)val));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkEmptySet
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkEmptySet(JNIEnv* env,
+                                                   jobject,
+                                                   jlong pointer,
+                                                   jlong sortPointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Sort* sort = (Sort*)sortPointer;
+  Term* term = new Term(solver->mkEmptySet(*sort));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkEmptyBag
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkEmptyBag(JNIEnv* env,
+                                                   jobject,
+                                                   jlong pointer,
+                                                   jlong sortPointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Sort* sort = (Sort*)sortPointer;
+  Term* term = new Term(solver->mkEmptyBag(*sort));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkEmptySequence
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkEmptySequence(JNIEnv* env,
+                                                        jobject,
+                                                        jlong pointer,
+                                                        jlong sortPointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Sort* sort = (Sort*)sortPointer;
+  Term* term = new Term(solver->mkEmptySequence(*sort));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBitVector
+ * Signature: (JIJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVector__JIJ(
+    JNIEnv* env, jobject, jlong pointer, jint size, jlong val)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkBitVector((uint32_t)size, (uint64_t)val));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBitVector
+ * Signature: (JLjava/lang/String;I)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVector__JLjava_lang_String_2I(
+    JNIEnv* env, jobject, jlong pointer, jstring jS, jint base)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  const char* cS = env->GetStringUTFChars(jS, nullptr);
+  Term* term = new Term(solver->mkBitVector(std::string(cS), (uint32_t)base));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkBitVector
+ * Signature: (JILjava/lang/String;I)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVector__JILjava_lang_String_2I(
+    JNIEnv* env, jobject, jlong pointer, jint size, jstring jS, jint base)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  const char* cS = env->GetStringUTFChars(jS, nullptr);
+  Term* term = new Term(
+      solver->mkBitVector((uint32_t)size, std::string(cS), (uint32_t)base));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkUninterpretedConst
+ * Signature: (JJI)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkUninterpretedConst(
+    JNIEnv* env, jobject, jlong pointer, jlong sortPointer, jint index)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Sort* sort = (Sort*)sortPointer;
+  Term* term = new Term(solver->mkUninterpretedConst(*sort, (int32_t)index));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkAbstractValue
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkAbstractValue__JLjava_lang_String_2(
+    JNIEnv* env, jobject, jlong pointer, jstring jIndex)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  std::string cIndex(env->GetStringUTFChars(jIndex, nullptr));
+  Term* term = new Term(solver->mkAbstractValue(cIndex));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkAbstractValue
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkAbstractValue__JJ(JNIEnv* env,
+                                                            jobject,
+                                                            jlong pointer,
+                                                            jlong index)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkAbstractValue((uint64_t)index));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkFloatingPoint
+ * Signature: (JIIJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFloatingPoint(
+    JNIEnv* env, jobject, jlong pointer, jint exp, jint sig, jlong termPointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = (Term*)termPointer;
+  Term* ret =
+      new Term(solver->mkFloatingPoint((uint32_t)exp, (uint32_t)sig, *term));
+  return ((jlong)ret);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkVar
+ * Signature: (JJLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkVar(
+    JNIEnv* env, jobject, jlong pointer, jlong sortPointer, jstring jSymbol)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+
+  Solver* solver = (Solver*)pointer;
+  Sort* sort = (Sort*)sortPointer;
+  std::string cSymbol(env->GetStringUTFChars(jSymbol, nullptr));
+  Term* ret = new Term(solver->mkVar(*sort, cSymbol));
+  return ((jlong)ret);
+
   CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
 }

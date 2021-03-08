@@ -25,6 +25,14 @@ JNIEXPORT jstring JNICALL Java_cvc_Term_toString
 
 /*
  * Class:     cvc_Term
+ * Method:    equals
+ * Signature: (JJ)Z
+ */
+JNIEXPORT jboolean JNICALL Java_cvc_Term_equals
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Term
  * Method:    eqTerm
  * Signature: (JJ)J
  */

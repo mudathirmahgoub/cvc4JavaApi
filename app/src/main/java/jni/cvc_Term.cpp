@@ -33,6 +33,25 @@ JNIEXPORT jstring JNICALL Java_cvc_Term_toString(JNIEnv* env,
 
 /*
  * Class:     cvc_Term
+ * Method:    equals
+ * Signature: (JJ)Z
+ */
+JNIEXPORT jboolean JNICALL Java_cvc_Term_equals(JNIEnv* env,
+                                                jobject,
+                                                jlong pointer1,
+                                                jlong pointer2)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Term* term1 = (Term*)pointer1;
+  Term* term2 = (Term*)pointer2;
+  // We compare the actual terms, not their pointers. Otherwise the two terms
+  // may not be equal
+  return (jboolean)(*term1 == *term2);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, (jboolean) false);
+}
+
+/*
+ * Class:     cvc_Term
  * Method:    eqTerm
  * Signature: (JJ)J
  */

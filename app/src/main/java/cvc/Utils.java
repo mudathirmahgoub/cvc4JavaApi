@@ -39,7 +39,7 @@ class Utils
     if (Files.exists(Path.of(cvcApiLibFile)))
     {
       // return if the library exists in the temp directory
-      return cvcApiLibFile;
+      // return cvcApiLibFile; // TODO: this is disabled for development. Enable this before release
     }
     // copy the library from resources to the temp directory
     InputStream input = Solver.class.getResourceAsStream("/" + cvcApiLibName);

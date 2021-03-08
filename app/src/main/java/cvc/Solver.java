@@ -516,14 +516,6 @@ public class Solver implements IPointer
 
   private native void pop(long solverPointer, int nscopes);
 
-  public Term mkTrue()
-  {
-    long termPointer = mkTrue(pointer);
-    return new Term(this, termPointer);
-  }
-
-  private native long mkTrue(long solverPointer);
-
   /**
    * Set option.
    * SMT-LIB: ( set-option <option> )
@@ -575,6 +567,7 @@ public class Solver implements IPointer
   }
 
   private native long mkRoundingMode(long solverPointer, int value) throws CVCApiException;
+  /* -------------------------------------------------------------------------- */
   /* Create datatype declarations                                               */
   /* -------------------------------------------------------------------------- */
   // region Create datatype declarations
@@ -612,6 +605,258 @@ public class Solver implements IPointer
   }
 
   private native long mkDatatypeConstructorDecl(long solverPointer, String name);
+
+  // endregion
+
+  /* .................................................................... */
+  /* Create Constants                                                     */
+  /* .................................................................... */
+  // region Create Constants
+
+  /**
+   * Create a Boolean true constant.
+   * @return the true constant
+   */
+  public Term mkTrue()
+  {
+    long termPointer = mkTrue(pointer);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkTrue(long solverPointer);
+
+  /**
+   * Create a Boolean false constant.
+   * @return the false constant
+   */
+  public Term mkFalse()
+  {
+    long termPointer = mkFalse(pointer);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkFalse(long solverPointer);
+
+  /**
+   * Create a Boolean constant.
+   * @return the Boolean constant
+   * @param val the value of the constant
+   */
+  public Term mkBoolean(boolean val)
+  {
+    long termPointer = mkBoolean(pointer, val);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkBoolean(long pointer, boolean val);
+
+  /**
+   * Create a constant representing an empty set of the given sort.
+   * @param s the sort of the set elements.
+   * @return the empty set constant
+   */
+  public Term mkEmptySet(Sort s)
+  {
+    long termPointer = mkEmptySet(pointer, s.getPointer());
+    return new Term(this, termPointer);
+  }
+
+  private native long mkEmptySet(long pointer, long sortPointer);
+
+  /**
+   * Create a constant representing an empty bag of the given sort.
+   * @param s the sort of the bag elements.
+   * @return the empty bag constant
+   */
+  public Term mkEmptyBag(Sort s)
+  {
+    long termPointer = mkEmptyBag(pointer, s.getPointer());
+    return new Term(this, termPointer);
+  }
+
+  private native long mkEmptyBag(long pointer, long sortPointer);
+
+  /**
+   * Create an empty sequence of the given element sort.
+   * @param sort The element sort of the sequence.
+   * @return the empty sequence with given element sort.
+   */
+  public Term mkEmptySequence(Sort sort)
+  {
+    long termPointer = mkEmptySequence(pointer, sort.getPointer());
+    return new Term(this, termPointer);
+  }
+
+  private native long mkEmptySequence(long pointer, long sortPointer);
+
+  public Term mkBitVector(int size) throws CVCApiException
+  {
+    return mkBitVector(size, 0);
+  }
+
+  /**
+   * Create a bit-vector constant of given size and value.
+   * @param size the bit-width of the bit-vector sort
+   * @param val the value of the constant
+   * @return the bit-vector constant
+   */
+  public Term mkBitVector(int size, long val) throws CVCApiException
+  {
+    if (size < 0)
+    {
+      throw new CVCApiException("Expected size '" + size + "' to be non negative.");
+    }
+    if (val < 0)
+    {
+      throw new CVCApiException("Expected val '" + val + "' to be non negative.");
+    }
+    long termPointer = mkBitVector(pointer, size, val);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkBitVector(long pointer, int size, long val) throws CVCApiException;
+
+  public Term mkBitVector(String s) throws CVCApiException
+  {
+    return mkBitVector(s, 2);
+  }
+
+  /**
+   * Create a bit-vector constant from a given string of base 2, 10 or 16.
+   *
+   * The size of resulting bit-vector is
+   * - base  2: the size of the binary string
+   * - base 10: the min. size required to represent the decimal as a bit-vector
+   * - base 16: the max. size required to represent the hexadecimal as a
+   *            bit-vector (4 * size of the given value string)
+   *
+   * @param s the string representation of the constant
+   * @param base the base of the string representation (2, 10, or 16)
+   * @return the bit-vector constant
+   */
+  public Term mkBitVector(String s, int base) throws CVCApiException
+  {
+    if (base < 0)
+    {
+      throw new CVCApiException("Expected base '" + base + "' to be non negative.");
+    }
+    long termPointer = mkBitVector(pointer, s, base);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkBitVector(long pointer, String s, int base);
+
+  /**
+   * Create a bit-vector constant of a given bit-width from a given string of
+   * base 2, 10 or 16.
+   * @param size the bit-width of the constant
+   * @param s the string representation of the constant
+   * @param base the base of the string representation (2, 10, or 16)
+   * @return the bit-vector constant
+   */
+  public Term mkBitVector(int size, String s, int base) throws CVCApiException
+  {
+    if (size < 0)
+    {
+      throw new CVCApiException("Expected size '" + size + "' to be non negative.");
+    }
+    if (base < 0)
+    {
+      throw new CVCApiException("Expected base '" + base + "' to be non negative.");
+    }
+    long termPointer = mkBitVector(pointer, size, s, base);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkBitVector(long pointer, int size, String s, int base);
+
+  /**
+   * Create a not-a-number (NaN) floating-point constant. Requires CVC4 to be
+   * compiled with SymFPU support.
+   * @param exp Number of bits in the exponent
+   * @param sig Number of bits in the significand
+   * @return the floating-point constant
+   */
+  public void mkNaN(int exp, int sig) {}
+
+  /**
+   * Create uninterpreted constant.
+   * @param sort Sort of the constant
+   * @param index Index of the constant
+   */
+  public Term mkUninterpretedConst(Sort sort, int index)
+  {
+    long termPointer = mkUninterpretedConst(pointer, sort.getPointer(), index);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkUninterpretedConst(long pointer, long sortPointer, int index);
+
+  /**
+   * Create an abstract value constant.
+   * @param index Index of the abstract value
+   */
+  public Term mkAbstractValue(String index)
+  {
+    long termPointer = mkAbstractValue(pointer, index);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkAbstractValue(long pointer, String index);
+
+  /**
+   * Create an abstract value constant.
+   * @param index Index of the abstract value
+   */
+  public Term mkAbstractValue(long index)
+  {
+    long termPointer = mkAbstractValue(pointer, index);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkAbstractValue(long pointer, long index);
+
+  /**
+   * Create a floating-point constant (requires CVC4 to be compiled with symFPU
+   * support).
+   * @param exp Size of the exponent
+   * @param sig Size of the significand
+   * @param val Value of the floating-point constant as a bit-vector term
+   */
+  public Term mkFloatingPoint(int exp, int sig, Term val)
+  {
+    long termPointer = mkFloatingPoint(pointer, exp, sig, val.getPointer());
+    return new Term(this, termPointer);
+  }
+
+  private native long mkFloatingPoint(long pointer, int exp, int sig, long termPointer);
+
+  // endregion
+
+  /* -------------------------------------------------------------------------- */
+  /* Create variables                                                           */
+  /* -------------------------------------------------------------------------- */
+  // region Create Variables
+
+  public Term mkVar(Sort sort)
+  {
+    return mkVar(sort, "");
+  }
+
+  /**
+   * Create a bound variable to be used in a binder (i.e. a quantifier, a
+   * lambda, or a witness binder).
+   * @param sort the sort of the variable
+   * @param symbol the name of the variable
+   * @return the variable
+   */
+  public Term mkVar(Sort sort, String symbol)
+  {
+    long termPointer = mkVar(pointer, sort.getPointer(), symbol);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkVar(long pointer, long sortPointer, String symbol);
 
   // endregion
 }
