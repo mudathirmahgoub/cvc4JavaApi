@@ -1,6 +1,7 @@
 #include "cvc_DatatypeConstructorDecl.h"
 
 #include "cvc4/api/cvc4cpp.h"
+#include "cvcJavaApi.h"
 
 using namespace CVC4::api;
 
@@ -37,16 +38,10 @@ Java_cvc_DatatypeConstructorDecl_toString(JNIEnv* env, jobject, jlong pointer)
 JNIEXPORT void JNICALL Java_cvc_DatatypeConstructorDecl_addSelector(
     JNIEnv* env, jobject, jlong pointer, jstring jName, jlong sortPointer)
 {
-  try
-  {
-    DatatypeConstructorDecl* decl = (DatatypeConstructorDecl*)pointer;
-    const char* cName = env->GetStringUTFChars(jName, nullptr);
-    Sort* sort = (Sort*)sortPointer;
-    decl->addSelector(std::string(cName), *sort);
-  }
-  catch (const CVC4ApiException& e)
-  {
-    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
-    env->ThrowNew(exceptionClass, e.what());
-  }
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  DatatypeConstructorDecl* decl = (DatatypeConstructorDecl*)pointer;
+  const char* cName = env->GetStringUTFChars(jName, nullptr);
+  Sort* sort = (Sort*)sortPointer;
+  decl->addSelector(std::string(cName), *sort);
+  CVC_JAVA_API_TRY_CATCH_END(env);
 }

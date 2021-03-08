@@ -1,6 +1,7 @@
 #include "cvc_Term.h"
 
 #include "cvc4/api/cvc4cpp.h"
+#include "cvcJavaApi.h"
 
 using namespace CVC4::api;
 
@@ -40,21 +41,12 @@ JNIEXPORT jlong JNICALL Java_cvc_Term_eqTerm(JNIEnv* env,
                                              jlong termPointer,
                                              jlong tPointer)
 {
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
   Term* term = (Term*)termPointer;
   Term* t = (Term*)tPointer;
-  try
-  {
-    Term* ret = new Term(term->eqTerm(*t));
-    return ((jlong)ret);
-  }
-  catch (const CVC4ApiException& e)
-  {
-    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
-    env->ThrowNew(exceptionClass, e.what());
-  }
-
-  // execution should never reach here
-  return 0;
+  Term* ret = new Term(term->eqTerm(*t));
+  return ((jlong)ret);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
 }
 
 /*
@@ -66,17 +58,9 @@ JNIEXPORT jlong JNICALL Java_cvc_Term_notTerm(JNIEnv* env,
                                               jobject,
                                               jlong termPointer)
 {
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
   Term* term = (Term*)termPointer;
-  try
-  {
-    Term* ret = new Term(term->notTerm());
-    return ((jlong)ret);
-  }
-  catch (const CVC4ApiException& e)
-  {
-    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
-    env->ThrowNew(exceptionClass, e.what());
-  }
-  // execution should never reach here
-  return 0;
+  Term* ret = new Term(term->notTerm());
+  return ((jlong)ret);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
 }

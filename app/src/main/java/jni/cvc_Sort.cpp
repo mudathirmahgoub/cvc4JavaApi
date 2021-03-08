@@ -1,6 +1,7 @@
 #include "cvc_Sort.h"
 
 #include "cvc4/api/cvc4cpp.h"
+#include "cvcJavaApi.h"
 
 using namespace CVC4::api;
 
@@ -35,11 +36,13 @@ JNIEXPORT jstring JNICALL Java_cvc_Sort_toString(JNIEnv* env,
  * Method:    getDatatype
  * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_cvc_Sort_getDatatype(JNIEnv*,
+JNIEXPORT jlong JNICALL Java_cvc_Sort_getDatatype(JNIEnv* env,
                                                   jobject,
                                                   jlong pointer)
 {
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
   Sort* sort = (Sort*)pointer;
   Datatype* datatype = new Datatype(sort->getDatatype());
   return (jlong)datatype;
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
 }

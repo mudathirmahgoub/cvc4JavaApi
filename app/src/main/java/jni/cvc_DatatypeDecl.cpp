@@ -1,6 +1,7 @@
 #include "cvc_DatatypeDecl.h"
 
 #include "cvc4/api/cvc4cpp.h"
+#include "cvcJavaApi.h"
 
 using namespace CVC4::api;
 
@@ -39,16 +40,10 @@ JNIEXPORT jstring JNICALL Java_cvc_DatatypeDecl_toString(JNIEnv* env,
 JNIEXPORT void JNICALL Java_cvc_DatatypeDecl_addConstructor(
     JNIEnv* env, jobject, jlong pointer, jlong datatypeConstructorDeclPointer)
 {
-  try
-  {
-    DatatypeDecl* datatypeDecl = (DatatypeDecl*)pointer;
-    DatatypeConstructorDecl* decl =
-        (DatatypeConstructorDecl*)datatypeConstructorDeclPointer;
-    datatypeDecl->addConstructor(*decl);
-  }
-  catch (const CVC4ApiException& e)
-  {
-    jclass exceptionClass = env->FindClass("cvc/CVCApiException");
-    env->ThrowNew(exceptionClass, e.what());
-  }
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  DatatypeDecl* datatypeDecl = (DatatypeDecl*)pointer;
+  DatatypeConstructorDecl* decl =
+      (DatatypeConstructorDecl*)datatypeConstructorDeclPointer;
+  datatypeDecl->addConstructor(*decl);
+  CVC_JAVA_API_TRY_CATCH_END(env);
 }

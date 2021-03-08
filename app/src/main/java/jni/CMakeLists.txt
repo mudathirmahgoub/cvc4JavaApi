@@ -31,8 +31,7 @@ add_library(cvcJavaApi SHARED
         cvc_Result.cpp
         cvc_Solver.cpp
         cvc_Sort.cpp
-        cvc_Term.cpp
-        )
+        cvc_Term.cpp)
 target_link_libraries(cvcJavaApi cvc4)
 target_link_libraries(cvcApi cvc4)
 
