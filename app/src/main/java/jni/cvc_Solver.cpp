@@ -637,38 +637,6 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkConst(JNIEnv* env,
 
 /*
  * Class:     cvc_Solver
- * Method:    mkInteger
- * Signature: (JJ)J
- */
-JNIEXPORT jlong JNICALL Java_cvc_Solver_mkInteger(JNIEnv* env,
-                                                  jobject,
-                                                  jlong solverPointer,
-                                                  jint val)
-{
-  CVC_JAVA_API_TRY_CATCH_BEGIN;
-  Solver* solver = (Solver*)solverPointer;
-  Term* term = new Term(solver->mkInteger(val));
-  return ((jlong)term);
-  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
-}
-
-/*
- * Class:     cvc_Solver
- * Method:    mkReal
- * Signature: (JII)J
- */
-JNIEXPORT jlong JNICALL Java_cvc_Solver_mkReal(
-    JNIEnv* env, jobject, jlong solverPointer, jint num, jint den)
-{
-  CVC_JAVA_API_TRY_CATCH_BEGIN;
-  Solver* solver = (Solver*)solverPointer;
-  Term* term = new Term(solver->mkReal(num, den));
-  return ((jlong)term);
-  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
-}
-
-/*
- * Class:     cvc_Solver
  * Method:    mkTerm
  * Signature: (JIJJ)J
  */
@@ -942,6 +910,103 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBoolean(JNIEnv* env,
   CVC_JAVA_API_TRY_CATCH_BEGIN;
   Solver* solver = (Solver*)pointer;
   Term* term = new Term(solver->mkBoolean((bool)val));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkPi
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkPi(JNIEnv* env,
+                                             jobject,
+                                             jlong pointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkPi());
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkInteger
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkInteger__JLjava_lang_String_2(
+    JNIEnv* env, jobject, jlong pointer, jstring jS)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  std::string cS(env->GetStringUTFChars(jS, nullptr));
+  Term* term = new Term(solver->mkInteger(cS));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkInteger
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkInteger__JJ(JNIEnv* env,
+                                                      jobject,
+                                                      jlong pointer,
+                                                      jlong val)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkInteger((int64_t)val));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkReal
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkReal__JLjava_lang_String_2(
+    JNIEnv* env, jobject, jlong pointer, jstring jS)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  std::string cS(env->GetStringUTFChars(jS, nullptr));
+  Term* term = new Term(solver->mkReal(cS));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkRealVal
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRealVal(JNIEnv* env,
+                                                  jobject,
+                                                  jlong pointer,
+                                                  jlong val)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkReal((int64_t)val));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkReal
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkReal__JJJ(
+    JNIEnv* env, jobject, jlong pointer, jlong num, jlong den)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkReal((int64_t)num, (int64_t)den));
   return ((jlong)term);
   CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
 }

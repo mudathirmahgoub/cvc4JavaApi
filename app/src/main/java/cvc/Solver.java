@@ -435,22 +435,6 @@ public class Solver implements IPointer
 
   private native long mkConst(long solverPointer, long sortPointer, String symbol);
 
-  public Term mkInteger(int val)
-  {
-    long termPointer = mkInteger(pointer, val);
-    return new Term(this, termPointer);
-  }
-
-  private native long mkInteger(long solverPointer, int val);
-
-  public Term mkReal(int num, int den)
-  {
-    long termPointer = mkReal(pointer, num, den);
-    return new Term(this, termPointer);
-  }
-
-  private native long mkReal(long solverPointer, int num, int den);
-
   public Result checkSat()
   {
     long resultPointer = checkSat(pointer);
@@ -649,6 +633,86 @@ public class Solver implements IPointer
   }
 
   private native long mkBoolean(long pointer, boolean val);
+
+  /**
+   * Create a constant representing the number Pi.
+   * @return a constant representing Pi
+   */
+  public Term mkPi()
+  {
+    long termPointer = mkPi(pointer);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkPi(long pointer);
+
+  /**
+   * Create an integer constant from a string.
+   * @param s the string representation of the constant, may represent an
+   *          integer (e.g., "123").
+   * @return a constant of sort Integer assuming 's' represents an integer)
+   */
+  public Term mkInteger(String s) throws CVCApiException
+  {
+    long termPointer = mkInteger(pointer, s);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkInteger(long pointer, String s) throws CVCApiException;
+
+  /**
+   * Create an integer constant from a c++ int.
+   * @param val the value of the constant
+   * @return a constant of sort Integer
+   */
+  public Term mkInteger(long val)
+  {
+    long termPointer = mkInteger(pointer, val);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkInteger(long pointer, long val);
+
+  /**
+   * Create a real constant from a string.
+   * @param s the string representation of the constant, may represent an
+   *          integer (e.g., "123") or real constant (e.g., "12.34" or "12/34").
+   * @return a constant of sort Real
+   */
+  public Term mkReal(String s) throws CVCApiException
+  {
+    long termPointer = mkReal(pointer, s);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkReal(long pointer, String s) throws CVCApiException;
+
+  /**
+   * Create a real constant from an integer.
+   * @param val the value of the constant
+   * @return a constant of sort Integer
+   */
+  public Term mkReal(long val)
+  {
+    long termPointer = mkRealVal(pointer, val);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkRealVal(long pointer, long val);
+
+  /**
+   * Create a real constant from a rational.
+   * @param num the value of the numerator
+   * @param den the value of the denominator
+   * @return a constant of sort Real
+   */
+  public Term mkReal(long num, long den)
+  {
+    long termPointer = mkReal(pointer, num, den);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkReal(long pointer, long num, long den);
 
   /**
    * Create a constant representing an empty set of the given sort.

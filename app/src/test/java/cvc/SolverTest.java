@@ -526,6 +526,97 @@ class SolverTest
     }
   }
 
+  @Test void mkPi()
+  {
+    assertDoesNotThrow(() -> d_solver.mkPi());
+  }
+
+  @Test void mkInteger()
+  {
+    assertDoesNotThrow(() -> d_solver.mkInteger("123"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("1.23"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("1/23"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("12/3"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger(".2"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("2."));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger(""));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("asdf"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("1.2/3"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("."));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("/"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("2/"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("/2"));
+
+    assertDoesNotThrow(() -> d_solver.mkReal("123"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("1.23"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("1/23"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("12/3"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger(".2"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("2."));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger(""));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("asdf"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("1.2/3"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("."));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("/"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("2/"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkInteger("/2"));
+
+    int val1 = 1;
+    long val2 = -1;
+    int val3 = 1;
+    long val4 = -1;
+    assertDoesNotThrow(() -> d_solver.mkInteger(val1));
+    assertDoesNotThrow(() -> d_solver.mkInteger(val2));
+    assertDoesNotThrow(() -> d_solver.mkInteger(val3));
+    assertDoesNotThrow(() -> d_solver.mkInteger(val4));
+    assertDoesNotThrow(() -> d_solver.mkInteger(val4));
+  }
+
+  @Test void mkReal()
+  {
+    assertDoesNotThrow(() -> d_solver.mkReal("123"));
+    assertDoesNotThrow(() -> d_solver.mkReal("1.23"));
+    assertDoesNotThrow(() -> d_solver.mkReal("1/23"));
+    assertDoesNotThrow(() -> d_solver.mkReal("12/3"));
+    assertDoesNotThrow(() -> d_solver.mkReal(".2"));
+    assertDoesNotThrow(() -> d_solver.mkReal("2."));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal(""));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("asdf"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("1.2/3"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("."));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("/"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("2/"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("/2"));
+
+    assertDoesNotThrow(() -> d_solver.mkReal("123"));
+    assertDoesNotThrow(() -> d_solver.mkReal("1.23"));
+    assertDoesNotThrow(() -> d_solver.mkReal("1/23"));
+    assertDoesNotThrow(() -> d_solver.mkReal("12/3"));
+    assertDoesNotThrow(() -> d_solver.mkReal(".2"));
+    assertDoesNotThrow(() -> d_solver.mkReal("2."));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal(""));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("asdf"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("1.2/3"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("."));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("/"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("2/"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkReal("/2"));
+
+    int val1 = 1;
+    long val2 = -1;
+    int val3 = 1;
+    long val4 = -1;
+    assertDoesNotThrow(() -> d_solver.mkReal(val1));
+    assertDoesNotThrow(() -> d_solver.mkReal(val2));
+    assertDoesNotThrow(() -> d_solver.mkReal(val3));
+    assertDoesNotThrow(() -> d_solver.mkReal(val4));
+    assertDoesNotThrow(() -> d_solver.mkReal(val4));
+    assertDoesNotThrow(() -> d_solver.mkReal(val1, val1));
+    assertDoesNotThrow(() -> d_solver.mkReal(val2, val2));
+    assertDoesNotThrow(() -> d_solver.mkReal(val3, val3));
+    assertDoesNotThrow(() -> d_solver.mkReal(val4, val4));
+  }
+
   @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));

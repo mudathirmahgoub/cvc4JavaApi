@@ -233,22 +233,6 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkConst
 
 /*
  * Class:     cvc_Solver
- * Method:    mkInteger
- * Signature: (JI)J
- */
-JNIEXPORT jlong JNICALL Java_cvc_Solver_mkInteger
-  (JNIEnv *, jobject, jlong, jint);
-
-/*
- * Class:     cvc_Solver
- * Method:    mkReal
- * Signature: (JII)J
- */
-JNIEXPORT jlong JNICALL Java_cvc_Solver_mkReal
-  (JNIEnv *, jobject, jlong, jint, jint);
-
-/*
- * Class:     cvc_Solver
  * Method:    mkTerm
  * Signature: (JIJJ)J
  */
@@ -374,6 +358,54 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkFalse
  */
 JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBoolean
   (JNIEnv *, jobject, jlong, jboolean);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkPi
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkPi
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkInteger
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkInteger__JLjava_lang_String_2
+  (JNIEnv *, jobject, jlong, jstring);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkInteger
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkInteger__JJ
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkReal
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkReal__JLjava_lang_String_2
+  (JNIEnv *, jobject, jlong, jstring);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkRealVal
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRealVal
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkReal
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkReal__JJJ
+  (JNIEnv *, jobject, jlong, jlong, jlong);
 
 /*
  * Class:     cvc_Solver
