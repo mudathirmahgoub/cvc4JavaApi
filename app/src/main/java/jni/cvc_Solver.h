@@ -425,10 +425,50 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVector__JILjava_lang_String_2I
 
 /*
  * Class:     cvc_Solver
- * Method:    mkNan
+ * Method:    mkConstArray
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkConstArray
+  (JNIEnv *, jobject, jlong, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkPosInf
  * Signature: (JII)J
  */
-JNIEXPORT jlong JNICALL Java_cvc_Solver_mkNan
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkPosInf
+  (JNIEnv *, jobject, jlong, jint, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkNegInf
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkNegInf
+  (JNIEnv *, jobject, jlong, jint, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkNaN
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkNaN
+  (JNIEnv *, jobject, jlong, jint, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkPosZero
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkPosZero
+  (JNIEnv *, jobject, jlong, jint, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkNegZero
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkNegZero
   (JNIEnv *, jobject, jlong, jint, jint);
 
 /*

@@ -771,13 +771,28 @@ public class Solver implements IPointer
   private native long mkBitVector(long pointer, int size, String s, int base);
 
   /**
-   * Create a not-a-number (NaN) floating-point constant. Requires CVC4 to be
+   * Create a constant array with the provided constant value stored at every
+   * index
+   * @param sort the sort of the constant array (must be an array sort)
+   * @param val the constant value to store (must match the sort's element sort)
+   * @return the constant array term
+   */
+  public Term mkConstArray(Sort sort, Term val)
+  {
+    long termPointer = mkConstArray(pointer, sort.getPointer(), val.getPointer());
+    return new Term(this, termPointer);
+  }
+
+  private native long mkConstArray(long pointer, long sortPointer, long valPointer);
+
+  /**
+   * Create a positive infinity floating-point constant. Requires CVC4 to be
    * compiled with SymFPU support.
    * @param exp Number of bits in the exponent
    * @param sig Number of bits in the significand
    * @return the floating-point constant
    */
-  public Term mkNaN(int exp, int sig) throws CVCApiException
+  Term mkPosInf(int exp, int sig) throws CVCApiException
   {
     if (exp < 0)
     {
@@ -787,11 +802,103 @@ public class Solver implements IPointer
     {
       throw new CVCApiException("Expected sig '" + sig + "' to be non negative.");
     }
-    long termPointer = mkNan(pointer, exp, sig);
+    long termPointer = mkPosInf(pointer, exp, sig);
     return new Term(this, termPointer);
   }
 
-  private native long mkNan(long pointer, int exp, int sig) throws CVCApiException;
+  private native long mkPosInf(long pointer, int exp, int sig);
+
+  /**
+   * Create a negative infinity floating-point constant. Requires CVC4 to be
+   * compiled with SymFPU support.
+   * @param exp Number of bits in the exponent
+   * @param sig Number of bits in the significand
+   * @return the floating-point constant
+   */
+  Term mkNegInf(int exp, int sig) throws CVCApiException
+  {
+    if (exp < 0)
+    {
+      throw new CVCApiException("Expected exp '" + exp + "' to be non negative.");
+    }
+    if (sig < 0)
+    {
+      throw new CVCApiException("Expected sig '" + sig + "' to be non negative.");
+    }
+    long termPointer = mkNegInf(pointer, exp, sig);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkNegInf(long pointer, int exp, int sig);
+
+  /**
+   * Create a not-a-number (NaN) floating-point constant. Requires CVC4 to be
+   * compiled with SymFPU support.
+   * @param exp Number of bits in the exponent
+   * @param sig Number of bits in the significand
+   * @return the floating-point constant
+   */
+  Term mkNaN(int exp, int sig) throws CVCApiException
+  {
+    if (exp < 0)
+    {
+      throw new CVCApiException("Expected exp '" + exp + "' to be non negative.");
+    }
+    if (sig < 0)
+    {
+      throw new CVCApiException("Expected sig '" + sig + "' to be non negative.");
+    }
+    long termPointer = mkNaN(pointer, exp, sig);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkNaN(long pointer, int exp, int sig);
+
+  /**
+   * Create a positive zero (+0.0) floating-point constant. Requires CVC4 to be
+   * compiled with SymFPU support.
+   * @param exp Number of bits in the exponent
+   * @param sig Number of bits in the significand
+   * @return the floating-point constant
+   */
+  Term mkPosZero(int exp, int sig) throws CVCApiException
+  {
+    if (exp < 0)
+    {
+      throw new CVCApiException("Expected exp '" + exp + "' to be non negative.");
+    }
+    if (sig < 0)
+    {
+      throw new CVCApiException("Expected sig '" + sig + "' to be non negative.");
+    }
+    long termPointer = mkPosZero(pointer, exp, sig);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkPosZero(long pointer, int exp, int sig);
+
+  /**
+   * Create a negative zero (-0.0) floating-point constant. Requires CVC4 to be
+   * compiled with SymFPU support.
+   * @param exp Number of bits in the exponent
+   * @param sig Number of bits in the significand
+   * @return the floating-point constant
+   */
+  Term mkNegZero(int exp, int sig) throws CVCApiException
+  {
+    if (exp < 0)
+    {
+      throw new CVCApiException("Expected exp '" + exp + "' to be non negative.");
+    }
+    if (sig < 0)
+    {
+      throw new CVCApiException("Expected sig '" + sig + "' to be non negative.");
+    }
+    long termPointer = mkNegZero(pointer, exp, sig);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkNegZero(long pointer, int exp, int sig);
 
   /**
    * Create uninterpreted constant.
@@ -871,6 +978,5 @@ public class Solver implements IPointer
   }
 
   private native long mkVar(long pointer, long sortPointer, String symbol);
-
   // endregion
 }

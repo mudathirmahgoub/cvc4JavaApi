@@ -478,6 +478,54 @@ class SolverTest
     }
   }
 
+  @Test void mkNegZero()
+  {
+    if (Configuration.isBuiltWithSymFPU())
+    {
+      assertDoesNotThrow(() -> d_solver.mkNegZero(3, 5));
+    }
+    else
+    {
+      assertThrows(CVCApiException.class, () -> d_solver.mkNegZero(3, 5));
+    }
+  }
+
+  @Test void mkNegInf()
+  {
+    if (Configuration.isBuiltWithSymFPU())
+    {
+      assertDoesNotThrow(() -> d_solver.mkNegInf(3, 5));
+    }
+    else
+    {
+      assertThrows(CVCApiException.class, () -> d_solver.mkNegInf(3, 5));
+    }
+  }
+
+  @Test void mkPosInf()
+  {
+    if (Configuration.isBuiltWithSymFPU())
+    {
+      assertDoesNotThrow(() -> d_solver.mkPosInf(3, 5));
+    }
+    else
+    {
+      assertThrows(CVCApiException.class, () -> d_solver.mkPosInf(3, 5));
+    }
+  }
+
+  @Test void mkPosZero()
+  {
+    if (Configuration.isBuiltWithSymFPU())
+    {
+      assertDoesNotThrow(() -> d_solver.mkPosZero(3, 5));
+    }
+    else
+    {
+      assertThrows(CVCApiException.class, () -> d_solver.mkPosZero(3, 5));
+    }
+  }
+
   @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));

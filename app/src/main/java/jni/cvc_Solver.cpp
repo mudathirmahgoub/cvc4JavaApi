@@ -1050,16 +1050,93 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVector__JILjava_lang_String_2I(
 
 /*
  * Class:     cvc_Solver
- * Method:    mkNan
+ * Method:    mkConstArray
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkConstArray(
+    JNIEnv* env, jobject, jlong pointer, jlong sortPointer, jlong termPointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Sort* sort = (Sort*)sortPointer;
+  Term* term = (Term*)termPointer;
+  Term* ret = new Term(solver->mkConstArray(*sort, *term));
+  return ((jlong)ret);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkPosInf
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkPosInf(
+    JNIEnv* env, jobject, jlong pointer, jint exp, jint sig)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* ret = new Term(solver->mkPosInf((uint32_t)exp, (uint32_t)sig));
+  return ((jlong)ret);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkNegInf
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkNegInf(
+    JNIEnv* env, jobject, jlong pointer, jint exp, jint sig)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* ret = new Term(solver->mkNegInf((uint32_t)exp, (uint32_t)sig));
+  return ((jlong)ret);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkNaN
  * Signature: (JII)J
  */
 JNIEXPORT jlong JNICALL
-Java_cvc_Solver_mkNan(JNIEnv* env, jobject, jlong pointer, jint exp, jint sig)
+Java_cvc_Solver_mkNaN(JNIEnv* env, jobject, jlong pointer, jint exp, jint sig)
 {
   CVC_JAVA_API_TRY_CATCH_BEGIN;
   Solver* solver = (Solver*)pointer;
   Term* term = new Term(solver->mkNaN((uint32_t)exp, (uint32_t)sig));
   return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkPosZero
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkPosZero(
+    JNIEnv* env, jobject, jlong pointer, jint exp, jint sig)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* ret = new Term(solver->mkPosZero((uint32_t)exp, (uint32_t)sig));
+  return ((jlong)ret);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkNegZero
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkNegZero(
+    JNIEnv* env, jobject, jlong pointer, jint exp, jint sig)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* ret = new Term(solver->mkNegZero((uint32_t)exp, (uint32_t)sig));
+  return ((jlong)ret);
   CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
 }
 
