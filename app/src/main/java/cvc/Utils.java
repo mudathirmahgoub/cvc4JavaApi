@@ -7,27 +7,32 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import org.apache.commons.lang3.SystemUtils;
 
 class Utils
 {
+  static final String osName = System.getProperty("os.name");
+
   /**
    * @return the absolute path of cvcJavaApi dynamic library
    */
   static String getCvcApiLibFile() throws IOException
   {
     String cvcApiLibName = null;
-    if (SystemUtils.IS_OS_LINUX)
+    if (osName.startsWith("Linux"))
     {
       cvcApiLibName = "libcvcJavaApi.so";
     }
-    if (SystemUtils.IS_OS_MAC)
+    else if (osName.startsWith("Mac"))
     {
       cvcApiLibName = "libcvcJavaApi.dylib";
     }
-    if (SystemUtils.IS_OS_WINDOWS)
+    else if (osName.startsWith("Windows"))
     {
       cvcApiLibName = "cvcJavaApi.dll";
+    }
+    else
+    {
+      throw new RuntimeException("The operating system '" + osName + "' is not supported");
     }
     String cvcApiLibFile =
         System.getProperty("java.io.tmpdir") + File.separatorChar + cvcApiLibName;
