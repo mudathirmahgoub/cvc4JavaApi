@@ -425,6 +425,14 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkBitVector__JILjava_lang_String_2I
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkNan
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkNan
+  (JNIEnv *, jobject, jlong, jint, jint);
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkUninterpretedConst
  * Signature: (JJI)J
  */

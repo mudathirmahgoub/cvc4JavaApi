@@ -318,7 +318,6 @@ class SolverTest
         CVCApiException.class, () -> slv.mkTupleSort(new Sort[] {d_solver.getIntegerSort()}));
   }
 
-
   @Test void mkBitVector() throws CVCApiException
   {
     int size0 = 0, size1 = 8, size2 = 32, val1 = 2;
@@ -342,8 +341,7 @@ class SolverTest
     assertEquals(d_solver.mkBitVector("1010", 2), d_solver.mkBitVector("a", 16));
     assertEquals(d_solver.mkBitVector(8, "01010101", 2).toString(), "#b01010101");
     assertEquals(d_solver.mkBitVector(8, "F", 16).toString(), "#b00001111");
-    assertEquals(d_solver.mkBitVector(8, "-1", 10),
-            d_solver.mkBitVector(8, "FF", 16));
+    assertEquals(d_solver.mkBitVector(8, "-1", 10), d_solver.mkBitVector(8, "FF", 16));
   }
 
   @Test void mkVar()
@@ -367,24 +365,27 @@ class SolverTest
     assertDoesNotThrow(() -> d_solver.mkBoolean(false));
   }
 
-//  @Test void mkRoundingMode()
-//  {
-//    if (CVC4::Configuration::isBuiltWithSymFPU())
-//    {
-//      assertDoesNotThrow(() -> d_solver.mkRoundingMode(RoundingMode.ROUND_TOWARD_ZERO));
-//    }
-//  else
-//    {
-//      assertThrows(CVCApiException.class, () -> d_solver.mkRoundingMode(RoundingMode.ROUND_TOWARD_ZERO));
-//    }
-//  }
+  @Test void mkRoundingMode()
+  {
+    if (Configuration.isBuiltWithSymFPU())
+    {
+      assertDoesNotThrow(() -> d_solver.mkRoundingMode(RoundingMode.ROUND_TOWARD_ZERO));
+    }
+    else
+    {
+      assertThrows(
+          CVCApiException.class, () -> d_solver.mkRoundingMode(RoundingMode.ROUND_TOWARD_ZERO));
+    }
+  }
 
   @Test void mkUninterpretedConst()
   {
     assertDoesNotThrow(() -> d_solver.mkUninterpretedConst(d_solver.getBooleanSort(), 1));
-    assertThrows(CVCApiException.class, () -> d_solver.mkUninterpretedConst(d_solver.getNullSort(), 1));
+    assertThrows(
+        CVCApiException.class, () -> d_solver.mkUninterpretedConst(d_solver.getNullSort(), 1));
     Solver slv = new Solver();
-    assertThrows(CVCApiException.class, () -> slv.mkUninterpretedConst(d_solver.getBooleanSort(), 1));
+    assertThrows(
+        CVCApiException.class, () -> slv.mkUninterpretedConst(d_solver.getBooleanSort(), 1));
   }
 
   @Test void mkAbstractValue()
@@ -397,37 +398,38 @@ class SolverTest
     assertThrows(CVCApiException.class, () -> d_solver.mkAbstractValue("asdf"));
 
     assertDoesNotThrow(() -> d_solver.mkAbstractValue(1));
-    assertDoesNotThrow(() -> d_solver.mkAbstractValue((long)1));
+    assertDoesNotThrow(() -> d_solver.mkAbstractValue((long) 1));
     assertDoesNotThrow(() -> d_solver.mkAbstractValue(-1));
     assertDoesNotThrow(() -> d_solver.mkAbstractValue(-1));
     assertThrows(CVCApiException.class, () -> d_solver.mkAbstractValue(0));
   }
 
-//  @Test void mkFloatingPoint() throws CVCApiException
-//  {
-//    Term t1 = d_solver.mkBitVector(8);
-//    Term t2 = d_solver.mkBitVector(4);
-//    Term t3 = d_solver.mkInteger(2);
-//    if (CVC4::Configuration::isBuiltWithSymFPU())
-//    {
-//      assertDoesNotThrow(() -> d_solver.mkFloatingPoint(3, 5, t1));
-//    }
-//  else
-//    {
-//      assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t1));
-//    }
-//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(0, 5, Term()));
-//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(0, 5, t1));
-//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 0, t1));
-//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t2));
-//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t2));
-//
-//    if (CVC4::Configuration::isBuiltWithSymFPU())
-//    {
-//      Solver slv;
-//      assertThrows(CVCApiException.class, () -> slv.mkFloatingPoint(3, 5, t1));
-//    }
-//  }
+  @Test void mkFloatingPoint() throws CVCApiException
+  {
+    Term t1 = d_solver.mkBitVector(8);
+    Term t2 = d_solver.mkBitVector(4);
+    Term t3 = d_solver.mkInteger(2);
+    if (Configuration.isBuiltWithSymFPU())
+    {
+      assertDoesNotThrow(() -> d_solver.mkFloatingPoint(3, 5, t1));
+    }
+    else
+    {
+      assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t1));
+    }
+    // TODO: figure out what to do with Term()
+    // assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(0, 5, Term()));
+    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(0, 5, t1));
+    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 0, t1));
+    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t2));
+    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t2));
+
+    if (Configuration.isBuiltWithSymFPU())
+    {
+      Solver slv = new Solver();
+      assertThrows(CVCApiException.class, () -> slv.mkFloatingPoint(3, 5, t1));
+    }
+  }
 
   @Test void mkEmptySet()
   {
@@ -464,18 +466,17 @@ class SolverTest
     assertDoesNotThrow(() -> d_solver.mkFalse());
   }
 
-//  @Test void mkNaN()
-//  {
-//    if (CVC4::Configuration::isBuiltWithSymFPU())
-//    {
-//      assertDoesNotThrow(() -> d_solver.mkNaN(3, 5));
-//    }
-//  else
-//    {
-//      assertThrows(CVCApiException.class, () -> d_solver.mkNaN(3, 5));
-//    }
-//  }
-
+  @Test void mkNaN()
+  {
+    if (Configuration.isBuiltWithSymFPU())
+    {
+      assertDoesNotThrow(() -> d_solver.mkNaN(3, 5));
+    }
+    else
+    {
+      assertThrows(CVCApiException.class, () -> d_solver.mkNaN(3, 5));
+    }
+  }
 
   @Test void setLogic()
   {

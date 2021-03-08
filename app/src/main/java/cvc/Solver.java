@@ -777,7 +777,21 @@ public class Solver implements IPointer
    * @param sig Number of bits in the significand
    * @return the floating-point constant
    */
-  public void mkNaN(int exp, int sig) {}
+  public Term mkNaN(int exp, int sig) throws CVCApiException
+  {
+    if (exp < 0)
+    {
+      throw new CVCApiException("Expected exp '" + exp + "' to be non negative.");
+    }
+    if (sig < 0)
+    {
+      throw new CVCApiException("Expected sig '" + sig + "' to be non negative.");
+    }
+    long termPointer = mkNan(pointer, exp, sig);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkNan(long pointer, int exp, int sig) throws CVCApiException;
 
   /**
    * Create uninterpreted constant.
