@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import org.apache.commons.lang3.SystemUtils;
@@ -30,6 +31,12 @@ class Utils
     }
     String cvcApiLibFile =
         System.getProperty("java.io.tmpdir") + File.separatorChar + cvcApiLibName;
+    if (Files.exists(Path.of(cvcApiLibFile)))
+    {
+      // return if the library exists in the temp directory
+      return cvcApiLibFile;
+    }
+    // copy the library from resources to the temp directory
     InputStream input = Solver.class.getResourceAsStream("/" + cvcApiLibName);
     Files.copy(input, Paths.get(cvcApiLibFile), StandardCopyOption.REPLACE_EXISTING);
     return cvcApiLibFile;
