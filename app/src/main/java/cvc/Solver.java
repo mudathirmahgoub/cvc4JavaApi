@@ -1,12 +1,6 @@
 package cvc;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import org.apache.commons.lang3.SystemUtils;
 
 public class Solver implements IPointer
 {
@@ -14,23 +8,7 @@ public class Solver implements IPointer
   {
     try
     {
-      String cvcApiLibName = null;
-      if (SystemUtils.IS_OS_LINUX)
-      {
-        cvcApiLibName = "libcvcJavaApi.so";
-      }
-      if (SystemUtils.IS_OS_MAC)
-      {
-        cvcApiLibName = "libcvcJavaApi.dylib";
-      }
-      if (SystemUtils.IS_OS_WINDOWS)
-      {
-        cvcApiLibName = "cvcJavaApi.dll";
-      }
-      String cvcApiLibFile =
-          System.getProperty("java.io.tmpdir") + File.separatorChar + cvcApiLibName;
-      InputStream input = Solver.class.getResourceAsStream("/" + cvcApiLibName);
-      Files.copy(input, Paths.get(cvcApiLibFile), StandardCopyOption.REPLACE_EXISTING);
+      String cvcApiLibFile = Utils.getCvcApiLibFile();
       System.load(cvcApiLibFile);
     }
     catch (IOException e)
