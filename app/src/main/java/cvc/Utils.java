@@ -17,7 +17,7 @@ class Utils
    */
   static String getCvcApiLibFile() throws IOException
   {
-    String cvcApiLibName = null;
+    String cvcApiLibName;
     if (osName.startsWith("Linux"))
     {
       cvcApiLibName = "libcvcJavaApi.so";

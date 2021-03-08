@@ -414,7 +414,7 @@ JNIEXPORT jobjectArray JNICALL Java_cvc_Configuration_getDebugTags(JNIEnv* env,
   // get the number of tags
   unsigned size = Configuration::getNumDebugTags();
   // get the class of an array of strings
-  jclass stringArrayClass = env->FindClass("[Ljava/lang/String;");
+  jclass stringArrayClass = env->FindClass("Ljava/lang/String;");
   // allocate memory for the java array
   jobjectArray jTags = env->NewObjectArray(size, stringArrayClass, nullptr);
   // get the c++ array of tags
@@ -467,7 +467,7 @@ JNIEXPORT jobjectArray JNICALL Java_cvc_Configuration_getTraceTags(JNIEnv* env,
   // get the number of tags
   unsigned size = Configuration::getNumTraceTags();
   // get the class of an array of strings
-  jclass stringArrayClass = env->FindClass("[Ljava/lang/String;");
+  jclass stringArrayClass = env->FindClass("Ljava/lang/String;");
   // allocate memory for the java array
   jobjectArray jTags = env->NewObjectArray(size, stringArrayClass, nullptr);
   // get the c++ array of tags

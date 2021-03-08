@@ -22,10 +22,10 @@
 #include <cvc4/util/roundingmode.h>
 
 // clang-format off
-#if 0
+#if 1
 // clang-format on
 #include <symfpu/core/unpackedFloat.h>
-#endif /* 0 */
+#endif /* 1 */
 
 /* -------------------------------------------------------------------------- */
 
@@ -117,10 +117,10 @@ class wrappedBitVector : public BitVector
   friend wrappedBitVector<!isSigned>;  // To allow conversion between types
 
 // clang-format off
-#if 0
+#if 1
   // clang-format on
   friend ::symfpu::ite<CVC4Prop, wrappedBitVector<isSigned> >;  // For ITE
-#endif /* 0 */
+#endif /* 1 */
 
  public:
   /** Constructors. */
@@ -275,7 +275,7 @@ class wrappedBitVector : public BitVector
 /* -------------------------------------------------------------------------- */
 
 // clang-format off
-#if 0
+#if 1
 // clang-format on
 using SymFPUUnpackedFloatLiteral = ::symfpu::unpackedFloat<symfpuLiteral::traits>;
 #endif
@@ -287,7 +287,7 @@ class FloatingPointLiteral
   /** Constructors. */
   FloatingPointLiteral(FloatingPoint& other);
 // clang-format off
-#if 0
+#if 1
 // clang-format on
   FloatingPointLiteral(SymFPUUnpackedFloatLiteral symuf) : d_symuf(symuf){};
   FloatingPointLiteral(const bool sign,
@@ -302,7 +302,7 @@ class FloatingPointLiteral
   ~FloatingPointLiteral() {}
 
 // clang-format off
-#if 0
+#if 1
 // clang-format on
   /** Return wrapped floating-point literal. */
   const SymFPUUnpackedFloatLiteral& getSymUF() const { return d_symuf; }
@@ -317,7 +317,7 @@ class FloatingPointLiteral
 
  private:
 // clang-format off
-#if 0
+#if 1
 // clang-format on
   /** The actual floating-point value, a SymFPU unpackedFloat. */
   SymFPUUnpackedFloatLiteral d_symuf;
