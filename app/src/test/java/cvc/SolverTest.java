@@ -7,6 +7,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static cvc.Kind.*;
+
 class SolverTest
 {
   private Solver d_solver;
@@ -524,6 +526,27 @@ class SolverTest
     {
       assertThrows(CVCApiException.class, () -> d_solver.mkPosZero(3, 5));
     }
+  }
+
+  @Test void mkOp()
+  {
+    // mkOp(Kind kind, Kind k)
+    assertThrows(CVCApiException.class, ()-> d_solver.mkOp(BITVECTOR_EXTRACT, EQUAL.getValue()));
+
+    // mkOp(Kind kind, const std::string& arg)
+    assertDoesNotThrow(() -> d_solver.mkOp(RECORD_UPDATE, "asdf"));
+    assertDoesNotThrow(() -> d_solver.mkOp(DIVISIBLE, "2147483648"));
+    assertThrows(CVCApiException.class, ()-> d_solver.mkOp(BITVECTOR_EXTRACT, "asdf"));
+
+    // mkOp(Kind kind, uint32_t arg)
+    assertDoesNotThrow(() -> d_solver.mkOp(DIVISIBLE, 1));
+    assertDoesNotThrow(() -> d_solver.mkOp(BITVECTOR_ROTATE_LEFT, 1));
+    assertDoesNotThrow(() -> d_solver.mkOp(BITVECTOR_ROTATE_RIGHT, 1));
+    assertThrows(CVCApiException.class, ()-> d_solver.mkOp(BITVECTOR_EXTRACT, 1));
+
+    // mkOp(Kind kind, uint32_t arg1, uint32_t arg2)
+    assertDoesNotThrow(() -> d_solver.mkOp(BITVECTOR_EXTRACT, 1, 1));
+    assertThrows(CVCApiException.class, ()->d_solver.mkOp(DIVISIBLE, 1, 2));
   }
 
   @Test void mkPi()

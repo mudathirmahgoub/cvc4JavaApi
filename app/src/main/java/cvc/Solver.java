@@ -1153,5 +1153,6 @@ public class Solver implements IPointer
   }
 
   private native long mkVar(long pointer, long sortPointer, String symbol);
+
   // endregion
 }
