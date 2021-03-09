@@ -732,6 +732,11 @@ class SolverTest
     assertThrows(CVCApiException.class, () -> d_solver.mkTerm(DISTINCT, v6));
   }
 
+  @Test void mkTrue()
+  {
+    assertDoesNotThrow(() -> d_solver.mkTrue());
+  }
+
   @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));
