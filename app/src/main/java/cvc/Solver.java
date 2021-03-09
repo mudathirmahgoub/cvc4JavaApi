@@ -593,6 +593,117 @@ public class Solver implements IPointer
   // endregion
 
   /* .................................................................... */
+  /* Create Operators                                                     */
+  /* .................................................................... */
+  // region Create Operators
+
+  /**
+   * return null operator
+   */
+  public Op mkOp()
+  {
+    long opPointer = mkOp(pointer);
+    return new Op(this, opPointer);
+  }
+
+  private native long mkOp(long pointer);
+
+  /**
+   * Create an operator for a builtin Kind
+   * The Kind may not be the Kind for an indexed operator
+   *   (e.g. BITVECTOR_EXTRACT)
+   * Note: in this case, the Op simply wraps the Kind.
+   * The Kind can be used in mkTerm directly without
+   *   creating an op first.
+   * @param kind the kind to wrap
+   */
+  public Op mkOp(Kind kind)
+  {
+    long opPointer = mkOp(pointer, kind.getValue());
+    return new Op(this, opPointer);
+  }
+
+  private native long mkOp(long pointer, int kind);
+
+  /**
+   * Create operator of kind:
+   *   - RECORD_UPDATE
+   *   - DIVISIBLE (to support arbitrary precision integers)
+   * See enum Kind for a description of the parameters.
+   * @param kind the kind of the operator
+   * @param arg the string argument to this operator
+   */
+  public Op mkOp(Kind kind, String arg)
+  {
+    long opPointer = mkOp(pointer, kind.getValue(), arg);
+    return new Op(this, opPointer);
+  }
+
+  private native long mkOp(long pointer, int value, String arg);
+
+  /**
+   * Create operator of kind:
+   *   - DIVISIBLE
+   *   - BITVECTOR_REPEAT
+   *   - BITVECTOR_ZERO_EXTEND
+   *   - BITVECTOR_SIGN_EXTEND
+   *   - BITVECTOR_ROTATE_LEFT
+   *   - BITVECTOR_ROTATE_RIGHT
+   *   - INT_TO_BITVECTOR
+   *   - FLOATINGPOINT_TO_UBV
+   *   - FLOATINGPOINT_TO_UBV_TOTAL
+   *   - FLOATINGPOINT_TO_SBV
+   *   - FLOATINGPOINT_TO_SBV_TOTAL
+   *   - TUPLE_UPDATE
+   * See enum Kind for a description of the parameters.
+   * @param kind the kind of the operator
+   * @param arg the uint32_t argument to this operator
+   */
+  public Op mkOp(Kind kind, int arg) throws CVCApiException
+  {
+    if (arg < 0)
+    {
+      throw new CVCApiException("Expected arg '" + arg + "' to be non negative.");
+    }
+    long opPointer = mkOp(pointer, kind.getValue(), arg);
+    return new Op(this, opPointer);
+  }
+
+  private native long mkOp(long pointer, int kind, int arg);
+
+  /**
+   * Create operator of Kind:
+   *   - BITVECTOR_EXTRACT
+   *   - FLOATINGPOINT_TO_FP_IEEE_BITVECTOR
+   *   - FLOATINGPOINT_TO_FP_FLOATINGPOINT
+   *   - FLOATINGPOINT_TO_FP_REAL
+   *   - FLOATINGPOINT_TO_FP_SIGNED_BITVECTOR
+   *   - FLOATINGPOINT_TO_FP_UNSIGNED_BITVECTOR
+   *   - FLOATINGPOINT_TO_FP_GENERIC
+   * See enum Kind for a description of the parameters.
+   * @param kind the kind of the operator
+   * @param arg1 the first uint32_t argument to this operator
+   * @param arg2 the second uint32_t argument to this operator
+   */
+  public Op mkOp(Kind kind, int arg1, int arg2) throws CVCApiException
+  {
+    if (arg1 < 0)
+    {
+      throw new CVCApiException("Expected arg1 '" + arg1 + "' to be non negative.");
+    }
+    if (arg2 < 0)
+    {
+      throw new CVCApiException("Expected arg2 '" + arg2 + "' to be non negative.");
+    }
+    long opPointer = mkOp(pointer, kind.getValue(), arg1, arg2);
+    return new Op(this, opPointer);
+  }
+
+  private native long mkOp(long pointer, int value, int arg1, int arg2);
+
+  // endregion
+
+  /* .................................................................... */
   /* Create Constants                                                     */
   /* .................................................................... */
   // region Create Constants

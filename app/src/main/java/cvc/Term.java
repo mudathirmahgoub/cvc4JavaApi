@@ -11,9 +11,13 @@ public class Term extends AbstractPointer
 
   protected native String toString(long pointer);
 
-  @Override public boolean equals(Object obj)
+  @Override public boolean equals(Object term)
   {
-    return (obj instanceof Term) && equals(pointer, ((Term) obj).pointer);
+    if (this == term)
+      return true;
+    if (term == null || getClass() != term.getClass())
+      return false;
+    return equals(pointer, ((Term) term).pointer);
   }
 
   private native boolean equals(long pointer1, long pointer2);

@@ -29,6 +29,7 @@ add_library(cvcJavaApi SHARED
         cvc_Datatype.cpp
         cvc_DatatypeConstructorDecl.cpp
         cvc_DatatypeDecl.cpp
+        cvc_Op.cpp
         cvc_Result.cpp
         cvc_Solver.cpp
         cvc_Sort.cpp

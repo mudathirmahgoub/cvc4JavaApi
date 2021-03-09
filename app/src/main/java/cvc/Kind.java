@@ -1,7 +1,9 @@
 package cvc;
 
-public enum Kind
-{
+import java.util.HashMap;
+import java.util.Map;
+
+public enum Kind {
   INTERNAL_KIND(-2),
   UNDEFINED_KIND(-1),
   NULL(0),
@@ -129,6 +131,7 @@ public enum Kind
   FLOATINGPOINT_ISNAN(122),
   FLOATINGPOINT_ISNEG(123),
   FLOATINGPOINT_ISPOS(124),
+  FLOATINGPOINT_TO_FP_IEEE_BITVECTOR(125),
   FLOATINGPOINT_TO_FP_FLOATINGPOINT(126),
   FLOATINGPOINT_TO_FP_REAL(127),
   FLOATINGPOINT_TO_FP_SIGNED_BITVECTOR(128),
@@ -241,11 +244,30 @@ public enum Kind
   INST_PATTERN_LIST(247),
   LAST_KIND(248);
 
+  /* the int value of the kind*/
   private int value;
-
+  private static Map<Integer, Kind> kindMap = new HashMap<>();
   private Kind(int value)
   {
     this.value = value;
+  }
+
+  static
+  {
+    for (Kind kind : Kind.values())
+    {
+      kindMap.put(kind.getValue(), kind);
+    }
+  }
+
+  public static Kind fromInt(int value) throws CVCApiException
+  {
+    if (value < INTERNAL_KIND.value || value > LAST_KIND.value)
+    {
+      throw new CVCApiException("Kind value " + value + " is outside the valid range ["
+          + INTERNAL_KIND.value + "," + LAST_KIND.value + "]");
+    }
+    return kindMap.get(value);
   }
 
   public int getValue()

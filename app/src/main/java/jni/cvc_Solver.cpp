@@ -853,15 +853,96 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeDecl(JNIEnv* env,
  * Method:    mkDatatypeConstructorDecl
  * Signature: (JLjava/lang/String;)J
  */
-JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeConstructorDecl(
-    JNIEnv* env, jobject, jlong solverPointer, jstring jName)
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeConstructorDecl(JNIEnv* env,
+                                                                  jobject,
+                                                                  jlong pointer,
+                                                                  jstring jName)
 {
   CVC_JAVA_API_TRY_CATCH_BEGIN;
-  Solver* solver = (Solver*)solverPointer;
+  Solver* solver = (Solver*)pointer;
   const char* cName = env->GetStringUTFChars(jName, nullptr);
   DatatypeConstructorDecl* decl = new DatatypeConstructorDecl(
       solver->mkDatatypeConstructorDecl(std::string(cName)));
   return (jlong)decl;
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkOp
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkOp__J(JNIEnv* env,
+                                                jobject,
+                                                jlong pointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  // create a null pointer (equivalent of Op op();)
+  Op* op = new Op();
+  return (jlong)op;
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkOp
+ * Signature: (JI)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkOp__JI(JNIEnv* env,
+                                                 jobject,
+                                                 jlong pointer,
+                                                 jint kind)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Op* op = new Op(solver->mkOp((Kind)kind));
+  return (jlong)op;
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkOp
+ * Signature: (JILjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkOp__JILjava_lang_String_2(
+    JNIEnv* env, jobject, jlong pointer, jint kind, jstring jArg)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  std::string cArg(env->GetStringUTFChars(jArg, nullptr));
+  Op* op = new Op(solver->mkOp((Kind)kind, cArg));
+  return (jlong)op;
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkOp
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkOp__JII(
+    JNIEnv* env, jobject, jlong pointer, jint kind, jint arg)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Op* op = new Op(solver->mkOp((Kind)kind, (uint32_t)arg));
+  return (jlong)op;
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkOp
+ * Signature: (JIII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkOp__JIII(
+    JNIEnv* env, jobject, jlong pointer, jint kind, jint arg1, jint arg2)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Op* op = new Op(solver->mkOp((Kind)kind, (uint32_t)arg1, (uint32_t)arg2));
+  return (jlong)op;
   CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
 }
 

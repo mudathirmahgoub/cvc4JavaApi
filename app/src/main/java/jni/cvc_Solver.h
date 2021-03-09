@@ -337,6 +337,46 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkDatatypeConstructorDecl
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkOp
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkOp__J
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkOp
+ * Signature: (JI)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkOp__JI
+  (JNIEnv *, jobject, jlong, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkOp
+ * Signature: (JILjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkOp__JILjava_lang_String_2
+  (JNIEnv *, jobject, jlong, jint, jstring);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkOp
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkOp__JII
+  (JNIEnv *, jobject, jlong, jint, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkOp
+ * Signature: (JIII)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkOp__JIII
+  (JNIEnv *, jobject, jlong, jint, jint, jint);
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkTrue
  * Signature: (J)J
  */
