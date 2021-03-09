@@ -89,6 +89,14 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_getStringSort
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSort
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkArraySort
  * Signature: (JJJ)J
  */
@@ -234,6 +242,30 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkConst
 /*
  * Class:     cvc_Solver
  * Method:    mkTerm
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTerm__J
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTermKind
+ * Signature: (JI)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTermKind
+  (JNIEnv *, jobject, jlong, jint);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTermChild
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTermChild
+  (JNIEnv *, jobject, jlong, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTerm
  * Signature: (JIJJ)J
  */
 JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTerm__JIJJ
@@ -246,6 +278,14 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTerm__JIJJ
  */
 JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTerm__JIJJJ
   (JNIEnv *, jobject, jlong, jint, jlong, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTerm
+ * Signature: (JI[J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTerm__JI_3J
+  (JNIEnv *, jobject, jlong, jint, jlongArray);
 
 /*
  * Class:     cvc_Solver
@@ -478,6 +518,46 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkEmptySet
  */
 JNIEXPORT jlong JNICALL Java_cvc_Solver_mkEmptyBag
   (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkSepNil
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSepNil
+  (JNIEnv *, jobject, jlong, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkString
+ * Signature: (JLjava/lang/String;Z)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkString__JLjava_lang_String_2Z
+  (JNIEnv *, jobject, jlong, jstring, jboolean);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkString
+ * Signature: (JB)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkString__JB
+  (JNIEnv *, jobject, jlong, jbyte);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkString
+ * Signature: (J[B)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkString__J_3B
+  (JNIEnv *, jobject, jlong, jbyteArray);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkChar
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkChar
+  (JNIEnv *, jobject, jlong, jstring);
 
 /*
  * Class:     cvc_Solver

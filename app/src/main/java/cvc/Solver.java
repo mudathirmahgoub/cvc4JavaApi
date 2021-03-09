@@ -1,6 +1,7 @@
 package cvc;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Solver implements IPointer
 {
@@ -151,6 +152,17 @@ public class Solver implements IPointer
   // region Create sorts
 
   /**
+   * return null sort
+   */
+  public Sort mkSort()
+  {
+    long sortPointer = mkSort(pointer);
+    return new Sort(this, sortPointer);
+  }
+
+  private native long mkSort(long pointer);
+
+  /**
    * Create an array sort.
    *
    * @param indexSort   the array index sort
@@ -209,6 +221,7 @@ public class Solver implements IPointer
 
   /**
    * Create a datatype sort.
+   *
    * @param datatypeDecl the datatype declaration from which the sort is created
    * @return the datatype sort
    */
@@ -253,18 +266,18 @@ public class Solver implements IPointer
   /**
    * Create a vector of datatype sorts using unresolved sorts. The names of
    * the datatype declarations in dtypedecls must be distinct.
-   *
+   * <p>
    * This method is called when the DatatypeDecl objects dtypedecls have been
    * built using "unresolved" sorts.
-   *
+   * <p>
    * We associate each sort in unresolvedSorts with exactly one datatype from
    * dtypedecls. In particular, it must have the same name as exactly one
    * datatype declaration in dtypedecls.
-   *
+   * <p>
    * When constructing datatypes, unresolved sorts are replaced by the datatype
    * sort constructed for the datatype declaration it is associated with.
    *
-   * @param dtypedecls the datatype declarations from which the sort is created
+   * @param dtypedecls      the datatype declarations from which the sort is created
    * @param unresolvedSorts the list of unresolved sorts
    * @return the datatype sorts
    */
@@ -283,6 +296,7 @@ public class Solver implements IPointer
 
   /**
    * Create an uninterpreted sort.
+   *
    * @param symbol the name of the sort
    * @return the uninterpreted sort
    */
@@ -296,7 +310,8 @@ public class Solver implements IPointer
 
   /**
    * Create function sort.
-   * @param domain the sort of the fuction argument
+   *
+   * @param domain   the sort of the fuction argument
    * @param codomain the sort of the function return value
    * @return the function sort
    */
@@ -310,7 +325,8 @@ public class Solver implements IPointer
 
   /**
    * Create function sort.
-   * @param sorts the sort of the function arguments
+   *
+   * @param sorts    the sort of the function arguments
    * @param codomain the sort of the function return value
    * @return the function sort
    */
@@ -324,6 +340,7 @@ public class Solver implements IPointer
 
   /**
    * Create a sort parameter.
+   *
    * @param symbol the name of the sort
    * @return the sort parameter
    */
@@ -337,6 +354,7 @@ public class Solver implements IPointer
 
   /**
    * Create a predicate sort.
+   *
    * @param sorts the list of sorts of the predicate
    * @return the predicate sort
    */
@@ -350,6 +368,7 @@ public class Solver implements IPointer
 
   /**
    * Create a record sort
+   *
    * @param fields the list of fields of the record
    * @return the record sort
    */
@@ -363,6 +382,7 @@ public class Solver implements IPointer
 
   /**
    * Create a set sort.
+   *
    * @param elementSort the sort of the set elements
    * @return the set sort
    */
@@ -376,6 +396,7 @@ public class Solver implements IPointer
 
   /**
    * Create a bag sort.
+   *
    * @param elementSort the sort of the bag elements
    * @return the bag sort
    */
@@ -389,6 +410,7 @@ public class Solver implements IPointer
 
   /**
    * Create a sequence sort.
+   *
    * @param elementSort the sort of the sequence elements
    * @return the sequence sort
    */
@@ -402,8 +424,9 @@ public class Solver implements IPointer
 
   /**
    * Create a sort constructor sort.
+   *
    * @param symbol the symbol of the sort
-   * @param arity the arity of the sort
+   * @param arity  the arity of the sort
    * @return the sort constructor sort
    */
   public Sort mkSortConstructorSort(String symbol, int arity) throws CVCApiException
@@ -420,6 +443,7 @@ public class Solver implements IPointer
 
   /**
    * Create a tuple sort.
+   *
    * @param sorts of the elements of the tuple
    * @return the tuple sort
    */
@@ -441,6 +465,59 @@ public class Solver implements IPointer
     return new Result(this, resultPointer);
   }
 
+  /* .................................................................... */
+  /* Create Terms                                                         */
+  /* .................................................................... */
+  // region Create Terms
+
+  /**
+   * return null term
+   */
+  public Term mkTerm()
+  {
+    long termPointer = mkTerm(pointer);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkTerm(long pointer);
+
+  /**
+   * Create 0-ary term of given kind.
+   *
+   * @param kind the kind of the term
+   * @return the Term
+   */
+  public Term mkTerm(Kind kind)
+  {
+    long termPointer = mkTermKind(pointer, kind.getValue());
+    return new Term(this, termPointer);
+  }
+
+  private native long mkTermKind(long pointer, int kind);
+
+  /**
+   * Create a unary term of given kind.
+   *
+   * @param kind  the kind of the term
+   * @param child the child of the term
+   * @return the Term
+   */
+  public Term mkTerm(Kind kind, Term child)
+  {
+    long termPointer = mkTermChild(pointer, kind.getValue(), child.getPointer());
+    return new Term(this, termPointer);
+  }
+
+  private native long mkTermChild(long pointer, long kind, long termPointer);
+
+  /**
+   * Create binary term of given kind.
+   *
+   * @param kind   the kind of the term
+   * @param child1 the first child of the term
+   * @param child2 the second child of the term
+   * @return the Term
+   */
   public Term mkTerm(Kind kind, Term child1, Term child2)
   {
     long termPointer = mkTerm(pointer, kind.getValue(), child1.getPointer(), child2.getPointer());
@@ -449,6 +526,15 @@ public class Solver implements IPointer
 
   private native long mkTerm(long solverPointer, int kind, long child1Pointer, long child2Pointer);
 
+  /**
+   * Create ternary term of given kind.
+   *
+   * @param kind   the kind of the term
+   * @param child1 the first child of the term
+   * @param child2 the second child of the term
+   * @param child3 the third child of the term
+   * @return the Term
+   */
   public Term mkTerm(Kind kind, Term child1, Term child2, Term child3)
   {
     long termPointer = mkTerm(
@@ -458,6 +544,21 @@ public class Solver implements IPointer
 
   private native long mkTerm(
       long solverPointer, int kind, long child1Pointer, long child2Pointer, long child3Pointer);
+
+  /**
+   * Create n-ary term of given kind.
+   *
+   * @param kind     the kind of the term
+   * @param children the children of the term
+   * @return the Term
+   */
+  public Term mkTerm(Kind kind, Term[] children)
+  {
+    long termPointer = mkTerm(pointer, kind.getValue(), Utils.getPointers(children));
+    return new Term(this, termPointer);
+  }
+
+  private native long mkTerm(long pointer, int kind, long[] childrenPointers);
 
   private native long checkSat(long solverPointer);
 
@@ -611,10 +712,11 @@ public class Solver implements IPointer
   /**
    * Create an operator for a builtin Kind
    * The Kind may not be the Kind for an indexed operator
-   *   (e.g. BITVECTOR_EXTRACT)
+   * (e.g. BITVECTOR_EXTRACT)
    * Note: in this case, the Op simply wraps the Kind.
    * The Kind can be used in mkTerm directly without
-   *   creating an op first.
+   * creating an op first.
+   *
    * @param kind the kind to wrap
    */
   public Op mkOp(Kind kind)
@@ -627,11 +729,12 @@ public class Solver implements IPointer
 
   /**
    * Create operator of kind:
-   *   - RECORD_UPDATE
-   *   - DIVISIBLE (to support arbitrary precision integers)
+   * - RECORD_UPDATE
+   * - DIVISIBLE (to support arbitrary precision integers)
    * See enum Kind for a description of the parameters.
+   *
    * @param kind the kind of the operator
-   * @param arg the string argument to this operator
+   * @param arg  the string argument to this operator
    */
   public Op mkOp(Kind kind, String arg)
   {
@@ -643,21 +746,22 @@ public class Solver implements IPointer
 
   /**
    * Create operator of kind:
-   *   - DIVISIBLE
-   *   - BITVECTOR_REPEAT
-   *   - BITVECTOR_ZERO_EXTEND
-   *   - BITVECTOR_SIGN_EXTEND
-   *   - BITVECTOR_ROTATE_LEFT
-   *   - BITVECTOR_ROTATE_RIGHT
-   *   - INT_TO_BITVECTOR
-   *   - FLOATINGPOINT_TO_UBV
-   *   - FLOATINGPOINT_TO_UBV_TOTAL
-   *   - FLOATINGPOINT_TO_SBV
-   *   - FLOATINGPOINT_TO_SBV_TOTAL
-   *   - TUPLE_UPDATE
+   * - DIVISIBLE
+   * - BITVECTOR_REPEAT
+   * - BITVECTOR_ZERO_EXTEND
+   * - BITVECTOR_SIGN_EXTEND
+   * - BITVECTOR_ROTATE_LEFT
+   * - BITVECTOR_ROTATE_RIGHT
+   * - INT_TO_BITVECTOR
+   * - FLOATINGPOINT_TO_UBV
+   * - FLOATINGPOINT_TO_UBV_TOTAL
+   * - FLOATINGPOINT_TO_SBV
+   * - FLOATINGPOINT_TO_SBV_TOTAL
+   * - TUPLE_UPDATE
    * See enum Kind for a description of the parameters.
+   *
    * @param kind the kind of the operator
-   * @param arg the uint32_t argument to this operator
+   * @param arg  the uint32_t argument to this operator
    */
   public Op mkOp(Kind kind, int arg) throws CVCApiException
   {
@@ -673,14 +777,15 @@ public class Solver implements IPointer
 
   /**
    * Create operator of Kind:
-   *   - BITVECTOR_EXTRACT
-   *   - FLOATINGPOINT_TO_FP_IEEE_BITVECTOR
-   *   - FLOATINGPOINT_TO_FP_FLOATINGPOINT
-   *   - FLOATINGPOINT_TO_FP_REAL
-   *   - FLOATINGPOINT_TO_FP_SIGNED_BITVECTOR
-   *   - FLOATINGPOINT_TO_FP_UNSIGNED_BITVECTOR
-   *   - FLOATINGPOINT_TO_FP_GENERIC
+   * - BITVECTOR_EXTRACT
+   * - FLOATINGPOINT_TO_FP_IEEE_BITVECTOR
+   * - FLOATINGPOINT_TO_FP_FLOATINGPOINT
+   * - FLOATINGPOINT_TO_FP_REAL
+   * - FLOATINGPOINT_TO_FP_SIGNED_BITVECTOR
+   * - FLOATINGPOINT_TO_FP_UNSIGNED_BITVECTOR
+   * - FLOATINGPOINT_TO_FP_GENERIC
    * See enum Kind for a description of the parameters.
+   *
    * @param kind the kind of the operator
    * @param arg1 the first uint32_t argument to this operator
    * @param arg2 the second uint32_t argument to this operator
@@ -710,6 +815,7 @@ public class Solver implements IPointer
 
   /**
    * Create a Boolean true constant.
+   *
    * @return the true constant
    */
   public Term mkTrue()
@@ -722,6 +828,7 @@ public class Solver implements IPointer
 
   /**
    * Create a Boolean false constant.
+   *
    * @return the false constant
    */
   public Term mkFalse()
@@ -734,8 +841,9 @@ public class Solver implements IPointer
 
   /**
    * Create a Boolean constant.
-   * @return the Boolean constant
+   *
    * @param val the value of the constant
+   * @return the Boolean constant
    */
   public Term mkBoolean(boolean val)
   {
@@ -747,6 +855,7 @@ public class Solver implements IPointer
 
   /**
    * Create a constant representing the number Pi.
+   *
    * @return a constant representing Pi
    */
   public Term mkPi()
@@ -759,6 +868,7 @@ public class Solver implements IPointer
 
   /**
    * Create an integer constant from a string.
+   *
    * @param s the string representation of the constant, may represent an
    *          integer (e.g., "123").
    * @return a constant of sort Integer assuming 's' represents an integer)
@@ -773,6 +883,7 @@ public class Solver implements IPointer
 
   /**
    * Create an integer constant from a c++ int.
+   *
    * @param val the value of the constant
    * @return a constant of sort Integer
    */
@@ -786,6 +897,7 @@ public class Solver implements IPointer
 
   /**
    * Create a real constant from a string.
+   *
    * @param s the string representation of the constant, may represent an
    *          integer (e.g., "123") or real constant (e.g., "12.34" or "12/34").
    * @return a constant of sort Real
@@ -800,6 +912,7 @@ public class Solver implements IPointer
 
   /**
    * Create a real constant from an integer.
+   *
    * @param val the value of the constant
    * @return a constant of sort Integer
    */
@@ -813,6 +926,7 @@ public class Solver implements IPointer
 
   /**
    * Create a real constant from a rational.
+   *
    * @param num the value of the numerator
    * @param den the value of the denominator
    * @return a constant of sort Real
@@ -827,6 +941,7 @@ public class Solver implements IPointer
 
   /**
    * Create a regular expression empty term.
+   *
    * @return the empty term
    */
   public Term mkRegexpEmpty()
@@ -837,9 +952,9 @@ public class Solver implements IPointer
 
   private native long mkRegexpEmpty(long pointer);
 
-
   /**
    * Create a regular expression sigma term.
+   *
    * @return the sigma term
    */
   public Term mkRegexpSigma()
@@ -852,6 +967,7 @@ public class Solver implements IPointer
 
   /**
    * Create a constant representing an empty set of the given sort.
+   *
    * @param s the sort of the set elements.
    * @return the empty set constant
    */
@@ -865,6 +981,7 @@ public class Solver implements IPointer
 
   /**
    * Create a constant representing an empty bag of the given sort.
+   *
    * @param s the sort of the bag elements.
    * @return the empty bag constant
    */
@@ -877,7 +994,101 @@ public class Solver implements IPointer
   private native long mkEmptyBag(long pointer, long sortPointer);
 
   /**
+   * Create a separation logic nil term.
+   *
+   * @param sort the sort of the nil term
+   * @return the separation logic nil term
+   */
+  public Term mkSepNil(Sort sort)
+  {
+    long termPointer = mkSepNil(pointer, sort.getPointer());
+    return new Term(this, termPointer);
+  }
+
+  private native long mkSepNil(long pointer, long sortPointer);
+
+  /**
+   * Create a String constant.
+   *
+   * @param s the string this constant represents
+   * @return the String constant
+   */
+  public Term mkString(String s)
+  {
+    long termPointer = mkString(pointer, s, false);
+    return new Term(this, termPointer);
+  }
+
+  /**
+   * Create a String constant.
+   *
+   * @param s               the string this constant represents
+   * @param useEscSequences determines whether escape sequences in \p s should
+   *                        be converted to the corresponding character
+   * @return the String constant
+   */
+  public Term mkString(String s, boolean useEscSequences)
+  {
+    long termPointer = mkString(pointer, s, useEscSequences);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkString(long pointer, String s, boolean useEscSequences);
+
+  /**
+   * Create a String constant.
+   *
+   * @param c the character this constant represents
+   * @return the String constant
+   */
+  public Term mkString(byte c)
+  {
+    long termPointer = mkString(pointer, c);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkString(long pointer, byte c);
+
+  /**
+   * Create a String constant.
+   *
+   * @param s a list of unsigned values this constant represents as string
+   * @return the String constant
+   */
+  public Term mkString(byte[] s) throws CVCApiException
+  {
+    // make sure the integers are unsigned
+    for (int i : s)
+    {
+      if (i < 0)
+      {
+        throw new CVCApiException("Value " + i + " in array" + s + " should be non negative.");
+      }
+    }
+
+    long termPointer = mkString(pointer, s);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkString(long pointer, byte[] s);
+
+  /**
+   * Create a character constant from a given string.
+   *
+   * @param s the string denoting the code point of the character (in base 16)
+   * @return the character constant
+   */
+  public Term mkChar(String s)
+  {
+    long termPointer = mkChar(pointer, s);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkChar(long pointer, String s);
+
+  /**
    * Create an empty sequence of the given element sort.
+   *
    * @param sort The element sort of the sequence.
    * @return the empty sequence with given element sort.
    */
@@ -896,8 +1107,9 @@ public class Solver implements IPointer
 
   /**
    * Create a bit-vector constant of given size and value.
+   *
    * @param size the bit-width of the bit-vector sort
-   * @param val the value of the constant
+   * @param val  the value of the constant
    * @return the bit-vector constant
    */
   public Term mkBitVector(int size, long val) throws CVCApiException
@@ -923,14 +1135,14 @@ public class Solver implements IPointer
 
   /**
    * Create a bit-vector constant from a given string of base 2, 10 or 16.
-   *
+   * <p>
    * The size of resulting bit-vector is
    * - base  2: the size of the binary string
    * - base 10: the min. size required to represent the decimal as a bit-vector
    * - base 16: the max. size required to represent the hexadecimal as a
-   *            bit-vector (4 * size of the given value string)
+   * bit-vector (4 * size of the given value string)
    *
-   * @param s the string representation of the constant
+   * @param s    the string representation of the constant
    * @param base the base of the string representation (2, 10, or 16)
    * @return the bit-vector constant
    */
@@ -949,8 +1161,9 @@ public class Solver implements IPointer
   /**
    * Create a bit-vector constant of a given bit-width from a given string of
    * base 2, 10 or 16.
+   *
    * @param size the bit-width of the constant
-   * @param s the string representation of the constant
+   * @param s    the string representation of the constant
    * @param base the base of the string representation (2, 10, or 16)
    * @return the bit-vector constant
    */
@@ -973,8 +1186,9 @@ public class Solver implements IPointer
   /**
    * Create a constant array with the provided constant value stored at every
    * index
+   *
    * @param sort the sort of the constant array (must be an array sort)
-   * @param val the constant value to store (must match the sort's element sort)
+   * @param val  the constant value to store (must match the sort's element sort)
    * @return the constant array term
    */
   public Term mkConstArray(Sort sort, Term val)
@@ -988,6 +1202,7 @@ public class Solver implements IPointer
   /**
    * Create a positive infinity floating-point constant. Requires CVC4 to be
    * compiled with SymFPU support.
+   *
    * @param exp Number of bits in the exponent
    * @param sig Number of bits in the significand
    * @return the floating-point constant
@@ -1011,6 +1226,7 @@ public class Solver implements IPointer
   /**
    * Create a negative infinity floating-point constant. Requires CVC4 to be
    * compiled with SymFPU support.
+   *
    * @param exp Number of bits in the exponent
    * @param sig Number of bits in the significand
    * @return the floating-point constant
@@ -1034,6 +1250,7 @@ public class Solver implements IPointer
   /**
    * Create a not-a-number (NaN) floating-point constant. Requires CVC4 to be
    * compiled with SymFPU support.
+   *
    * @param exp Number of bits in the exponent
    * @param sig Number of bits in the significand
    * @return the floating-point constant
@@ -1057,6 +1274,7 @@ public class Solver implements IPointer
   /**
    * Create a positive zero (+0.0) floating-point constant. Requires CVC4 to be
    * compiled with SymFPU support.
+   *
    * @param exp Number of bits in the exponent
    * @param sig Number of bits in the significand
    * @return the floating-point constant
@@ -1080,6 +1298,7 @@ public class Solver implements IPointer
   /**
    * Create a negative zero (-0.0) floating-point constant. Requires CVC4 to be
    * compiled with SymFPU support.
+   *
    * @param exp Number of bits in the exponent
    * @param sig Number of bits in the significand
    * @return the floating-point constant
@@ -1102,7 +1321,8 @@ public class Solver implements IPointer
 
   /**
    * Create uninterpreted constant.
-   * @param sort Sort of the constant
+   *
+   * @param sort  Sort of the constant
    * @param index Index of the constant
    */
   public Term mkUninterpretedConst(Sort sort, int index)
@@ -1115,6 +1335,7 @@ public class Solver implements IPointer
 
   /**
    * Create an abstract value constant.
+   *
    * @param index Index of the abstract value
    */
   public Term mkAbstractValue(String index)
@@ -1127,6 +1348,7 @@ public class Solver implements IPointer
 
   /**
    * Create an abstract value constant.
+   *
    * @param index Index of the abstract value
    */
   public Term mkAbstractValue(long index)
@@ -1140,6 +1362,7 @@ public class Solver implements IPointer
   /**
    * Create a floating-point constant (requires CVC4 to be compiled with symFPU
    * support).
+   *
    * @param exp Size of the exponent
    * @param sig Size of the significand
    * @param val Value of the floating-point constant as a bit-vector term
@@ -1167,7 +1390,8 @@ public class Solver implements IPointer
   /**
    * Create a bound variable to be used in a binder (i.e. a quantifier, a
    * lambda, or a witness binder).
-   * @param sort the sort of the variable
+   *
+   * @param sort   the sort of the variable
    * @param symbol the name of the variable
    * @return the variable
    */

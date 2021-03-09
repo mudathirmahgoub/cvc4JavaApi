@@ -165,6 +165,22 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_getStringSort(JNIEnv* env,
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkSort
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSort(JNIEnv* env,
+                                               jobject,
+                                               jlong pointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Sort* sort = new Sort();
+  return (jlong)sort;
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkArraySort
  * Signature: (JJJ)J
  */
@@ -635,6 +651,57 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkConst(JNIEnv* env,
   CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
 }
 
+/* .................................................................... */
+/* Create Terms                                                         */
+/* .................................................................... */
+// region Create Terms
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTerm
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTerm__J(JNIEnv* env, jobject, jlong)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Term* term = new Term();
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTermKind
+ * Signature: (JI)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTermKind(JNIEnv* env,
+                                                   jobject,
+                                                   jlong pointer,
+                                                   jint kind)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkTerm((Kind)kind));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTermChild
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTermChild(
+    JNIEnv* env, jobject, jlong pointer, jlong kind, jlong childPointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* child = (Term*)childPointer;
+  Term* term = new Term(solver->mkTerm((Kind)kind, *child));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
 /*
  * Class:     cvc_Solver
  * Method:    mkTerm
@@ -675,6 +742,36 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTerm__JIJJJ(JNIEnv* env,
   Term* child2 = (Term*)child2Pointer;
   Term* child3 = (Term*)child3Pointer;
   Term* term = new Term(solver->mkTerm((Kind)kind, *child1, *child2, *child3));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkTerm
+ * Signature: (JI[J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTerm__JI_3J(
+    JNIEnv* env, jobject, jlong pointer, jint kind, jlongArray childrenPointers)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  // get the size of children pointers
+  jsize size = env->GetArrayLength(childrenPointers);
+  // allocate buffer for the long array
+  jlong* buffer = new jlong[size];
+  // copy the java array to the buffer
+  env->GetLongArrayRegion(childrenPointers, 0, size, buffer);
+  // copy the terms into a vector
+  std::vector<Term> children;
+  for (size_t i = 0; i < size; i++)
+  {
+    Term* term = (Term*)buffer[i];
+    children.push_back(*term);
+  }
+  // remove the buffer memory
+  delete[] buffer;
+  Term* term = new Term(solver->mkTerm((Kind)kind, children));
   return ((jlong)term);
   CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
 }
@@ -1156,6 +1253,107 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkEmptyBag(JNIEnv* env,
   Solver* solver = (Solver*)pointer;
   Sort* sort = (Sort*)sortPointer;
   Term* term = new Term(solver->mkEmptyBag(*sort));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkSepNil
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSepNil(JNIEnv* env,
+                                                 jobject,
+                                                 jlong pointer,
+                                                 jlong sortPointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Sort* sort = (Sort*)sortPointer;
+  Term* term = new Term(solver->mkSepNil(*sort));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkString
+ * Signature: (JLjava/lang/String;Z)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkString__JLjava_lang_String_2Z(
+    JNIEnv* env, jobject, jlong pointer, jstring jS, jboolean useEscSequences)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  std::string cS(env->GetStringUTFChars(jS, nullptr));
+  Term* term = new Term(solver->mkString(cS, (bool)useEscSequences));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkString
+ * Signature: (JB)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkString__JB(JNIEnv* env,
+                                                     jobject,
+                                                     jlong pointer,
+                                                     jbyte c)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkString((char)c));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkString
+ * Signature: (J[B)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkString__J_3B(JNIEnv* env,
+                                                       jobject,
+                                                       jlong pointer,
+                                                       jbyteArray jS)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  // get the length of the passed array
+  jsize size = env->GetArrayLength(jS);
+  // allocate buffer for the byte array
+  jbyte* buffer = new jbyte[size];
+  // copy the java array to the buffer
+  env->GetByteArrayRegion(jS, 0, size, buffer);
+  // copy from the buffer to a vector of unsigned
+  std::vector<unsigned> s;
+  for (size_t i = 0; i < size; i++)
+  {
+    s.push_back((unsigned)buffer[i]);
+  }
+  // remove the buffer memory
+  delete[] buffer;
+  // call mkString on the vector
+  Term* term = new Term(solver->mkString(s));
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkChar
+ * Signature: (JLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkChar(JNIEnv* env,
+                                               jobject,
+                                               jlong pointer,
+                                               jstring jS)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  std::string cS(env->GetStringUTFChars(jS, nullptr));
+  Term* term = new Term(solver->mkChar(cS));
   return ((jlong)term);
   CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
 }

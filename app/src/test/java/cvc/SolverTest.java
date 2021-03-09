@@ -1,13 +1,12 @@
 package cvc;
 
+import static cvc.Kind.*;
 import static cvc.RoundingMode.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static cvc.Kind.*;
 
 class SolverTest
 {
@@ -531,22 +530,22 @@ class SolverTest
   @Test void mkOp()
   {
     // mkOp(Kind kind, Kind k)
-    assertThrows(CVCApiException.class, ()-> d_solver.mkOp(BITVECTOR_EXTRACT, EQUAL.getValue()));
+    assertThrows(CVCApiException.class, () -> d_solver.mkOp(BITVECTOR_EXTRACT, EQUAL.getValue()));
 
     // mkOp(Kind kind, const std::string& arg)
     assertDoesNotThrow(() -> d_solver.mkOp(RECORD_UPDATE, "asdf"));
     assertDoesNotThrow(() -> d_solver.mkOp(DIVISIBLE, "2147483648"));
-    assertThrows(CVCApiException.class, ()-> d_solver.mkOp(BITVECTOR_EXTRACT, "asdf"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkOp(BITVECTOR_EXTRACT, "asdf"));
 
     // mkOp(Kind kind, uint32_t arg)
     assertDoesNotThrow(() -> d_solver.mkOp(DIVISIBLE, 1));
     assertDoesNotThrow(() -> d_solver.mkOp(BITVECTOR_ROTATE_LEFT, 1));
     assertDoesNotThrow(() -> d_solver.mkOp(BITVECTOR_ROTATE_RIGHT, 1));
-    assertThrows(CVCApiException.class, ()-> d_solver.mkOp(BITVECTOR_EXTRACT, 1));
+    assertThrows(CVCApiException.class, () -> d_solver.mkOp(BITVECTOR_EXTRACT, 1));
 
     // mkOp(Kind kind, uint32_t arg1, uint32_t arg2)
     assertDoesNotThrow(() -> d_solver.mkOp(BITVECTOR_EXTRACT, 1, 1));
-    assertThrows(CVCApiException.class, ()->d_solver.mkOp(DIVISIBLE, 1, 2));
+    assertThrows(CVCApiException.class, () -> d_solver.mkOp(DIVISIBLE, 1, 2));
   }
 
   @Test void mkPi()
@@ -640,21 +639,97 @@ class SolverTest
     assertDoesNotThrow(() -> d_solver.mkReal(val4, val4));
   }
 
-
   @Test void mkRegexpEmpty()
   {
     Sort strSort = d_solver.getStringSort();
     Term s = d_solver.mkConst(strSort, "s");
-    assertDoesNotThrow(() ->
-            d_solver.mkTerm(STRING_IN_REGEXP, s, d_solver.mkRegexpEmpty()));
+    assertDoesNotThrow(() -> d_solver.mkTerm(STRING_IN_REGEXP, s, d_solver.mkRegexpEmpty()));
   }
 
   @Test void mkRegexpSigma()
   {
     Sort strSort = d_solver.getStringSort();
     Term s = d_solver.mkConst(strSort, "s");
-    assertDoesNotThrow(() ->
-            d_solver.mkTerm(STRING_IN_REGEXP, s, d_solver.mkRegexpSigma()));
+    assertDoesNotThrow(() -> d_solver.mkTerm(STRING_IN_REGEXP, s, d_solver.mkRegexpSigma()));
+  }
+
+  @Test void mkSepNil()
+  {
+    assertDoesNotThrow(() -> d_solver.mkSepNil(d_solver.getBooleanSort()));
+    assertThrows(CVCApiException.class, () -> d_solver.mkSepNil(d_solver.mkSort()));
+    Solver slv = new Solver();
+    assertThrows(CVCApiException.class, () -> slv.mkSepNil(d_solver.getIntegerSort()));
+  }
+
+  @Test void mkString()
+  {
+    assertDoesNotThrow(() -> d_solver.mkString(""));
+    assertDoesNotThrow(() -> d_solver.mkString("asdfasdf"));
+    assertEquals(d_solver.mkString("asdf\\nasdf").toString(), "\"asdf\\u{5c}nasdf\"");
+    assertEquals(d_solver.mkString("asdf\\u{005c}nasdf", true).toString(), "\"asdf\\u{5c}nasdf\"");
+  }
+
+  @Test void mkChar()
+  {
+    assertDoesNotThrow(() -> d_solver.mkChar("0123"));
+    assertDoesNotThrow(() -> d_solver.mkChar("aA"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkChar(""));
+    assertThrows(CVCApiException.class, () -> d_solver.mkChar("0g0"));
+    assertThrows(CVCApiException.class, () -> d_solver.mkChar("100000"));
+    assertEquals(d_solver.mkChar("abc"), d_solver.mkChar("ABC"));
+  }
+
+  @Test void mkTerm() throws CVCApiException
+  {
+    Sort bv32 = d_solver.mkBitVectorSort(32);
+    Term a = d_solver.mkConst(bv32, "a");
+    Term b = d_solver.mkConst(bv32, "b");
+    Term[] v1 = {a, b};
+    Term[] v2 = {a, d_solver.mkTerm()};
+    Term[] v3 = {a, d_solver.mkTrue()};
+    Term[] v4 = {d_solver.mkInteger(1), d_solver.mkInteger(2)};
+    Term[] v5 = {d_solver.mkInteger(1), d_solver.mkTerm()};
+    Term[] v6 = {};
+    Solver slv = new Solver();
+
+    // mkTerm(Kind kind) const
+    assertDoesNotThrow(() -> d_solver.mkTerm(PI));
+    assertDoesNotThrow(() -> d_solver.mkTerm(REGEXP_EMPTY));
+    assertDoesNotThrow(() -> d_solver.mkTerm(REGEXP_SIGMA));
+    assertThrows(CVCApiException.class, () -> d_solver.mkTerm(CONST_BITVECTOR));
+
+    // mkTerm(Kind kind, Term child) const
+    assertDoesNotThrow(() -> d_solver.mkTerm(NOT, d_solver.mkTrue()));
+    assertThrows(CVCApiException.class, () -> d_solver.mkTerm(NOT, d_solver.mkTerm()));
+    assertThrows(CVCApiException.class, () -> d_solver.mkTerm(NOT, a));
+    assertThrows(CVCApiException.class, () -> slv.mkTerm(NOT, d_solver.mkTrue()));
+
+    // mkTerm(Kind kind, Term child1, Term child2) const
+    assertDoesNotThrow(() -> d_solver.mkTerm(EQUAL, a, b));
+    assertThrows(CVCApiException.class, () -> d_solver.mkTerm(EQUAL, d_solver.mkTerm(), b));
+    assertThrows(CVCApiException.class, () -> d_solver.mkTerm(EQUAL, a, d_solver.mkTerm()));
+    assertThrows(CVCApiException.class, () -> d_solver.mkTerm(EQUAL, a, d_solver.mkTrue()));
+    assertThrows(CVCApiException.class, () -> slv.mkTerm(EQUAL, a, b));
+
+    // mkTerm(Kind kind, Term child1, Term child2, Term child3) const
+    assertDoesNotThrow(
+        () -> d_solver.mkTerm(ITE, d_solver.mkTrue(), d_solver.mkTrue(), d_solver.mkTrue()));
+    assertThrows(CVCApiException.class,
+        () -> d_solver.mkTerm(ITE, d_solver.mkTerm(), d_solver.mkTrue(), d_solver.mkTrue()));
+    assertThrows(CVCApiException.class,
+        () -> d_solver.mkTerm(ITE, d_solver.mkTrue(), d_solver.mkTerm(), d_solver.mkTrue()));
+    assertThrows(CVCApiException.class,
+        () -> d_solver.mkTerm(ITE, d_solver.mkTrue(), d_solver.mkTrue(), d_solver.mkTerm()));
+    assertThrows(
+        CVCApiException.class, () -> d_solver.mkTerm(ITE, d_solver.mkTrue(), d_solver.mkTrue(), b));
+    assertThrows(CVCApiException.class,
+        () -> slv.mkTerm(ITE, d_solver.mkTrue(), d_solver.mkTrue(), d_solver.mkTrue()));
+
+    // mkTerm(Kind kind, const Term []& children) const
+    assertDoesNotThrow(() -> d_solver.mkTerm(EQUAL, v1));
+    assertThrows(CVCApiException.class, () -> d_solver.mkTerm(EQUAL, v2));
+    assertThrows(CVCApiException.class, () -> d_solver.mkTerm(EQUAL, v3));
+    assertThrows(CVCApiException.class, () -> d_solver.mkTerm(DISTINCT, v6));
   }
 
   @Test void setLogic()
