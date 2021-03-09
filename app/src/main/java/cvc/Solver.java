@@ -826,6 +826,31 @@ public class Solver implements IPointer
   private native long mkReal(long pointer, long num, long den);
 
   /**
+   * Create a regular expression empty term.
+   * @return the empty term
+   */
+  public Term mkRegexpEmpty()
+  {
+    long termPointer = mkRegexpEmpty(pointer);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkRegexpEmpty(long pointer);
+
+
+  /**
+   * Create a regular expression sigma term.
+   * @return the sigma term
+   */
+  public Term mkRegexpSigma()
+  {
+    long termPointer = mkRegexpSigma(pointer);
+    return new Term(this, termPointer);
+  }
+
+  private native long mkRegexpSigma(long pointer);
+
+  /**
    * Create a constant representing an empty set of the given sort.
    * @param s the sort of the set elements.
    * @return the empty set constant

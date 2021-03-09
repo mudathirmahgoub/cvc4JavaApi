@@ -1094,6 +1094,38 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkReal__JJJ(
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkRegexpEmpty
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRegexpEmpty(JNIEnv* env,
+                                                      jobject,
+                                                      jlong pointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkRegexpEmpty());
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkRegexpSigma
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRegexpSigma(JNIEnv* env,
+                                                      jobject,
+                                                      jlong pointer)
+{
+  CVC_JAVA_API_TRY_CATCH_BEGIN;
+  Solver* solver = (Solver*)pointer;
+  Term* term = new Term(solver->mkRegexpSigma());
+  return ((jlong)term);
+  CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
+}
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkEmptySet
  * Signature: (JJ)J
  */

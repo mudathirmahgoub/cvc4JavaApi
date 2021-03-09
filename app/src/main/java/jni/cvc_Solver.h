@@ -449,6 +449,22 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkReal__JJJ
 
 /*
  * Class:     cvc_Solver
+ * Method:    mkRegexpEmpty
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRegexpEmpty
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
+ * Method:    mkRegexpSigma
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRegexpSigma
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     cvc_Solver
  * Method:    mkEmptySet
  * Signature: (JJ)J
  */

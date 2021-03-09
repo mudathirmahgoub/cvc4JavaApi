@@ -640,6 +640,23 @@ class SolverTest
     assertDoesNotThrow(() -> d_solver.mkReal(val4, val4));
   }
 
+
+  @Test void mkRegexpEmpty()
+  {
+    Sort strSort = d_solver.getStringSort();
+    Term s = d_solver.mkConst(strSort, "s");
+    assertDoesNotThrow(() ->
+            d_solver.mkTerm(STRING_IN_REGEXP, s, d_solver.mkRegexpEmpty()));
+  }
+
+  @Test void mkRegexpSigma()
+  {
+    Sort strSort = d_solver.getStringSort();
+    Term s = d_solver.mkConst(strSort, "s");
+    assertDoesNotThrow(() ->
+            d_solver.mkTerm(STRING_IN_REGEXP, s, d_solver.mkRegexpSigma()));
+  }
+
   @Test void setLogic()
   {
     assertDoesNotThrow(() -> d_solver.setLogic("AUFLIRA"));
