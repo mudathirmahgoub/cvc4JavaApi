@@ -1,4 +1,5 @@
 #include "cvc4/api/cvc4cpp.h"
+#include "cvcJavaApi.h"
 #include "cvc_Result.h"
 
 using namespace CVC4::api;

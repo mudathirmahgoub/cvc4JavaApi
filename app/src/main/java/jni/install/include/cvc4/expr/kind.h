@@ -34,7 +34,7 @@
  ** Top contributors (to current version):
  **   Andres Noetzli, Morgan Deters, Dejan Jovanovic
  ** This file is part of the CVC4 project.
- ** Copyright (c) 2009-2020 by the authors listed in the file AUTHORS
+ ** Copyright (c) 2009-2021 by the authors listed in the file AUTHORS
  ** in the top-level source directory and their institutional affiliations.
  ** All rights reserved.  See the file COPYING in the top-level source
  ** directory for licensing information.\endverbatim
@@ -158,146 +158,146 @@ enum CVC4_PUBLIC Kind_t {
   BITVECTOR_NEG, /**< unary negation of a bit-vector (86) */
   BITVECTOR_PLUS, /**< addition of two or more bit-vectors (87) */
   BITVECTOR_SUB, /**< subtraction of two bit-vectors (88) */
-  BITVECTOR_UDIV, /**< unsigned division of two bit-vectors, truncating towards 0 (undefined if divisor is 0) (89) */
-  BITVECTOR_UREM, /**< unsigned remainder from truncating division of two bit-vectors (undefined if divisor is 0) (90) */
+  BITVECTOR_UDIV, /**< unsigned division of two bit-vectors, truncating towards 0 (defined to be the all-ones bit pattern, if divisor is 0) (89) */
+  BITVECTOR_UREM, /**< unsigned remainder from truncating division of two bit-vectors (defined to be equal to the dividend, if divisor is 0) (90) */
   BITVECTOR_SDIV, /**< 2's complement signed division (91) */
   BITVECTOR_SMOD, /**< 2's complement signed remainder (sign follows divisor) (92) */
   BITVECTOR_SREM, /**< 2's complement signed remainder (sign follows dividend) (93) */
-  BITVECTOR_UDIV_TOTAL, /**< unsigned division of two bit-vectors, truncating towards 0 (defined to be the all-ones bit pattern, if divisor is 0) (94) */
-  BITVECTOR_UREM_TOTAL, /**< unsigned remainder from truncating division of two bit-vectors (defined to be equal to the dividend, if divisor is 0) (95) */
-  BITVECTOR_ASHR, /**< bit-vector arithmetic shift right (the two bit-vector parameters must have same width) (96) */
-  BITVECTOR_LSHR, /**< bit-vector logical shift right (the two bit-vector parameters must have same width) (97) */
-  BITVECTOR_SHL, /**< bit-vector shift left (the two bit-vector parameters must have same width) (98) */
-  BITVECTOR_ULE, /**< bit-vector unsigned less than or equal (the two bit-vector parameters must have same width) (99) */
-  BITVECTOR_ULT, /**< bit-vector unsigned less than (the two bit-vector parameters must have same width) (100) */
-  BITVECTOR_UGE, /**< bit-vector unsigned greater than or equal (the two bit-vector parameters must have same width) (101) */
-  BITVECTOR_UGT, /**< bit-vector unsigned greater than (the two bit-vector parameters must have same width) (102) */
-  BITVECTOR_SLE, /**< bit-vector signed less than or equal (the two bit-vector parameters must have same width) (103) */
-  BITVECTOR_SLT, /**< bit-vector signed less than (the two bit-vector parameters must have same width) (104) */
-  BITVECTOR_SGE, /**< bit-vector signed greater than or equal (the two bit-vector parameters must have same width) (105) */
-  BITVECTOR_SGT, /**< bit-vector signed greater than (the two bit-vector parameters must have same width) (106) */
-  BITVECTOR_ULTBV, /**< bit-vector unsigned less than but returns bv of size 1 instead of boolean (107) */
-  BITVECTOR_SLTBV, /**< bit-vector signed less than but returns bv of size 1 instead of boolean (108) */
-  BITVECTOR_REDAND, /**< bit-vector redand (109) */
-  BITVECTOR_REDOR, /**< bit-vector redor (110) */
-  BITVECTOR_ITE, /**< same semantics as regular ITE, but condition is bv of size 1 instead of Boolean (111) */
-  BITVECTOR_TO_NAT, /**< bit-vector conversion to (nonnegative) integer; parameter is a bit-vector (112) */
-  BITVECTOR_ACKERMANNIZE_UDIV, /**< term to be treated as a variable; used for eager bit-blasting Ackermann expansion of bvudiv (internal-only symbol) (113) */
-  BITVECTOR_ACKERMANNIZE_UREM, /**< term to be treated as a variable; used for eager bit-blasting Ackermann expansion of bvurem (internal-only symbol) (114) */
-  BITVECTOR_EAGER_ATOM, /**< formula to be treated as a bv atom via eager bit-blasting (internal-only symbol) (115) */
-  BITVECTOR_BITOF_OP, /**< operator for the bit-vector boolean bit extract; payload is an instance of the CVC4::BitVectorBitOf class (116) */
-  BITVECTOR_BITOF, /**< bit-vector boolean bit extract; first parameter is a BITVECTOR_BITOF_OP, second is a bit-vector term (117) */
-  BITVECTOR_EXTRACT_OP, /**< operator for the bit-vector extract; payload is an instance of the CVC4::BitVectorExtract class (118) */
-  BITVECTOR_EXTRACT, /**< bit-vector extract; first parameter is a BITVECTOR_EXTRACT_OP, second is a bit-vector term (119) */
-  BITVECTOR_REPEAT_OP, /**< operator for the bit-vector repeat; payload is an instance of the CVC4::BitVectorRepeat class (120) */
-  BITVECTOR_REPEAT, /**< bit-vector repeat; first parameter is a BITVECTOR_REPEAT_OP, second is a bit-vector term (121) */
-  BITVECTOR_ROTATE_LEFT_OP, /**< operator for the bit-vector rotate left; payload is an instance of the CVC4::BitVectorRotateLeft class (122) */
-  BITVECTOR_ROTATE_LEFT, /**< bit-vector rotate left; first parameter is a BITVECTOR_ROTATE_LEFT_OP, second is a bit-vector term (123) */
-  BITVECTOR_ROTATE_RIGHT_OP, /**< operator for the bit-vector rotate right; payload is an instance of the CVC4::BitVectorRotateRight class (124) */
-  BITVECTOR_ROTATE_RIGHT, /**< bit-vector rotate right; first parameter is a BITVECTOR_ROTATE_RIGHT_OP, second is a bit-vector term (125) */
-  BITVECTOR_SIGN_EXTEND_OP, /**< operator for the bit-vector sign-extend; payload is an instance of the CVC4::BitVectorSignExtend class (126) */
-  BITVECTOR_SIGN_EXTEND, /**< bit-vector sign-extend; first parameter is a BITVECTOR_SIGN_EXTEND_OP, second is a bit-vector term (127) */
-  BITVECTOR_ZERO_EXTEND_OP, /**< operator for the bit-vector zero-extend; payload is an instance of the CVC4::BitVectorZeroExtend class (128) */
-  BITVECTOR_ZERO_EXTEND, /**< bit-vector zero-extend; first parameter is a BITVECTOR_ZERO_EXTEND_OP, second is a bit-vector term (129) */
-  INT_TO_BITVECTOR_OP, /**< operator for the integer conversion to bit-vector; payload is an instance of the CVC4::IntToBitVector class (130) */
-  INT_TO_BITVECTOR, /**< integer conversion to bit-vector; first parameter is an INT_TO_BITVECTOR_OP, second is an integer term (131) */
+  BITVECTOR_ASHR, /**< bit-vector arithmetic shift right (the two bit-vector parameters must have same width) (94) */
+  BITVECTOR_LSHR, /**< bit-vector logical shift right (the two bit-vector parameters must have same width) (95) */
+  BITVECTOR_SHL, /**< bit-vector shift left (the two bit-vector parameters must have same width) (96) */
+  BITVECTOR_ULE, /**< bit-vector unsigned less than or equal (the two bit-vector parameters must have same width) (97) */
+  BITVECTOR_ULT, /**< bit-vector unsigned less than (the two bit-vector parameters must have same width) (98) */
+  BITVECTOR_UGE, /**< bit-vector unsigned greater than or equal (the two bit-vector parameters must have same width) (99) */
+  BITVECTOR_UGT, /**< bit-vector unsigned greater than (the two bit-vector parameters must have same width) (100) */
+  BITVECTOR_SLE, /**< bit-vector signed less than or equal (the two bit-vector parameters must have same width) (101) */
+  BITVECTOR_SLT, /**< bit-vector signed less than (the two bit-vector parameters must have same width) (102) */
+  BITVECTOR_SGE, /**< bit-vector signed greater than or equal (the two bit-vector parameters must have same width) (103) */
+  BITVECTOR_SGT, /**< bit-vector signed greater than (the two bit-vector parameters must have same width) (104) */
+  BITVECTOR_ULTBV, /**< bit-vector unsigned less than but returns bv of size 1 instead of boolean (105) */
+  BITVECTOR_SLTBV, /**< bit-vector signed less than but returns bv of size 1 instead of boolean (106) */
+  BITVECTOR_REDAND, /**< bit-vector redand (107) */
+  BITVECTOR_REDOR, /**< bit-vector redor (108) */
+  BITVECTOR_ITE, /**< same semantics as regular ITE, but condition is bv of size 1 instead of Boolean (109) */
+  BITVECTOR_TO_NAT, /**< bit-vector conversion to (nonnegative) integer; parameter is a bit-vector (110) */
+  BITVECTOR_ACKERMANNIZE_UDIV, /**< term to be treated as a variable; used for eager bit-blasting Ackermann expansion of bvudiv (internal-only symbol) (111) */
+  BITVECTOR_ACKERMANNIZE_UREM, /**< term to be treated as a variable; used for eager bit-blasting Ackermann expansion of bvurem (internal-only symbol) (112) */
+  BITVECTOR_EAGER_ATOM, /**< formula to be treated as a bv atom via eager bit-blasting (internal-only symbol) (113) */
+  BITVECTOR_BITOF_OP, /**< operator for the bit-vector boolean bit extract; payload is an instance of the CVC4::BitVectorBitOf class (114) */
+  BITVECTOR_BITOF, /**< bit-vector boolean bit extract; first parameter is a BITVECTOR_BITOF_OP, second is a bit-vector term (115) */
+  BITVECTOR_EXTRACT_OP, /**< operator for the bit-vector extract; payload is an instance of the CVC4::BitVectorExtract class (116) */
+  BITVECTOR_EXTRACT, /**< bit-vector extract; first parameter is a BITVECTOR_EXTRACT_OP, second is a bit-vector term (117) */
+  BITVECTOR_REPEAT_OP, /**< operator for the bit-vector repeat; payload is an instance of the CVC4::BitVectorRepeat class (118) */
+  BITVECTOR_REPEAT, /**< bit-vector repeat; first parameter is a BITVECTOR_REPEAT_OP, second is a bit-vector term (119) */
+  BITVECTOR_ROTATE_LEFT_OP, /**< operator for the bit-vector rotate left; payload is an instance of the CVC4::BitVectorRotateLeft class (120) */
+  BITVECTOR_ROTATE_LEFT, /**< bit-vector rotate left; first parameter is a BITVECTOR_ROTATE_LEFT_OP, second is a bit-vector term (121) */
+  BITVECTOR_ROTATE_RIGHT_OP, /**< operator for the bit-vector rotate right; payload is an instance of the CVC4::BitVectorRotateRight class (122) */
+  BITVECTOR_ROTATE_RIGHT, /**< bit-vector rotate right; first parameter is a BITVECTOR_ROTATE_RIGHT_OP, second is a bit-vector term (123) */
+  BITVECTOR_SIGN_EXTEND_OP, /**< operator for the bit-vector sign-extend; payload is an instance of the CVC4::BitVectorSignExtend class (124) */
+  BITVECTOR_SIGN_EXTEND, /**< bit-vector sign-extend; first parameter is a BITVECTOR_SIGN_EXTEND_OP, second is a bit-vector term (125) */
+  BITVECTOR_ZERO_EXTEND_OP, /**< operator for the bit-vector zero-extend; payload is an instance of the CVC4::BitVectorZeroExtend class (126) */
+  BITVECTOR_ZERO_EXTEND, /**< bit-vector zero-extend; first parameter is a BITVECTOR_ZERO_EXTEND_OP, second is a bit-vector term (127) */
+  INT_TO_BITVECTOR_OP, /**< operator for the integer conversion to bit-vector; payload is an instance of the CVC4::IntToBitVector class (128) */
+  INT_TO_BITVECTOR, /**< integer conversion to bit-vector; first parameter is an INT_TO_BITVECTOR_OP, second is an integer term (129) */
 
   /* from fp */
-  CONST_FLOATINGPOINT, /**< a floating-point literal (132) */
-  CONST_ROUNDINGMODE, /**< a floating-point rounding mode (133) */
-  FLOATINGPOINT_TYPE, /**< floating-point type (134) */
-  FLOATINGPOINT_FP, /**< construct a floating-point literal from bit vectors (135) */
-  FLOATINGPOINT_EQ, /**< floating-point equality (136) */
-  FLOATINGPOINT_ABS, /**< floating-point absolute value (137) */
-  FLOATINGPOINT_NEG, /**< floating-point negation (138) */
-  FLOATINGPOINT_PLUS, /**< floating-point addition (139) */
-  FLOATINGPOINT_SUB, /**< floating-point sutraction (140) */
-  FLOATINGPOINT_MULT, /**< floating-point multiply (141) */
-  FLOATINGPOINT_DIV, /**< floating-point division (142) */
-  FLOATINGPOINT_FMA, /**< floating-point fused multiply and add (143) */
-  FLOATINGPOINT_SQRT, /**< floating-point square root (144) */
-  FLOATINGPOINT_REM, /**< floating-point remainder (145) */
-  FLOATINGPOINT_RTI, /**< floating-point round to integral (146) */
-  FLOATINGPOINT_MIN, /**< floating-point minimum (147) */
-  FLOATINGPOINT_MAX, /**< floating-point maximum (148) */
-  FLOATINGPOINT_MIN_TOTAL, /**< floating-point minimum (defined for all inputs) (149) */
-  FLOATINGPOINT_MAX_TOTAL, /**< floating-point maximum (defined for all inputs) (150) */
-  FLOATINGPOINT_LEQ, /**< floating-point less than or equal (151) */
-  FLOATINGPOINT_LT, /**< floating-point less than (152) */
-  FLOATINGPOINT_GEQ, /**< floating-point greater than or equal (153) */
-  FLOATINGPOINT_GT, /**< floating-point greater than (154) */
-  FLOATINGPOINT_ISN, /**< floating-point is normal (155) */
-  FLOATINGPOINT_ISSN, /**< floating-point is sub-normal (156) */
-  FLOATINGPOINT_ISZ, /**< floating-point is zero (157) */
-  FLOATINGPOINT_ISINF, /**< floating-point is infinite (158) */
-  FLOATINGPOINT_ISNAN, /**< floating-point is NaN (159) */
-  FLOATINGPOINT_ISNEG, /**< floating-point is negative (160) */
-  FLOATINGPOINT_ISPOS, /**< floating-point is positive (161) */
-  FLOATINGPOINT_TO_FP_IEEE_BITVECTOR_OP, /**< operator for to_fp from bit vector (162) */
-  FLOATINGPOINT_TO_FP_IEEE_BITVECTOR, /**< convert an IEEE-754 bit vector to floating-point (163) */
-  FLOATINGPOINT_TO_FP_FLOATINGPOINT_OP, /**< operator for to_fp from floating point (164) */
-  FLOATINGPOINT_TO_FP_FLOATINGPOINT, /**< convert between floating-point sorts (165) */
-  FLOATINGPOINT_TO_FP_REAL_OP, /**< operator for to_fp from real (166) */
-  FLOATINGPOINT_TO_FP_REAL, /**< convert a real to floating-point (167) */
-  FLOATINGPOINT_TO_FP_SIGNED_BITVECTOR_OP, /**< operator for to_fp from signed bit vector (168) */
-  FLOATINGPOINT_TO_FP_SIGNED_BITVECTOR, /**< convert a signed bit vector to floating-point (169) */
-  FLOATINGPOINT_TO_FP_UNSIGNED_BITVECTOR_OP, /**< operator for to_fp from unsigned bit vector (170) */
-  FLOATINGPOINT_TO_FP_UNSIGNED_BITVECTOR, /**< convert an unsigned bit vector to floating-point (171) */
-  FLOATINGPOINT_TO_FP_GENERIC_OP, /**< operator for a generic to_fp (172) */
-  FLOATINGPOINT_TO_FP_GENERIC, /**< a generic conversion to floating-point, used in parsing only (173) */
-  FLOATINGPOINT_TO_UBV_OP, /**< operator for to_ubv (174) */
-  FLOATINGPOINT_TO_UBV, /**< convert a floating-point value to an unsigned bit vector (175) */
-  FLOATINGPOINT_TO_UBV_TOTAL_OP, /**< operator for to_ubv_total (176) */
-  FLOATINGPOINT_TO_UBV_TOTAL, /**< convert a floating-point value to an unsigned bit vector (defined for all inputs) (177) */
-  FLOATINGPOINT_TO_SBV_OP, /**< operator for to_sbv (178) */
-  FLOATINGPOINT_TO_SBV, /**< convert a floating-point value to a signed bit vector (179) */
-  FLOATINGPOINT_TO_SBV_TOTAL_OP, /**< operator for to_sbv_total (180) */
-  FLOATINGPOINT_TO_SBV_TOTAL, /**< convert a floating-point value to a signed bit vector (defined for all inputs) (181) */
-  FLOATINGPOINT_TO_REAL, /**< floating-point to real (182) */
-  FLOATINGPOINT_TO_REAL_TOTAL, /**< floating-point to real (defined for all inputs) (183) */
-  FLOATINGPOINT_COMPONENT_NAN, /**< NaN component of a word-blasted floating-point number (184) */
-  FLOATINGPOINT_COMPONENT_INF, /**< Inf component of a word-blasted floating-point number (185) */
-  FLOATINGPOINT_COMPONENT_ZERO, /**< Zero component of a word-blasted floating-point number (186) */
-  FLOATINGPOINT_COMPONENT_SIGN, /**< Sign component of a word-blasted floating-point number (187) */
-  FLOATINGPOINT_COMPONENT_EXPONENT, /**< Exponent component of a word-blasted floating-point number (188) */
-  FLOATINGPOINT_COMPONENT_SIGNIFICAND, /**< Significand component of a word-blasted floating-point number (189) */
-  ROUNDINGMODE_BITBLAST, /**< The bit-vector for a non-deterministic rounding mode (190) */
+  CONST_FLOATINGPOINT, /**< a floating-point literal (130) */
+  CONST_ROUNDINGMODE, /**< a floating-point rounding mode (131) */
+  FLOATINGPOINT_TYPE, /**< floating-point type (132) */
+  FLOATINGPOINT_FP, /**< construct a floating-point literal from bit vectors (133) */
+  FLOATINGPOINT_EQ, /**< floating-point equality (134) */
+  FLOATINGPOINT_ABS, /**< floating-point absolute value (135) */
+  FLOATINGPOINT_NEG, /**< floating-point negation (136) */
+  FLOATINGPOINT_PLUS, /**< floating-point addition (137) */
+  FLOATINGPOINT_SUB, /**< floating-point sutraction (138) */
+  FLOATINGPOINT_MULT, /**< floating-point multiply (139) */
+  FLOATINGPOINT_DIV, /**< floating-point division (140) */
+  FLOATINGPOINT_FMA, /**< floating-point fused multiply and add (141) */
+  FLOATINGPOINT_SQRT, /**< floating-point square root (142) */
+  FLOATINGPOINT_REM, /**< floating-point remainder (143) */
+  FLOATINGPOINT_RTI, /**< floating-point round to integral (144) */
+  FLOATINGPOINT_MIN, /**< floating-point minimum (145) */
+  FLOATINGPOINT_MAX, /**< floating-point maximum (146) */
+  FLOATINGPOINT_MIN_TOTAL, /**< floating-point minimum (defined for all inputs) (147) */
+  FLOATINGPOINT_MAX_TOTAL, /**< floating-point maximum (defined for all inputs) (148) */
+  FLOATINGPOINT_LEQ, /**< floating-point less than or equal (149) */
+  FLOATINGPOINT_LT, /**< floating-point less than (150) */
+  FLOATINGPOINT_GEQ, /**< floating-point greater than or equal (151) */
+  FLOATINGPOINT_GT, /**< floating-point greater than (152) */
+  FLOATINGPOINT_ISN, /**< floating-point is normal (153) */
+  FLOATINGPOINT_ISSN, /**< floating-point is sub-normal (154) */
+  FLOATINGPOINT_ISZ, /**< floating-point is zero (155) */
+  FLOATINGPOINT_ISINF, /**< floating-point is infinite (156) */
+  FLOATINGPOINT_ISNAN, /**< floating-point is NaN (157) */
+  FLOATINGPOINT_ISNEG, /**< floating-point is negative (158) */
+  FLOATINGPOINT_ISPOS, /**< floating-point is positive (159) */
+  FLOATINGPOINT_TO_FP_IEEE_BITVECTOR_OP, /**< operator for to_fp from bit vector (160) */
+  FLOATINGPOINT_TO_FP_IEEE_BITVECTOR, /**< convert an IEEE-754 bit vector to floating-point (161) */
+  FLOATINGPOINT_TO_FP_FLOATINGPOINT_OP, /**< operator for to_fp from floating point (162) */
+  FLOATINGPOINT_TO_FP_FLOATINGPOINT, /**< convert between floating-point sorts (163) */
+  FLOATINGPOINT_TO_FP_REAL_OP, /**< operator for to_fp from real (164) */
+  FLOATINGPOINT_TO_FP_REAL, /**< convert a real to floating-point (165) */
+  FLOATINGPOINT_TO_FP_SIGNED_BITVECTOR_OP, /**< operator for to_fp from signed bit vector (166) */
+  FLOATINGPOINT_TO_FP_SIGNED_BITVECTOR, /**< convert a signed bit vector to floating-point (167) */
+  FLOATINGPOINT_TO_FP_UNSIGNED_BITVECTOR_OP, /**< operator for to_fp from unsigned bit vector (168) */
+  FLOATINGPOINT_TO_FP_UNSIGNED_BITVECTOR, /**< convert an unsigned bit vector to floating-point (169) */
+  FLOATINGPOINT_TO_FP_GENERIC_OP, /**< operator for a generic to_fp (170) */
+  FLOATINGPOINT_TO_FP_GENERIC, /**< a generic conversion to floating-point, used in parsing only (171) */
+  FLOATINGPOINT_TO_UBV_OP, /**< operator for to_ubv (172) */
+  FLOATINGPOINT_TO_UBV, /**< convert a floating-point value to an unsigned bit vector (173) */
+  FLOATINGPOINT_TO_UBV_TOTAL_OP, /**< operator for to_ubv_total (174) */
+  FLOATINGPOINT_TO_UBV_TOTAL, /**< convert a floating-point value to an unsigned bit vector (defined for all inputs) (175) */
+  FLOATINGPOINT_TO_SBV_OP, /**< operator for to_sbv (176) */
+  FLOATINGPOINT_TO_SBV, /**< convert a floating-point value to a signed bit vector (177) */
+  FLOATINGPOINT_TO_SBV_TOTAL_OP, /**< operator for to_sbv_total (178) */
+  FLOATINGPOINT_TO_SBV_TOTAL, /**< convert a floating-point value to a signed bit vector (defined for all inputs) (179) */
+  FLOATINGPOINT_TO_REAL, /**< floating-point to real (180) */
+  FLOATINGPOINT_TO_REAL_TOTAL, /**< floating-point to real (defined for all inputs) (181) */
+  FLOATINGPOINT_COMPONENT_NAN, /**< NaN component of a word-blasted floating-point number (182) */
+  FLOATINGPOINT_COMPONENT_INF, /**< Inf component of a word-blasted floating-point number (183) */
+  FLOATINGPOINT_COMPONENT_ZERO, /**< Zero component of a word-blasted floating-point number (184) */
+  FLOATINGPOINT_COMPONENT_SIGN, /**< Sign component of a word-blasted floating-point number (185) */
+  FLOATINGPOINT_COMPONENT_EXPONENT, /**< Exponent component of a word-blasted floating-point number (186) */
+  FLOATINGPOINT_COMPONENT_SIGNIFICAND, /**< Significand component of a word-blasted floating-point number (187) */
+  ROUNDINGMODE_BITBLAST, /**< The bit-vector for a non-deterministic rounding mode (188) */
 
   /* from arrays */
-  ARRAY_TYPE, /**< array type (191) */
-  SELECT, /**< array select; first parameter is an array term, second is the selection index (192) */
-  STORE, /**< array store; first parameter is an array term, second is the store index, third is the term to store at the index (193) */
-  EQ_RANGE, /**< equality of two arrays over an index range lower/upper (194) */
-  STORE_ALL, /**< array store-all; payload is an instance of the CVC4::ArrayStoreAll class (this is not supported by arrays decision procedure yet, but it is used for returned array models) (195) */
-  ARR_TABLE_FUN, /**< array table function (internal-only symbol) (196) */
-  ARRAY_LAMBDA, /**< array lambda (internal-only symbol) (197) */
-  PARTIAL_SELECT_0, /**< partial array select, for internal use only (198) */
-  PARTIAL_SELECT_1, /**< partial array select, for internal use only (199) */
+  ARRAY_TYPE, /**< array type (189) */
+  SELECT, /**< array select; first parameter is an array term, second is the selection index (190) */
+  STORE, /**< array store; first parameter is an array term, second is the store index, third is the term to store at the index (191) */
+  EQ_RANGE, /**< equality of two arrays over an index range lower/upper (192) */
+  STORE_ALL, /**< array store-all; payload is an instance of the CVC4::ArrayStoreAll class (this is not supported by arrays decision procedure yet, but it is used for returned array models) (193) */
+  ARR_TABLE_FUN, /**< array table function (internal-only symbol) (194) */
+  ARRAY_LAMBDA, /**< array lambda (internal-only symbol) (195) */
+  PARTIAL_SELECT_0, /**< partial array select, for internal use only (196) */
+  PARTIAL_SELECT_1, /**< partial array select, for internal use only (197) */
 
   /* from datatypes */
-  CONSTRUCTOR_TYPE, /**< constructor (200) */
-  SELECTOR_TYPE, /**< selector (201) */
-  TESTER_TYPE, /**< tester (202) */
-  APPLY_CONSTRUCTOR, /**< constructor application; first parameter is the constructor, remaining parameters (if any) are parameters to the constructor (203) */
-  APPLY_SELECTOR, /**< selector application; parameter is a datatype term (undefined if mis-applied) (204) */
-  APPLY_SELECTOR_TOTAL, /**< selector application; parameter is a datatype term (defined rigidly if mis-applied) (205) */
-  APPLY_TESTER, /**< tester application; first parameter is a tester, second is a datatype term (206) */
-  DATATYPE_TYPE, /**< a datatype type index (207) */
-  PARAMETRIC_DATATYPE, /**< parametric datatype (208) */
-  APPLY_TYPE_ASCRIPTION, /**< type ascription, for datatype constructor applications; first parameter is an ASCRIPTION_TYPE, second is the datatype constructor application being ascribed (209) */
-  ASCRIPTION_TYPE, /**< a type parameter for type ascription; payload is an instance of the CVC4::AscriptionType class (210) */
-  TUPLE_UPDATE_OP, /**< operator for a tuple update; payload is an instance of the CVC4::TupleUpdate class (211) */
-  TUPLE_UPDATE, /**< tuple update; first parameter is a TUPLE_UPDATE_OP (which references an index), second is the tuple, third is the element to store in the tuple at the given index (212) */
-  RECORD_UPDATE_OP, /**< operator for a record update; payload is an instance CVC4::RecordUpdate class (213) */
-  RECORD_UPDATE, /**< record update; first parameter is a RECORD_UPDATE_OP (which references a field), second is a record term to update, third is the element to store in the record in the given field (214) */
-  DT_SIZE, /**< datatypes size (215) */
-  DT_HEIGHT_BOUND, /**< datatypes height bound (216) */
-  DT_SIZE_BOUND, /**< datatypes height bound (217) */
-  DT_SYGUS_BOUND, /**< datatypes sygus bound (218) */
-  DT_SYGUS_EVAL, /**< datatypes sygus evaluation function (219) */
-  MATCH, /**< match construct (220) */
-  MATCH_CASE, /**< a match case (221) */
-  MATCH_BIND_CASE, /**< a match case with bound variables (222) */
+  CONSTRUCTOR_TYPE, /**< constructor (198) */
+  SELECTOR_TYPE, /**< selector (199) */
+  TESTER_TYPE, /**< tester (200) */
+  APPLY_CONSTRUCTOR, /**< constructor application; first parameter is the constructor, remaining parameters (if any) are parameters to the constructor (201) */
+  APPLY_SELECTOR, /**< selector application; parameter is a datatype term (undefined if mis-applied) (202) */
+  APPLY_SELECTOR_TOTAL, /**< selector application; parameter is a datatype term (defined rigidly if mis-applied) (203) */
+  APPLY_TESTER, /**< tester application; first parameter is a tester, second is a datatype term (204) */
+  DATATYPE_TYPE, /**< a datatype type index (205) */
+  PARAMETRIC_DATATYPE, /**< parametric datatype (206) */
+  APPLY_TYPE_ASCRIPTION, /**< type ascription, for datatype constructor applications; first parameter is an ASCRIPTION_TYPE, second is the datatype constructor application being ascribed (207) */
+  ASCRIPTION_TYPE, /**< a type parameter for type ascription; payload is an instance of the CVC4::AscriptionType class (208) */
+  TUPLE_UPDATE_OP, /**< operator for a tuple update; payload is an instance of the CVC4::TupleUpdate class (209) */
+  TUPLE_UPDATE, /**< tuple update; first parameter is a TUPLE_UPDATE_OP (which references an index), second is the tuple, third is the element to store in the tuple at the given index (210) */
+  RECORD_UPDATE_OP, /**< operator for a record update; payload is an instance CVC4::RecordUpdate class (211) */
+  RECORD_UPDATE, /**< record update; first parameter is a RECORD_UPDATE_OP (which references a field), second is a record term to update, third is the element to store in the record in the given field (212) */
+  DT_SIZE, /**< datatypes size (213) */
+  DT_HEIGHT_BOUND, /**< datatypes height bound (214) */
+  DT_SIZE_BOUND, /**< datatypes height bound (215) */
+  DT_SYGUS_BOUND, /**< datatypes sygus bound (216) */
+  DT_SYGUS_EVAL, /**< datatypes sygus evaluation function (217) */
+  MATCH, /**< match construct (218) */
+  MATCH_CASE, /**< a match case (219) */
+  MATCH_BIND_CASE, /**< a match case with bound variables (220) */
+  TUPLE_PROJECT_OP, /**< operator for TUPLE_PROJECT; payload is an instance of the CVC4::TupleProjectOp class (221) */
+  TUPLE_PROJECT, /**< projects a tuple from an existing tuple using indices passed in TupleProjectOp (222) */
 
   /* from sep */
   SEP_NIL, /**< separation nil (223) */
