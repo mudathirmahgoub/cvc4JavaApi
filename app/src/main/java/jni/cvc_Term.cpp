@@ -11,10 +11,10 @@ using namespace CVC4::api;
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_cvc_Term_deletePointer(JNIEnv*,
-                                                   jobject,
+                                                   jclass,
                                                    jlong pointer)
 {
-  std::cout << "Deleting Term: " << ((Term*)pointer)->toString() << std::endl;
+  std::cout << "Deleting Term pointer: " << pointer << std::endl;
   delete ((Term*)pointer);
 }
 

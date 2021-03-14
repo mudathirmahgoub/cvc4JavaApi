@@ -10,11 +10,9 @@ using namespace CVC4::api;
  * Method:    deletePointer
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_cvc_Op_deletePointer(JNIEnv*,
-                                                 jobject,
-                                                 jlong pointer)
+JNIEXPORT void JNICALL Java_cvc_Op_deletePointer(JNIEnv*, jclass, jlong pointer)
 {
-  std::cout << "Deleting Op: " << ((Op*)pointer)->toString() << std::endl;
+  std::cout << "Deleting Op pointer: " << pointer << std::endl;
   delete ((Op*)pointer);
 }
 

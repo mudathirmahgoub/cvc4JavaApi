@@ -11,11 +11,10 @@ using namespace CVC4::api;
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_cvc_Result_deletePointer(JNIEnv*,
-                                                     jobject,
+                                                     jclass,
                                                      jlong pointer)
 {
-  std::cout << "Deleting Result: " << ((Result*)pointer)->toString()
-            << std::endl;
+  std::cout << "Deleting Result: " << pointer << std::endl;
   delete ((Result*)pointer);
 }
 

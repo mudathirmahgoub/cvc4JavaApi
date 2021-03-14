@@ -11,10 +11,10 @@ using namespace CVC4::api;
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL
-Java_cvc_DatatypeConstructorDecl_deletePointer(JNIEnv*, jobject, jlong pointer)
+Java_cvc_DatatypeConstructorDecl_deletePointer(JNIEnv*, jclass, jlong pointer)
 {
-  std::cout << "Deleting DatatypeConstructorDecl: "
-            << ((DatatypeConstructorDecl*)pointer)->toString() << std::endl;
+  std::cout << "Deleting DatatypeConstructorDecl pointer: " << pointer
+            << std::endl;
   delete ((DatatypeConstructorDecl*)pointer);
 }
 

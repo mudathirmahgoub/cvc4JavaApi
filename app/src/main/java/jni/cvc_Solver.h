@@ -21,7 +21,7 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_newSolver
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_cvc_Solver_deletePointer
-  (JNIEnv *, jobject, jlong);
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     cvc_Solver

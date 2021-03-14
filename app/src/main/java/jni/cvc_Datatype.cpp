@@ -10,11 +10,10 @@ using namespace CVC4::api;
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_cvc_Datatype_deletePointer(JNIEnv*,
-                                                       jobject,
+                                                       jclass,
                                                        jlong pointer)
 {
-  std::cout << "Deleting datatype: " << ((Datatype*)pointer)->toString()
-            << std::endl;
+  std::cout << "Deleting datatype pointer: " << pointer << std::endl;
   delete ((Datatype*)pointer);
 }
 
