@@ -9,16 +9,7 @@ class ConfigurationTest
 {
   static
   {
-    String cvcApiLibFile;
-    try
-    {
-      cvcApiLibFile = Utils.getCvcApiLibFile();
-      System.load(cvcApiLibFile);
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
+    Utils.loadLibraries();
   }
 
   @Test void getName()
@@ -143,7 +134,7 @@ class ConfigurationTest
 
   @Test void isDebugTag()
   {
-    if(Configuration.isDebugBuild())
+    if (Configuration.isDebugBuild())
     {
       assertTrue(Configuration.isDebugTag("arith::eq"));
       assertFalse(Configuration.isDebugTag("arith::::eq"));
@@ -169,7 +160,7 @@ class ConfigurationTest
 
   @Test void isTraceTag()
   {
-    if(Configuration.isTracingBuild())
+    if (Configuration.isTracingBuild())
     {
       assertTrue(Configuration.isTraceTag("theory::lemma"));
       assertFalse(Configuration.isTraceTag("theory::::lemma"));

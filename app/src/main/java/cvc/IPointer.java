@@ -1,8 +1,6 @@
 package cvc;
 
-interface IPointer
+interface IPointer extends AutoCloseable
 {
-    void deletePointer();
-    long getPointer();
-    void finalize();
+  long getPointer();
 }

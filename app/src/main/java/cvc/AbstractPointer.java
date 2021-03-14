@@ -2,20 +2,8 @@ package cvc;
 
 abstract public class AbstractPointer implements IPointer
 {
-  protected Solver solver;
-  protected long pointer;
-
-  public void deletePointer()
-  {
-    deletePointer(pointer);
-  }
-
-  abstract protected void deletePointer(long pointer);
-
-  @Override public void finalize()
-  {
-    deletePointer();
-  }
+  protected final Solver solver;
+  protected final long pointer;
 
   public long getPointer()
   {

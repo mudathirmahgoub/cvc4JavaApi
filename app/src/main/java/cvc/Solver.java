@@ -1,33 +1,50 @@
 package cvc;
 
 import java.io.IOException;
+import java.lang.ref.Cleaner;
 import java.util.Arrays;
 
 public class Solver implements IPointer
 {
-  static
-  {
-    try
-    {
-      String cvcApiLibFile = Utils.getCvcApiLibFile();
-      System.load(cvcApiLibFile);
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
-  }
+  private final long pointer;
 
-  private long pointer;
+  // region cleanup
+  private final State state;
+  private final Cleaner.Cleanable cleanable;
 
   public long getPointer()
   {
     return pointer;
   }
 
+  private static class State implements Runnable
+  {
+    private final long pointer;
+
+    State(long pointer)
+    {
+      this.pointer = pointer;
+    }
+
+    @Override public void run()
+    {
+      System.out.println("Closing solver: " + pointer);
+      deletePointer(this.pointer);
+    }
+  }
+
+  // endregion
+
   public Solver()
   {
-    pointer = newSolver();
+    this.pointer = newSolver();
+    this.state = new State(pointer);
+    this.cleanable = Utils.cleaner.register(this, state);
+  }
+
+  @Override public void close() throws Exception
+  {
+    this.cleanable.clean();
   }
 
   private native long newSolver();
@@ -37,11 +54,11 @@ public class Solver implements IPointer
     deletePointer(pointer);
   }
 
-  private native void deletePointer(long solverPointer);
+  private static native void deletePointer(long solverPointer);
 
-  @Override public void finalize()
+  static
   {
-    deletePointer();
+    Utils.loadLibraries();
   }
 
   /**
