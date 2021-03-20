@@ -19,7 +19,7 @@ class SolverTest
 
   @AfterEach void tearDown()
   {
-    d_solver.deletePointer();
+    // d_solver.deletePointer();
   }
 
   @Test void recoverableException() throws CVCApiException

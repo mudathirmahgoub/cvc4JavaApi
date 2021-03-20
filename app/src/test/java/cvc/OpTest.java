@@ -20,7 +20,7 @@ class OpTest
 
   @AfterEach void tearDown()
   {
-    d_solver.deletePointer();
+//    d_solver.deletePointer();
   }
 
   @Test void getKind() throws CVCApiException
