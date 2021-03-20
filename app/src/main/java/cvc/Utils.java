@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 class Utils
 {
@@ -21,46 +23,59 @@ class Utils
   }
 
   /**
-   * @return the absolute path of cvcJavaApi dynamic library
+   * @return the absolute paths for cvc and cvcJavaApi dynamic libraries
    */
-  private static String getCvcApiLibFile() throws IOException
+  private static List<String> getLibraryPaths() throws IOException
   {
-    String cvcApiLibName;
+    List<String> names = new ArrayList<>();
     if (osName.startsWith("Linux"))
     {
-      cvcApiLibName = "libcvcJavaApi.so";
+      names.add("libcvcJavaApi.so");
+//      names.add("libcvc4.so.7");
     }
     else if (osName.startsWith("Mac"))
     {
-      cvcApiLibName = "libcvcJavaApi.dylib";
+      names.add("libcvcJavaApi.dylib");
+      names.add("libcvc4.dylib");
     }
     else if (osName.startsWith("Windows"))
     {
-      cvcApiLibName = "cvcJavaApi.dll";
+      names.add("cvcJavaApi.dll");
+      names.add("cvc4.dll");
     }
     else
     {
       throw new RuntimeException("The operating system '" + osName + "' is not supported");
     }
-    String cvcApiLibFile =
-        System.getProperty("java.io.tmpdir") + File.separatorChar + cvcApiLibName;
-    if (Files.exists(Path.of(cvcApiLibFile)))
+
+    List<String> paths = new ArrayList<>();
+    for (String name : names)
     {
-      // return if the library exists in the temp directory
-      // return cvcApiLibFile; // TODO: this is disabled for development. Enable this before release
+      String path = System.getProperty("java.io.tmpdir") + File.separatorChar + name;
+      if (Files.exists(Path.of(path)))
+      {
+        // return if the library exists in the temp directory
+        // return cvcApiLibFile; // TODO: this is disabled for development. Enable this before
+        // release
+      }
+      // copy the library from resources to the temp directory
+      InputStream input = Solver.class.getResourceAsStream("/" + name);
+      Files.copy(input, Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
+      paths.add(path);
     }
-    // copy the library from resources to the temp directory
-    InputStream input = Solver.class.getResourceAsStream("/" + cvcApiLibName);
-    Files.copy(input, Paths.get(cvcApiLibFile), StandardCopyOption.REPLACE_EXISTING);
-    return cvcApiLibFile;
+
+    return paths;
   }
 
   public static void loadLibraries()
   {
     try
     {
-      String cvcApiLibFile = getCvcApiLibFile();
-      System.load(cvcApiLibFile);
+      List<String> paths = getLibraryPaths();
+      for (String path : paths)
+      {
+        System.load(path);
+      }
     }
     catch (IOException e)
     {

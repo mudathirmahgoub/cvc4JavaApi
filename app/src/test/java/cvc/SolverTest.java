@@ -366,18 +366,18 @@ class SolverTest
     assertDoesNotThrow(() -> d_solver.mkBoolean(false));
   }
 
-  @Test void mkRoundingMode()
-  {
-    if (Configuration.isBuiltWithSymFPU())
-    {
-      assertDoesNotThrow(() -> d_solver.mkRoundingMode(RoundingMode.ROUND_TOWARD_ZERO));
-    }
-    else
-    {
-      assertThrows(
-          CVCApiException.class, () -> d_solver.mkRoundingMode(RoundingMode.ROUND_TOWARD_ZERO));
-    }
-  }
+//  @Test void mkRoundingMode()
+//  {
+//    if (Configuration.isBuiltWithSymFPU())
+//    {
+//      assertDoesNotThrow(() -> d_solver.mkRoundingMode(RoundingMode.ROUND_TOWARD_ZERO));
+//    }
+//    else
+//    {
+//      assertThrows(
+//          CVCApiException.class, () -> d_solver.mkRoundingMode(RoundingMode.ROUND_TOWARD_ZERO));
+//    }
+//  }
 
   @Test void mkUninterpretedConst()
   {
@@ -405,32 +405,33 @@ class SolverTest
     assertThrows(CVCApiException.class, () -> d_solver.mkAbstractValue(0));
   }
 
-  @Test void mkFloatingPoint() throws CVCApiException
-  {
-    Term t1 = d_solver.mkBitVector(8);
-    Term t2 = d_solver.mkBitVector(4);
-    Term t3 = d_solver.mkInteger(2);
-    if (Configuration.isBuiltWithSymFPU())
-    {
-      assertDoesNotThrow(() -> d_solver.mkFloatingPoint(3, 5, t1));
-    }
-    else
-    {
-      assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t1));
-    }
-    // TODO: figure out what to do with Term()
-    // assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(0, 5, Term()));
-    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(0, 5, t1));
-    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 0, t1));
-    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t2));
-    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t2));
-
-    if (Configuration.isBuiltWithSymFPU())
-    {
-      Solver slv = new Solver();
-      assertThrows(CVCApiException.class, () -> slv.mkFloatingPoint(3, 5, t1));
-    }
-  }
+// Configuration no longer part of the API
+//  @Test void mkFloatingPoint() throws CVCApiException
+//  {
+//    Term t1 = d_solver.mkBitVector(8);
+//    Term t2 = d_solver.mkBitVector(4);
+//    Term t3 = d_solver.mkInteger(2);
+//    if (Configuration.isBuiltWithSymFPU())
+//    {
+//      assertDoesNotThrow(() -> d_solver.mkFloatingPoint(3, 5, t1));
+//    }
+//    else
+//    {
+//      assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t1));
+//    }
+//    // TODO: figure out what to do with Term()
+//    // assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(0, 5, Term()));
+//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(0, 5, t1));
+//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 0, t1));
+//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t2));
+//    assertThrows(CVCApiException.class, () -> d_solver.mkFloatingPoint(3, 5, t2));
+//
+//    if (Configuration.isBuiltWithSymFPU())
+//    {
+//      Solver slv = new Solver();
+//      assertThrows(CVCApiException.class, () -> slv.mkFloatingPoint(3, 5, t1));
+//    }
+//  }
 
   @Test void mkEmptySet()
   {
@@ -467,65 +468,70 @@ class SolverTest
     assertDoesNotThrow(() -> d_solver.mkFalse());
   }
 
-  @Test void mkNaN()
-  {
-    if (Configuration.isBuiltWithSymFPU())
-    {
-      assertDoesNotThrow(() -> d_solver.mkNaN(3, 5));
-    }
-    else
-    {
-      assertThrows(CVCApiException.class, () -> d_solver.mkNaN(3, 5));
-    }
-  }
+// Configuration no longer part of the API
+//  @Test void mkNaN()
+//  {
+//    if (Configuration.isBuiltWithSymFPU())
+//    {
+//      assertDoesNotThrow(() -> d_solver.mkNaN(3, 5));
+//    }
+//    else
+//    {
+//      assertThrows(CVCApiException.class, () -> d_solver.mkNaN(3, 5));
+//    }
+//  }
 
-  @Test void mkNegZero()
-  {
-    if (Configuration.isBuiltWithSymFPU())
-    {
-      assertDoesNotThrow(() -> d_solver.mkNegZero(3, 5));
-    }
-    else
-    {
-      assertThrows(CVCApiException.class, () -> d_solver.mkNegZero(3, 5));
-    }
-  }
+// Configuration no longer part of the API
+//  @Test void mkNegZero()
+//  {
+//    if (Configuration.isBuiltWithSymFPU())
+//    {
+//      assertDoesNotThrow(() -> d_solver.mkNegZero(3, 5));
+//    }
+//    else
+//    {
+//      assertThrows(CVCApiException.class, () -> d_solver.mkNegZero(3, 5));
+//    }
+//  }
 
-  @Test void mkNegInf()
-  {
-    if (Configuration.isBuiltWithSymFPU())
-    {
-      assertDoesNotThrow(() -> d_solver.mkNegInf(3, 5));
-    }
-    else
-    {
-      assertThrows(CVCApiException.class, () -> d_solver.mkNegInf(3, 5));
-    }
-  }
+// Configuration no longer part of the API
+//  @Test void mkNegInf()
+//  {
+//    if (Configuration.isBuiltWithSymFPU())
+//    {
+//      assertDoesNotThrow(() -> d_solver.mkNegInf(3, 5));
+//    }
+//    else
+//    {
+//      assertThrows(CVCApiException.class, () -> d_solver.mkNegInf(3, 5));
+//    }
+//  }
 
-  @Test void mkPosInf()
-  {
-    if (Configuration.isBuiltWithSymFPU())
-    {
-      assertDoesNotThrow(() -> d_solver.mkPosInf(3, 5));
-    }
-    else
-    {
-      assertThrows(CVCApiException.class, () -> d_solver.mkPosInf(3, 5));
-    }
-  }
+// Configuration no longer part of the API
+//  @Test void mkPosInf()
+//  {
+//    if (Configuration.isBuiltWithSymFPU())
+//    {
+//      assertDoesNotThrow(() -> d_solver.mkPosInf(3, 5));
+//    }
+//    else
+//    {
+//      assertThrows(CVCApiException.class, () -> d_solver.mkPosInf(3, 5));
+//    }
+//  }
 
-  @Test void mkPosZero()
-  {
-    if (Configuration.isBuiltWithSymFPU())
-    {
-      assertDoesNotThrow(() -> d_solver.mkPosZero(3, 5));
-    }
-    else
-    {
-      assertThrows(CVCApiException.class, () -> d_solver.mkPosZero(3, 5));
-    }
-  }
+// Configuration no longer part of the API
+//  @Test void mkPosZero()
+//  {
+//    if (Configuration.isBuiltWithSymFPU())
+//    {
+//      assertDoesNotThrow(() -> d_solver.mkPosZero(3, 5));
+//    }
+//    else
+//    {
+//      assertThrows(CVCApiException.class, () -> d_solver.mkPosZero(3, 5));
+//    }
+//  }
 
   @Test void mkOp()
   {
