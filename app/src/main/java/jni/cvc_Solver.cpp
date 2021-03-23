@@ -173,7 +173,6 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkSort(JNIEnv* env,
                                                jlong pointer)
 {
   CVC_JAVA_API_TRY_CATCH_BEGIN;
-  Solver* solver = (Solver*)pointer;
   Sort* sort = new Sort();
   return (jlong)sort;
   CVC_JAVA_API_TRY_CATCH_END_RETURN(env, 0);
@@ -267,7 +266,7 @@ JNIEXPORT jlongArray JNICALL Java_cvc_Solver_mkDatatypeSorts__J_3J(
     throw CVC4ApiException("Null pointer elements in mkDatatypeSorts");
   }
   std::vector<DatatypeDecl> decls;
-  for (size_t i = 0; i < size; i++)
+  for (jsize i = 0; i < size; i++)
   {
     DatatypeDecl* decl = (DatatypeDecl*)elements[i];
     decls.push_back(*decl);
@@ -319,7 +318,7 @@ Java_cvc_Solver_mkDatatypeSorts__J_3J_3J(JNIEnv* env,
   }
 
   std::vector<DatatypeDecl> decls;
-  for (size_t i = 0; i < declsSize; i++)
+  for (jsize i = 0; i < declsSize; i++)
   {
     DatatypeDecl* decl = (DatatypeDecl*)declElements[i];
     decls.push_back(*decl);
@@ -327,7 +326,7 @@ Java_cvc_Solver_mkDatatypeSorts__J_3J_3J(JNIEnv* env,
   env->ReleaseLongArrayElements(declPointers, declElements, 0);
 
   std::set<Sort> unresolved;
-  for (size_t i = 0; i < unresolvedSize; i++)
+  for (jsize i = 0; i < unresolvedSize; i++)
   {
     Sort* sort = (Sort*)unresolvedElements[i];
     unresolved.insert(*sort);
@@ -413,7 +412,7 @@ Java_cvc_Solver_mkFunctionSort__J_3JJ(JNIEnv* env,
   }
 
   std::vector<Sort> sorts;
-  for (size_t i = 0; i < sortsSize; i++)
+  for (jsize i = 0; i < sortsSize; i++)
   {
     Sort* sort = (Sort*)sortsElements[i];
     sorts.push_back(*sort);
@@ -464,7 +463,7 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkPredicateSort(JNIEnv* env,
   }
 
   std::vector<Sort> sorts;
-  for (size_t i = 0; i < sortsSize; i++)
+  for (jsize i = 0; i < sortsSize; i++)
   {
     Sort* sort = (Sort*)sortsElements[i];
     sorts.push_back(*sort);
@@ -502,7 +501,7 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkRecordSort(JNIEnv* env,
   jmethodID methodId = env->GetMethodID(longClass, "longValue", "()J");
 
   std::vector<std::pair<std::string, Sort>> cFields;
-  for (size_t i = 0; i < size; i++)
+  for (jsize i = 0; i < size; i++)
   {
     // get the pair at index i
     jobject object = env->GetObjectArrayElement(jFields, i);
@@ -617,7 +616,7 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTupleSort(JNIEnv* env,
   }
 
   std::vector<Sort> sorts;
-  for (size_t i = 0; i < sortsSize; i++)
+  for (jsize i = 0; i < sortsSize; i++)
   {
     Sort* sort = (Sort*)sortsElements[i];
     sorts.push_back(*sort);
@@ -764,7 +763,7 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkTerm__JI_3J(
   env->GetLongArrayRegion(childrenPointers, 0, size, buffer);
   // copy the terms into a vector
   std::vector<Term> children;
-  for (size_t i = 0; i < size; i++)
+  for (jsize i = 0; i < size; i++)
   {
     Term* term = (Term*)buffer[i];
     children.push_back(*term);
@@ -1328,7 +1327,7 @@ JNIEXPORT jlong JNICALL Java_cvc_Solver_mkString__J_3B(JNIEnv* env,
   env->GetByteArrayRegion(jS, 0, size, buffer);
   // copy from the buffer to a vector of unsigned
   std::vector<unsigned> s;
-  for (size_t i = 0; i < size; i++)
+  for (jsize i = 0; i < size; i++)
   {
     s.push_back((unsigned)buffer[i]);
   }

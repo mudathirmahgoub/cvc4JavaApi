@@ -7,8 +7,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 class OpTest
 {
   private Solver d_solver;
@@ -20,7 +18,7 @@ class OpTest
 
   @AfterEach void tearDown()
   {
-//    d_solver.deletePointer();
+    //    d_solver.deletePointer();
   }
 
   @Test void getKind() throws CVCApiException
@@ -72,7 +70,6 @@ class OpTest
     assertEquals(bitvector_repeat_idx, 5);
 
     assertThrows(CVCApiException.class, () -> bitvector_repeat_ot.getIntegerPairIndices());
-
 
     Op bitvector_zero_extend_ot = d_solver.mkOp(BITVECTOR_ZERO_EXTEND, 6);
     int bitvector_zero_extend_idx = bitvector_zero_extend_ot.getIntegerIndex();
